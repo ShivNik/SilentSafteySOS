@@ -63,9 +63,8 @@ class InformationViewController: UIViewController {
     
     @objc
     func buttonAction(button: UIButton) {
-        print(validFields)
-        
-        var count = 0
+        self.navigationController?.pushViewController(WidgetDirectionViewController(), animated: true)
+        /*var count = 0
         for val in validFields {
             if(val) {
                 count += 1
@@ -73,12 +72,11 @@ class InformationViewController: UIViewController {
         }
         
         if(count == 5) {
-            print("here")
+            self.navigationController?.pushViewController(WidgetDirectionViewController(), animated: true)
         }
         else {
             button.setTitle("Try Again", for: .normal)
-        }
-       // self.navigationController?.pushViewController(InformationViewController(), animated: true)
+        } */
     }
     
     @objc func textFieldDidChange(_ textfield: UITextField) {

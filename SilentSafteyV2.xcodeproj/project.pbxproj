@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		2F53F818C0DF2DB63AEB9106 /* Pods_SilentSafteyV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1041703AD2CC70043018C64F /* Pods_SilentSafteyV2.framework */; };
+		4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */; };
+		4833C24A287653B100A1FE37 /* SiriDirectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */; };
+		4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C24B2876576D00A1FE37 /* PreTestViewController.swift */; };
 		487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AA2875E0F100BD7C52 /* AppDelegate.swift */; };
 		487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AC2875E0F100BD7C52 /* SceneDelegate.swift */; };
 		487833AF2875E0F100BD7C52 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AE2875E0F100BD7C52 /* ViewController.swift */; };
@@ -25,6 +28,9 @@
 		0A6FA360D0CDBB4EE7E66666 /* Pods-SilentSafteyV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilentSafteyV2.release.xcconfig"; path = "Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2.release.xcconfig"; sourceTree = "<group>"; };
 		1041703AD2CC70043018C64F /* Pods_SilentSafteyV2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilentSafteyV2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14D2887C0DB537E27B068F6D /* Pods-SilentSafteyV2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilentSafteyV2.debug.xcconfig"; path = "Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2.debug.xcconfig"; sourceTree = "<group>"; };
+		4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDirectionViewController.swift; sourceTree = "<group>"; };
+		4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriDirectionsViewController.swift; sourceTree = "<group>"; };
+		4833C24B2876576D00A1FE37 /* PreTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreTestViewController.swift; sourceTree = "<group>"; };
 		487833A72875E0F100BD7C52 /* SilentSafteyV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SilentSafteyV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		487833AA2875E0F100BD7C52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		487833AC2875E0F100BD7C52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -125,6 +131,9 @@
 			children = (
 				487833C32875E24300BD7C52 /* IntroViewController.swift */,
 				487833CB2875F22E00BD7C52 /* InformationViewController.swift */,
+				4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */,
+				4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */,
+				4833C24B2876576D00A1FE37 /* PreTestViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -135,7 +144,6 @@
 				14D2887C0DB537E27B068F6D /* Pods-SilentSafteyV2.debug.xcconfig */,
 				0A6FA360D0CDBB4EE7E66666 /* Pods-SilentSafteyV2.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -264,12 +272,15 @@
 			files = (
 				487833AF2875E0F100BD7C52 /* ViewController.swift in Sources */,
 				487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */,
+				4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */,
 				487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */,
 				487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */,
 				487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */,
 				487833C42875E24300BD7C52 /* IntroViewController.swift in Sources */,
 				487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */,
+				4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */,
 				487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */,
+				4833C24A287653B100A1FE37 /* SiriDirectionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
