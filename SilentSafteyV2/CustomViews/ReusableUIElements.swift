@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SkyFloatingLabelTextField
 
 class ReusableUIElements {
     static func createButton(title: String) -> UIButton {
@@ -98,15 +99,34 @@ class ReusableUIElements {
         return label
     }
     
-    static func createStackView(stackViewElements: [UILabel], spacing: Int) -> UIStackView {
+    static func createStackView(stackViewElements: [UIView], spacing: Int, distributionType: UIStackView.Distribution) -> UIStackView {
         let stackView = UIStackView(arrangedSubviews: stackViewElements)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
+        stackView.distribution = distributionType
         stackView.alignment = .fill
         stackView.spacing = CGFloat(spacing)
         
         return stackView
     }
+    
+    static func createSkyTextField(placeholder: String, title: String, id: String) -> SkyFloatingLabelTextField {
+        let skyTextField = SkyFloatingLabelTextField()
+        skyTextField.translatesAutoresizingMaskIntoConstraints = false
+        
+        skyTextField.placeholder = placeholder
+        skyTextField.title = title
+        skyTextField.accessibilityIdentifier = id
+        
+        skyTextField.errorColor = .red
+        skyTextField.textColor = .white
+        
+        skyTextField.selectedTitleColor = .systemTeal
+        skyTextField.selectedLineColor = .blue
+        
+        return skyTextField
+    }
+    
+    
 }

@@ -26,7 +26,7 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
         titleLabel = ReusableUIElements.createLabel(fontSize: 31, text: "Automated SOS Calls")
         descriptionLabel = ReusableUIElements.createLabel(fontSize: 17, text: "Have fun with your friends and the family this is really long on purpose")
         
-        let stackView = ReusableUIElements.createStackView(stackViewElements: [titleLabel,descriptionLabel], spacing: 16)
+        let stackView = ReusableUIElements.createStackView(stackViewElements: [titleLabel,descriptionLabel], spacing: 16, distributionType: .fillProportionally)
         contentView.addSubview(stackView)
         
         NSLayoutConstraint.activate([

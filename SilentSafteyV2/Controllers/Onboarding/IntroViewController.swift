@@ -25,7 +25,7 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        
+        print("hello")
         let safeArea = view.safeAreaLayoutGuide
        
         // Get Started Button
@@ -52,13 +52,7 @@ class IntroViewController: UIViewController {
     
     @objc
     func getStartedButtonAction(button: UIButton) {
-        // Make this opacity thing better
-        button.alpha = 0.5
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-           button.alpha = 1.0
-        }
-        
-        
+        self.navigationController?.pushViewController(InformationViewController(), animated: true)
     }
 }
 

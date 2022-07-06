@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F53F818C0DF2DB63AEB9106 /* Pods_SilentSafteyV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1041703AD2CC70043018C64F /* Pods_SilentSafteyV2.framework */; };
 		487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AA2875E0F100BD7C52 /* AppDelegate.swift */; };
 		487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AC2875E0F100BD7C52 /* SceneDelegate.swift */; };
 		487833AF2875E0F100BD7C52 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AE2875E0F100BD7C52 /* ViewController.swift */; };
@@ -17,9 +18,13 @@
 		487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C52875E2A300BD7C52 /* OnboardingObject.swift */; };
 		487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */; };
 		487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C92875E67000BD7C52 /* ReusableUIElements.swift */; };
+		487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833CB2875F22E00BD7C52 /* InformationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A6FA360D0CDBB4EE7E66666 /* Pods-SilentSafteyV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilentSafteyV2.release.xcconfig"; path = "Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2.release.xcconfig"; sourceTree = "<group>"; };
+		1041703AD2CC70043018C64F /* Pods_SilentSafteyV2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilentSafteyV2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		14D2887C0DB537E27B068F6D /* Pods-SilentSafteyV2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilentSafteyV2.debug.xcconfig"; path = "Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2.debug.xcconfig"; sourceTree = "<group>"; };
 		487833A72875E0F100BD7C52 /* SilentSafteyV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SilentSafteyV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		487833AA2875E0F100BD7C52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		487833AC2875E0F100BD7C52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -32,6 +37,7 @@
 		487833C52875E2A300BD7C52 /* OnboardingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingObject.swift; sourceTree = "<group>"; };
 		487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
 		487833C92875E67000BD7C52 /* ReusableUIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableUIElements.swift; sourceTree = "<group>"; };
+		487833CB2875F22E00BD7C52 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2F53F818C0DF2DB63AEB9106 /* Pods_SilentSafteyV2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +57,8 @@
 			children = (
 				487833A92875E0F100BD7C52 /* SilentSafteyV2 */,
 				487833A82875E0F100BD7C52 /* Products */,
+				B8BB58489A44D91A7BEBC79F /* Pods */,
+				CEE3F033CDDED9C545BB961B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -115,8 +124,27 @@
 			isa = PBXGroup;
 			children = (
 				487833C32875E24300BD7C52 /* IntroViewController.swift */,
+				487833CB2875F22E00BD7C52 /* InformationViewController.swift */,
 			);
 			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		B8BB58489A44D91A7BEBC79F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				14D2887C0DB537E27B068F6D /* Pods-SilentSafteyV2.debug.xcconfig */,
+				0A6FA360D0CDBB4EE7E66666 /* Pods-SilentSafteyV2.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		CEE3F033CDDED9C545BB961B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1041703AD2CC70043018C64F /* Pods_SilentSafteyV2.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -126,9 +154,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 487833BB2875E0F800BD7C52 /* Build configuration list for PBXNativeTarget "SilentSafteyV2" */;
 			buildPhases = (
+				5215D9286EFDB2B4643D503B /* [CP] Check Pods Manifest.lock */,
 				487833A32875E0F100BD7C52 /* Sources */,
 				487833A42875E0F100BD7C52 /* Frameworks */,
 				487833A52875E0F100BD7C52 /* Resources */,
+				EE211BD90F0DA74654CCDD57 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -185,6 +215,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5215D9286EFDB2B4643D503B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SilentSafteyV2-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EE211BD90F0DA74654CCDD57 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		487833A32875E0F100BD7C52 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -197,6 +269,7 @@
 				487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */,
 				487833C42875E24300BD7C52 /* IntroViewController.swift in Sources */,
 				487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */,
+				487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +411,7 @@
 		};
 		487833BC2875E0F800BD7C52 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 14D2887C0DB537E27B068F6D /* Pods-SilentSafteyV2.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -366,6 +440,7 @@
 		};
 		487833BD2875E0F800BD7C52 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0A6FA360D0CDBB4EE7E66666 /* Pods-SilentSafteyV2.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
