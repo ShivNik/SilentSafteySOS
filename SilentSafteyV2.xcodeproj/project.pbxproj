@@ -16,6 +16,7 @@
 		487833C42875E24300BD7C52 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C32875E24300BD7C52 /* IntroViewController.swift */; };
 		487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C52875E2A300BD7C52 /* OnboardingObject.swift */; };
 		487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */; };
+		487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C92875E67000BD7C52 /* ReusableUIElements.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		487833C32875E24300BD7C52 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
 		487833C52875E2A300BD7C52 /* OnboardingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingObject.swift; sourceTree = "<group>"; };
 		487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
+		487833C92875E67000BD7C52 /* ReusableUIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableUIElements.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */,
+				487833C92875E67000BD7C52 /* ReusableUIElements.swift */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 			files = (
 				487833AF2875E0F100BD7C52 /* ViewController.swift in Sources */,
 				487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */,
+				487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */,
 				487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */,
 				487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */,
 				487833C42875E24300BD7C52 /* IntroViewController.swift in Sources */,
