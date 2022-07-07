@@ -14,6 +14,7 @@ class PreTestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
+
         
         let safeArea = self.view.safeAreaLayoutGuide
         let button = ReusableUIElements.createButton(title: "Let's do it!")
@@ -73,9 +74,8 @@ class PreTestViewController: UIViewController {
     
     @objc
     func continueToTestAction(button: UIButton) {
-        if(validTextField) {
-            print("Here")
-            // self.navigationController?.pushViewController(PreTestViewController(), animated: true)
+        if(true) { // Change back to validTextField
+            self.navigationController?.pushViewController(TestViewController(), animated: true)
         } else {
             button.setTitle("Try Again", for: .normal)
         }
@@ -94,7 +94,6 @@ class PreTestViewController: UIViewController {
     }
     
     func validatePhoneNumber(skyTextField: SkyFloatingLabelTextField) -> Bool {
-        print(skyTextField.text!.count)
         if skyTextField.text != "" && Double(skyTextField.text!) != nil {
             if(skyTextField.text!.count == 10) {
                 return true

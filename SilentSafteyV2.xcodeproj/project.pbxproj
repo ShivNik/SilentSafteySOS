@@ -11,6 +11,7 @@
 		4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */; };
 		4833C24A287653B100A1FE37 /* SiriDirectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */; };
 		4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C24B2876576D00A1FE37 /* PreTestViewController.swift */; };
+		4833C24E287730FE00A1FE37 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C24D287730FE00A1FE37 /* TestViewController.swift */; };
 		487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AA2875E0F100BD7C52 /* AppDelegate.swift */; };
 		487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AC2875E0F100BD7C52 /* SceneDelegate.swift */; };
 		487833AF2875E0F100BD7C52 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833AE2875E0F100BD7C52 /* ViewController.swift */; };
@@ -31,6 +32,7 @@
 		4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDirectionViewController.swift; sourceTree = "<group>"; };
 		4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriDirectionsViewController.swift; sourceTree = "<group>"; };
 		4833C24B2876576D00A1FE37 /* PreTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreTestViewController.swift; sourceTree = "<group>"; };
+		4833C24D287730FE00A1FE37 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		487833A72875E0F100BD7C52 /* SilentSafteyV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SilentSafteyV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		487833AA2875E0F100BD7C52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		487833AC2875E0F100BD7C52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +136,7 @@
 				4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */,
 				4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */,
 				4833C24B2876576D00A1FE37 /* PreTestViewController.swift */,
+				4833C24D287730FE00A1FE37 /* TestViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */,
 				4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */,
 				487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */,
+				4833C24E287730FE00A1FE37 /* TestViewController.swift in Sources */,
 				4833C24A287653B100A1FE37 /* SiriDirectionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

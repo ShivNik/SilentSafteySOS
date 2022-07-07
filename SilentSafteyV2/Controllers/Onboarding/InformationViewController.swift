@@ -63,7 +63,7 @@ class InformationViewController: UIViewController {
     
     @objc
     func buttonAction(button: UIButton) {
-        self.navigationController?.pushViewController(WidgetDirectionViewController(), animated: true)
+        self.navigationController?.pushViewController(TestViewController(), animated: true) //Change
         /*var count = 0
         for val in validFields {
             if(val) {

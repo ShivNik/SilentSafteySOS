@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         
-        let introVC = IntroViewController()
+        let introVC = IntroViewController() // Change this back
         let navController = UINavigationController(rootViewController: introVC)
         window?.rootViewController = navController
     }
