@@ -19,17 +19,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let scene = (scene as? UIWindowScene) else { return }
         
         
-        window = UIWindow(windowScene: scene)
+      /*  window = UIWindow(windowScene: scene)
         let introVC = TestViewController() // Change this bac
         window?.rootViewController = introVC
-        window?.makeKeyAndVisible()
+        window?.makeKeyAndVisible() */
       
-      /*  window = UIWindow(windowScene: scene)
+        window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         
         let introVC = IntroViewController() // Change this back
         let navController = UINavigationController(rootViewController: introVC)
-        window?.rootViewController = navController */
+        navController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        window?.rootViewController = navController
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

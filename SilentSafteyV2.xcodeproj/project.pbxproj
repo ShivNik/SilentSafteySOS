@@ -23,6 +23,8 @@
 		487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */; };
 		487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C92875E67000BD7C52 /* ReusableUIElements.swift */; };
 		487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833CB2875F22E00BD7C52 /* InformationViewController.swift */; };
+		48ABFA7C2878B0FA00A7FFEC /* AllStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */; };
+		48ABFA7E2879206700A7FFEC /* CompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
 		487833C92875E67000BD7C52 /* ReusableUIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableUIElements.swift; sourceTree = "<group>"; };
 		487833CB2875F22E00BD7C52 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
+		48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStrings.swift; sourceTree = "<group>"; };
+		48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +96,7 @@
 				487833B32875E0F700BD7C52 /* Assets.xcassets */,
 				487833B52875E0F800BD7C52 /* LaunchScreen.storyboard */,
 				487833B82875E0F800BD7C52 /* Info.plist */,
+				48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */,
 			);
 			path = SilentSafteyV2;
 			sourceTree = "<group>";
@@ -137,6 +142,7 @@
 				4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */,
 				4833C24B2876576D00A1FE37 /* PreTestViewController.swift */,
 				4833C24D287730FE00A1FE37 /* TestViewController.swift */,
+				48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -274,6 +280,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				487833AF2875E0F100BD7C52 /* ViewController.swift in Sources */,
+				48ABFA7C2878B0FA00A7FFEC /* AllStrings.swift in Sources */,
+				48ABFA7E2879206700A7FFEC /* CompletionViewController.swift in Sources */,
 				487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */,
 				4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */,
 				487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */,

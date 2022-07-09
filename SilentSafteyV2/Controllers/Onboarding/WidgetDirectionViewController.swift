@@ -11,10 +11,11 @@ class WidgetDirectionViewController: UIViewController {
     var pageControl: UIPageControl!
     
     let onboardingObjects = [
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 1: Hold on Home Screen", description: "Hold the phone screen ya see"),
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Kanye west is a rapper", description: "Lil baby is a very cool rapper the very best"),
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Someone is the coolest kid", description: "I still don't understand or comprehend it")
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 1: Hold down the Home Screen", description: "Hold down the homescreen until all the apps begin to wobble and tap the plus button at the top"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 2: Search for Silent Saftey", description: "Search for Silent Saftey and select the appropriate widget size"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 3: Drag and Drop the Widget onto your Home Screen", description: "Make sure to drag it onto the screen which first appears when you open your phone")
     ]
+    
     var getStartedButton: UIButton!
     var collectionView: UICollectionView!
     var currentPage = 0 {
@@ -30,8 +31,12 @@ class WidgetDirectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         view.backgroundColor = .black
-
+        createUI()
+    }
+    
+    func createUI() {
         let safeArea = view.safeAreaLayoutGuide
        
         // Get Started Button
@@ -53,23 +58,21 @@ class WidgetDirectionViewController: UIViewController {
         collectionView.delegate = self
         
         ReusableUIElements.collectionViewConstraints(collectionView: collectionView, safeArea: safeArea, pageControl: pageControl)
-        
     }
     
     @objc
     func getStartedButtonAction(button: UIButton) {
         if currentPage == onboardingObjects.count - 1 {
-            self.navigationController?.pushViewController(SiriDirectionsViewController(), animated: true)
+            self.navigationController?.pushViewController(PreTestViewController(), animated: true)
        } else {
            currentPage += 1
            let indexPath = IndexPath(item: currentPage, section: 0)
            collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
        }
-        
     }
 }
 
-
+// MARK: -  Create Cells
 extension WidgetDirectionViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

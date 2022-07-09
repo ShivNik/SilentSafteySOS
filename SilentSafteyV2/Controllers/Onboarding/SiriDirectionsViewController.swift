@@ -31,7 +31,8 @@ class SiriDirectionsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
         let safeArea = view.safeAreaLayoutGuide
        
         // Get Started Button

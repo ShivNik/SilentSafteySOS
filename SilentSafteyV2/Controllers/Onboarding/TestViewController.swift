@@ -9,9 +9,15 @@ import UIKit
 
 class TestViewController: UIViewController, UITextViewDelegate {
     var textView: UITextView!
+    var stepOneLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.setupToHideKeyboardOnTapOnView()
+        
+        self.navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = .black
         
         let safeArea = view.safeAreaLayoutGuide
         // self.automaticallyAdjustsScrollViewInsets = false
@@ -20,11 +26,11 @@ class TestViewController: UIViewController, UITextViewDelegate {
         view.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.contentInsetAdjustmentBehavior = .never
-        textView.backgroundColor = .white
+        textView.backgroundColor = .darkGray
         textView.autocorrectionType = .no
         textView.text = "Type Additional Message Here"
-        textView.backgroundColor = .secondarySystemBackground
-        textView.textColor = .red
+            // textView.backgroundColor = .secondarySystemBackground
+        textView.textColor = .white
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.layer.cornerRadius = 20
         textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -38,49 +44,79 @@ class TestViewController: UIViewController, UITextViewDelegate {
         NSLayoutConstraint.activate([
           //  textView.heightAnchor.constraint(equalToConstant: 50),
            // textView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.10),
-            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            textView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.85)
     
         ])
-
-    /*    let button = UIButton(type: .custom)
-        let image = UIImage(named: "SosButton")
     
-        button.setImage(image, for: .normal)
-        button.addTarget(self, action: #selector(sosButtonPressed), for: .touchUpInside)
+        let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(button)
         
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: textView.frame.size.height, weight: .bold, scale: .large)
+        let largeBoldDoc = UIImage(systemName: "paperplane.fill", withConfiguration: largeConfig)
+       
+        button.setImage(largeBoldDoc, for: .normal)
+        button.addTarget(self, action:#selector(sendPressed), for: .touchUpInside)
+        
         NSLayoutConstraint.activate([
-            button.bottomAnchor.constraint(equalTo: textView.topAnchor, constant: -80),
-            button.heightAnchor.constraint(equalToConstant: view.frame.size.width - 2),
-            button.widthAnchor.constraint(equalToConstant: view.frame.size.width - 2)
-           
-        ]) */
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(safeArea.layoutFrame.width * 0.04)),
+            button.centerYAnchor.constraint(equalTo: textView.centerYAnchor)
+        ])
+         
+       /* stepTwoLabel = ReusableUIElements.createLabel(fontSize: 25, text: "2. Type an Additional Message")
+        view.addSubview(stepTwoLabel)
+        NSLayoutConstraint.activate([
+            stepTwoLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            stepTwoLabel.bottomAnchor.constraint(equalTo: textView.topAnchor, constant: -40),
+            stepTwoLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+            stepTwoLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10)
+        ])
+        stepTwoLabel.isHidden = true */
     
-      /*  let tutorialButton = UIButton(type: .custom)
-        view.addSubview(tutorialButton)
+        stepOneLabel = ReusableUIElements.createLabel(fontSize: 25, text: "1. Tap the SOS Button and begin the call")
+        view.addSubview(stepOneLabel)
+        NSLayoutConstraint.activate([
+            stepOneLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            stepOneLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 40),
+            stepOneLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            stepOneLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+           // stepOneLabel.bottomAnchor.constraint(equalTo: sosButton.topAnchor)
+        ])
         
-        tutorialButton.translatesAutoresizingMaskIntoConstraints = false
-        tutorialButton.setTitle("Settings", for: .normal)
-        tutorialButton.setTitleColor(.systemBlue, for: .normal)
+        let sosButton = UIButton(type: .custom)
+        let sosImage = UIImage(named: "SosButton")
+    
+        sosButton.setImage(sosImage, for: .normal)
+        sosButton.addTarget(self, action: #selector(sosButtonPressed), for: .touchUpInside)
+        sosButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(sosButton)
         
         NSLayoutConstraint.activate([
-           
-            tutorialButton.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            tutorialButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
-            
-        ]) */
+            sosButton.heightAnchor.constraint(equalToConstant: (view.frame.size.width - 2)),
+            sosButton.widthAnchor.constraint(equalToConstant: view.frame.size.width - 2),
+           // sosButton.topAnchor.constraint(equalTo: stepOneLabel.bottomAnchor, constant: 40),
+          //  sosButton.bottomAnchor.constraint(equalTo: textView.topAnchor, constant: -60)
+            sosButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            sosButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+      
     }
     
+    @objc func sendPressed() {
+        self.navigationController?.pushViewController(CompletionViewController(), animated: true)
+    }
     func changeConstraint() {
         let cons = textView.heightAnchor.constraint(equalToConstant: 40)
         cons.isActive = true
     }
     @objc func sosButtonPressed() {
         print("zab")
+        stepOneLabel.text = "2. Type and Additional Message"
     }
+    
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "Type Additional Message Here" {
             textView.text = nil
@@ -122,6 +158,23 @@ class TestViewController: UIViewController, UITextViewDelegate {
     }
 }
 
+extension TestViewController
+{
+    func setupToHideKeyboardOnTapOnView()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(TestViewController.dismissKeyboard))
+
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard()
+    {
+        view.endEditing(true)
+    }
+}
 
 /*
  print(textView.isScrollEnabled)
