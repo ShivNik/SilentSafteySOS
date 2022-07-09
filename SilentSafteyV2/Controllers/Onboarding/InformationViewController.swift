@@ -15,12 +15,10 @@ class InformationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
         createUI()
         displayExistingInformation()
     }
 
-    
     @objc
     func saveButtonAction(button: UIButton) {
         for skyTextField in skyTextFields {
@@ -29,14 +27,12 @@ class InformationViewController: UIViewController {
             }
             else {
                 if(allValidation(floatingLabelTextField: skyTextField)) {
-                    
                     let trimmed = skyTextField.text!.trimmingCharacters(in: .whitespaces)
                     AppDelegate.userDefaults.set(trimmed, forKey: skyTextField.accessibilityIdentifier!)
                 }
             }
         }
         retrieveUserDefaults()
-        
         self.navigationController?.pushViewController(WidgetDirectionViewController(), animated: true)
     }
 }
@@ -69,8 +65,7 @@ extension InformationViewController {
             titleLabelStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             titleLabelStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
-        
-        
+    
         // Create the skyTextFields for inputting information
         skyTextFields = [
             ReusableUIElements.createSkyTextField(placeholder: "Enter Name", title: "Enter Name", id: AllStrings.name),
@@ -101,7 +96,14 @@ extension InformationViewController {
     }
     
     func displayExistingInformation() {
-        if let name = AppDelegate.userDefaults.string(forKey: AllStrings.name) {
+        
+        for skyTextField in skyTextFields {
+            if let value = AppDelegate.userDefaults.string(forKey: skyTextField.accessibilityIdentifier!) {
+                
+                skyTextField.text = value
+            }
+        }
+     /*   if let name = AppDelegate.userDefaults.string(forKey: AllStrings.name) {
             skyTextFields[0].text = name
         }
         
@@ -123,8 +125,9 @@ extension InformationViewController {
         
         if let additionalInfo = AppDelegate.userDefaults.string(forKey: AllStrings.additionalInfo) {
             skyTextFields[5].text = additionalInfo
-        }
+        } */
     }
+    
 }
 
 // MARK: -  Text Validation Methods
@@ -190,16 +193,7 @@ extension InformationViewController {
         
         switch floatingLabelTextField.accessibilityIdentifier {
             
-        case AllStrings.name:
-            if(validateText(skyTextField: floatingLabelTextField)) {
-                floatingLabelTextField.errorMessage = ""
-                return true
-            }
-            else {
-                floatingLabelTextField.errorMessage = errorMessage
-                return false
-            }
-        case AllStrings.race:
+        case AllStrings.name, AllStrings.race:
             if(validateText(skyTextField: floatingLabelTextField)) {
                 floatingLabelTextField.errorMessage = ""
                 return true
@@ -252,7 +246,6 @@ extension InformationViewController: UITextFieldDelegate {
     }
     
     @objc func textFieldDidChange(_ textfield: UITextField) {
-        
         if let floatingLabelTextField = textfield as? SkyFloatingLabelTextField {
             allValidation(floatingLabelTextField: floatingLabelTextField)
         }

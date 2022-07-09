@@ -23,14 +23,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let introVC = TestViewController() // Change this bac
         window?.rootViewController = introVC
         window?.makeKeyAndVisible() */
-      
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         
-        let introVC = IntroViewController() // Change this back
-        let navController = UINavigationController(rootViewController: introVC)
-        navController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        window?.rootViewController = navController
+        if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
+            window?.rootViewController = MainViewController()
+        } else {
+            let navController = UINavigationController(rootViewController:  IntroViewController())
+            navController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            window?.rootViewController = navController
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

@@ -78,7 +78,7 @@ extension IntroViewController: UICollectionViewDelegate, UICollectionViewDataSou
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
-    // Change current page when user slides onto next screen
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let width = scrollView.frame.width
         currentPage = Int(scrollView.contentOffset.x / width)

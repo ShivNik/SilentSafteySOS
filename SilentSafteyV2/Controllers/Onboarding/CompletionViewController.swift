@@ -15,11 +15,7 @@ class CompletionViewController: UIViewController {
         view.backgroundColor = .black
         let labelsTwo = [ReusableUIElements.createLabel(fontSize: 50, text: "You're Done!") , ReusableUIElements.createLabel(fontSize: 31, text: "Set up your contacts and custom Messages")]
         
-        let stackView = UIStackView(arrangedSubviews: labelsTwo)
-        stackView.axis = .vertical
-        stackView.distribution = .fillEqually
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        let stackView = ReusableUIElements.createStackView(stackViewElements: labelsTwo, spacing: 20, distributionType: .fillEqually)
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
@@ -29,21 +25,20 @@ class CompletionViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
         
-        let salGuide = self.view.safeAreaLayoutGuide
-        let button = UIButton()
-        button.backgroundColor = .systemRed
-        button.setTitle("Finish Tutorial!", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(button)
+        let safeArea = self.view.safeAreaLayoutGuide
         
-        NSLayoutConstraint.activate([
-            button.widthAnchor.constraint(equalToConstant: 150),
-            button.heightAnchor.constraint(equalToConstant: 50),
-            
-            button.centerXAnchor.constraint(equalTo: salGuide.centerXAnchor, constant: 0),
-            button.bottomAnchor.constraint(equalTo: salGuide.bottomAnchor, constant: -40)
-            
-        ])
+        let button = ReusableUIElements.createButton(title: "Finish Tutorial")
+        button.addTarget(self, action: #selector(finishTutorialPressed), for: .touchUpInside)
+        view.addSubview(button)
+        ReusableUIElements.buttonConstraints(button: button, safeArea: safeArea, bottomAnchorConstant: -40)
+    }
+    
+    @objc func finishTutorialPressed() {
+        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
+        let vc = MainViewController()
+        vc.modalPresentationStyle = .fullScreen
+        
+        present(vc, animated: true)
     }
     
 

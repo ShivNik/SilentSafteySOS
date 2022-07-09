@@ -128,5 +128,67 @@ class ReusableUIElements {
         return skyTextField
     }
     
+    static func createTextView() -> UITextView {
+        
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        textView.contentInsetAdjustmentBehavior = .never
+        textView.backgroundColor = .darkGray
+        textView.autocorrectionType = .no
+        textView.text = "Type Additional Message Here"
+        textView.textColor = .white
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.layer.cornerRadius = 20
+        textView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        textView.isScrollEnabled = false
+        
+        return textView
+    }
+    
+    static func textViewConstraints(textView: UITextView, safeArea: UILayoutGuide) {
+        
+        let cons = textView.heightAnchor.constraint(equalToConstant: 40)
+        cons.identifier = "heightConstraint"
+        cons.priority = UILayoutPriority(250)
+        cons.isActive = true
+        
+        NSLayoutConstraint.activate([
+            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            textView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.85)
+        ])
+    }
+    
+    static func createSendButton(textView: UITextView) -> UIButton {
+        
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: textView.frame.size.height, weight: .bold, scale: .large)
+        let largeBoldDoc = UIImage(systemName: "paperplane.fill", withConfiguration: largeConfig)
+       
+        button.setImage(largeBoldDoc, for: .normal)
+        
+        return button
+    }
+    
+    static func sendButtonConstraints(button: UIButton, view: UIView, safeArea: UILayoutGuide, textView: UITextView) {
+        
+        NSLayoutConstraint.activate([
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -(safeArea.layoutFrame.width * 0.04)),
+            button.centerYAnchor.constraint(equalTo: textView.centerYAnchor)
+        ])
+    }
+    
+    static func createSosButton() -> UIButton {
+        let sosButton = UIButton(type: .custom)
+        let sosImage = UIImage(named: "SosButton")
+    
+        sosButton.setImage(sosImage, for: .normal)
+        sosButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        return sosButton
+    }
     
 }

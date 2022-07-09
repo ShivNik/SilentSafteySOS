@@ -19,7 +19,7 @@ class PreTestViewController: UIViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .done, target: nil, action: nil)
-        print(self.navigationItem.rightBarButtonItem!.accessibilityFrame)
+
         createUI()
     }
     
