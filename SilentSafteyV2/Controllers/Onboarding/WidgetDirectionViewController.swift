@@ -31,12 +31,12 @@ class WidgetDirectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        view.backgroundColor = .black
         createUI()
     }
     
     func createUI() {
+        view.backgroundColor = .black
+        
         let safeArea = view.safeAreaLayoutGuide
        
         // Get Started Button

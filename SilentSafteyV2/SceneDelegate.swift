@@ -23,13 +23,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let introVC = TestViewController() // Change this bac
         window?.rootViewController = introVC
         window?.makeKeyAndVisible() */
+        
+        
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         
+      //  AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
+        let navController = UINavigationController()
+        navController.navigationBar.barTintColor = .black
+        navController.navigationBar.isTranslucent = false
+        
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
-            window?.rootViewController = MainViewController()
+            navController.addChild(MainViewController())
+            window?.rootViewController = navController
         } else {
-            let navController = UINavigationController(rootViewController:  IntroViewController())
+            
+            navController.addChild(IntroViewController())
             navController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             window?.rootViewController = navController
         }

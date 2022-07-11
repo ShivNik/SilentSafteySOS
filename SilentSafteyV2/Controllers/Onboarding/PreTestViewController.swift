@@ -14,16 +14,14 @@ class PreTestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .black
-
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .done, target: nil, action: nil)
+     //   self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .done, target: nil, action: nil)
 
         createUI()
     }
     
     func createUI() {
+        view.backgroundColor = .black
+        
         let safeArea = self.view.safeAreaLayoutGuide
         
         // Let's do it Button Creation

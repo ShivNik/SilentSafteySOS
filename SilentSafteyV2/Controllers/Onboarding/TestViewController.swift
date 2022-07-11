@@ -13,18 +13,15 @@ class TestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
-     //   self.setupToHideKeyboardOnTapOnView()
-        
-        self.navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = .black
-        
+
+        self.setupToHideKeyboardOnTapOnView()
         createUI()
         textView.returnKeyType = .send
     }
     
     func createUI() {
+        view.backgroundColor = .black
+        
         let safeArea = view.safeAreaLayoutGuide
         
         // Create Text View
@@ -82,9 +79,7 @@ class TestViewController: UIViewController {
     }
     
     @objc func sendPressed() {
-        let vc = CompletionViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc, animated: true)
+        self.navigationController?.pushViewController(CompletionViewController(), animated: true)
     }
     @objc func sosButtonPressed() {
         print("zab")

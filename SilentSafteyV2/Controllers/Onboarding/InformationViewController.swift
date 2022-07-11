@@ -14,7 +14,6 @@ class InformationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         createUI()
         displayExistingInformation()
     }
@@ -40,6 +39,8 @@ class InformationViewController: UIViewController {
 // MARK: -  UI Elements
 extension InformationViewController {
     func createUI() {
+        view.backgroundColor = .black
+        
         let safeArea = self.view.safeAreaLayoutGuide
 
         // Create the Save Button

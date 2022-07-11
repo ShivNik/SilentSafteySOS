@@ -13,6 +13,7 @@ class CompletionViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .black
+        
         let labelsTwo = [ReusableUIElements.createLabel(fontSize: 50, text: "You're Done!") , ReusableUIElements.createLabel(fontSize: 31, text: "Set up your contacts and custom Messages")]
         
         let stackView = ReusableUIElements.createStackView(stackViewElements: labelsTwo, spacing: 20, distributionType: .fillEqually)
@@ -35,10 +36,11 @@ class CompletionViewController: UIViewController {
     
     @objc func finishTutorialPressed() {
         AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
-        let vc = MainViewController()
-        vc.modalPresentationStyle = .fullScreen
+        self.navigationController?.dismiss(animated: false, completion: nil)
         
-        present(vc, animated: true)
+        let newNavController = UINavigationController(rootViewController:  MainViewController())
+        
+        self.present(newNavController, animated: true, completion: nil)
     }
     
 
