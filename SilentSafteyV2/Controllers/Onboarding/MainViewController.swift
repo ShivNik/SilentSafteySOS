@@ -68,13 +68,14 @@ class MainViewController: UIViewController {
         // Create Directions Title Label
         let directionsLabel = ReusableUIElements.createLabel(fontSize: 23, text: "Message Tips")
         directionsLabel.font = UIFont.boldSystemFont(ofSize: 23)
+        
         let locationLabel = ReusableUIElements.createLabel(fontSize: 23, text: "")
         locationLabel.textColor = .red
+        
         let labels = [
             directionsLabel,
             ReusableUIElements.createLabel(fontSize: 17, text: "1. Describe the Situation"),
             ReusableUIElements.createLabel(fontSize: 17, text: "2. Describe identifier - Tatoos, Scars, Clothes"),
-            ReusableUIElements.createLabel(fontSize: 17, text: "3. Location Would be here"),
             locationLabel
         ]
         
@@ -88,34 +89,7 @@ class MainViewController: UIViewController {
             stackView.centerYAnchor.constraint(equalTo: uiView.centerYAnchor),
             stackView.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
             stackView.leadingAnchor.constraint(equalTo: uiView.leadingAnchor)
-          /*  stackView.topAnchor.constraint(equalTo: sosButton.bottomAnchor),
-            stackView.bottomAnchor.constraint(equalTo: textView.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16), */
         ])
-      
-
-      /*  NSLayoutConstraint.activate([
-             stepOneLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-             stepOneLabel.topAnchor.constraint(equalTo: safeArea.topAnchor),
-             stepOneLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-             stepOneLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
-         ]) */
-        
-       /* NSLayoutConstraint.activate([
-            stepOneLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            stepOneLabel.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            stepOneLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            stepOneLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
-        ]) */
-        
-        // Create SOS Button
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            locationLabel.text = "Location not found"
-        }
-
-              
     }
     
     @objc func sendPressed() {
@@ -123,26 +97,8 @@ class MainViewController: UIViewController {
     }
     @objc func sosButtonPressed() {
         print("zab")
-       let directionsLabel = ReusableUIElements.createLabel(fontSize: 31, text: "How to use the App")
+        let directionsLabel = ReusableUIElements.createLabel(fontSize: 31, text: "How to use the App")
         directionsLabel.font = UIFont.boldSystemFont(ofSize: 31)
-        
-      /*  let labels = [
-            directionsLabel,
-            ReusableUIElements.createLabel(fontSize: 20, text: "1. Tap the SOS Button and start the call"),
-            ReusableUIElements.createLabel(fontSize: 20, text: "2. Return back to the app once the phone call begins"),
-            ReusableUIElements.createLabel(fontSize: 20, text: "3. Type any additional Messages into the Text-Field")
-        ]
-        
-        // Directions Labels stack view creation
-        let stackView = ReusableUIElements.createStackView(stackViewElements: labels, spacing: 40, distributionType: .equalSpacing)
-        self.view.addSubview(stackView)
-    
-        NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 0),
-            stackView.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -30),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-        ]) stepOneLabel.text = "2. Type an Additional Message and Tap the Send Button" */
     }
 }
 
@@ -208,6 +164,11 @@ extension MainViewController {
     }
 }
 
+extension MainViewController {
+    override func restoreUserActivityState(_ activity: NSUserActivity) {
+        print("restore user activity")
+    }
+}
 
 /*
 class MainViewController: UIViewController, UITextViewDelegate

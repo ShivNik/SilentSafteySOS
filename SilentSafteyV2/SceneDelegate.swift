@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MediaPlayer
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -18,6 +19,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let scene = (scene as? UIWindowScene) else { return }
         
+        if let userActivity = connectionOptions.userActivities.first {
+            print("user actiivty in connectwithoptions")
+            if let url = URL(string: "tel://\(4693555568)") {
+                UIApplication.shared.openURL(url)
+            }
+        }
         
       /*  window = UIWindow(windowScene: scene)
         let introVC = TestViewController() // Change this bac
@@ -27,6 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
+        
+        
         
       //  AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
         let navController = UINavigationController()
@@ -71,7 +80,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
+    
+  /*  func scene(_ scene: UIScene, willContinueUserActivityWithType userActivityType: String) {
+        print(userActivityType)
+    } */
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        print(userActivity.activityType)
+        print("scene delegate continue suera activty")
+        
+      /*  if let url = URL(string: "tel://\(4693555568)") {
+            UIApplication.shared.openURL(url)
+        } */
+    }
 }
 

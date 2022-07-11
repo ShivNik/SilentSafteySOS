@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		2F53F818C0DF2DB63AEB9106 /* Pods_SilentSafteyV2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1041703AD2CC70043018C64F /* Pods_SilentSafteyV2.framework */; };
+		482A4DFD287BCB580015A96A /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482A4DFC287BCB580015A96A /* WidgetKit.framework */; };
+		482A4DFF287BCB590015A96A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482A4DFE287BCB590015A96A /* SwiftUI.framework */; };
+		482A4E02287BCB590015A96A /* SosButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482A4E01287BCB590015A96A /* SosButton.swift */; };
+		482A4E05287BCB5E0015A96A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 482A4E04287BCB5E0015A96A /* Assets.xcassets */; };
+		482A4E07287BCB5E0015A96A /* SosButton.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 482A4E03287BCB590015A96A /* SosButton.intentdefinition */; };
+		482A4E08287BCB5F0015A96A /* SosButton.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 482A4E03287BCB590015A96A /* SosButton.intentdefinition */; };
+		482A4E0B287BCB5F0015A96A /* SosButtonExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 482A4DFB287BCB580015A96A /* SosButtonExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		482A4E10287BCD670015A96A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487833B32875E0F700BD7C52 /* Assets.xcassets */; };
 		4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */; };
 		4833C24A287653B100A1FE37 /* SiriDirectionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */; };
 		4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C24B2876576D00A1FE37 /* PreTestViewController.swift */; };
@@ -31,10 +39,41 @@
 		48B65D96287A116700414BD0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D95287A116700414BD0 /* Location.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		482A4E09287BCB5F0015A96A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4878339F2875E0F100BD7C52 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 482A4DFA287BCB580015A96A;
+			remoteInfo = SosButtonExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		482A4E0F287BCB5F0015A96A /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				482A4E0B287BCB5F0015A96A /* SosButtonExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		0A6FA360D0CDBB4EE7E66666 /* Pods-SilentSafteyV2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilentSafteyV2.release.xcconfig"; path = "Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2.release.xcconfig"; sourceTree = "<group>"; };
 		1041703AD2CC70043018C64F /* Pods_SilentSafteyV2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SilentSafteyV2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		14D2887C0DB537E27B068F6D /* Pods-SilentSafteyV2.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SilentSafteyV2.debug.xcconfig"; path = "Target Support Files/Pods-SilentSafteyV2/Pods-SilentSafteyV2.debug.xcconfig"; sourceTree = "<group>"; };
+		482A4DFB287BCB580015A96A /* SosButtonExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SosButtonExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		482A4DFC287BCB580015A96A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		482A4DFE287BCB590015A96A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		482A4E01287BCB590015A96A /* SosButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SosButton.swift; sourceTree = "<group>"; };
+		482A4E03287BCB590015A96A /* SosButton.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = SosButton.intentdefinition; sourceTree = "<group>"; };
+		482A4E04287BCB5E0015A96A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		482A4E06287BCB5E0015A96A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDirectionViewController.swift; sourceTree = "<group>"; };
 		4833C249287653B100A1FE37 /* SiriDirectionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiriDirectionsViewController.swift; sourceTree = "<group>"; };
 		4833C24B2876576D00A1FE37 /* PreTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreTestViewController.swift; sourceTree = "<group>"; };
@@ -61,6 +100,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		482A4DF8287BCB580015A96A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				482A4DFF287BCB590015A96A /* SwiftUI.framework in Frameworks */,
+				482A4DFD287BCB580015A96A /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		487833A42875E0F100BD7C52 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,10 +120,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		482A4E00287BCB590015A96A /* SosButton */ = {
+			isa = PBXGroup;
+			children = (
+				482A4E01287BCB590015A96A /* SosButton.swift */,
+				482A4E03287BCB590015A96A /* SosButton.intentdefinition */,
+				482A4E04287BCB5E0015A96A /* Assets.xcassets */,
+				482A4E06287BCB5E0015A96A /* Info.plist */,
+			);
+			path = SosButton;
+			sourceTree = "<group>";
+		};
 		4878339E2875E0F100BD7C52 = {
 			isa = PBXGroup;
 			children = (
 				487833A92875E0F100BD7C52 /* SilentSafteyV2 */,
+				482A4E00287BCB590015A96A /* SosButton */,
 				487833A82875E0F100BD7C52 /* Products */,
 				B8BB58489A44D91A7BEBC79F /* Pods */,
 				CEE3F033CDDED9C545BB961B /* Frameworks */,
@@ -86,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				487833A72875E0F100BD7C52 /* SilentSafteyV2.app */,
+				482A4DFB287BCB580015A96A /* SosButtonExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,6 +233,8 @@
 			isa = PBXGroup;
 			children = (
 				1041703AD2CC70043018C64F /* Pods_SilentSafteyV2.framework */,
+				482A4DFC287BCB580015A96A /* WidgetKit.framework */,
+				482A4DFE287BCB590015A96A /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -179,6 +242,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		482A4DFA287BCB580015A96A /* SosButtonExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 482A4E0C287BCB5F0015A96A /* Build configuration list for PBXNativeTarget "SosButtonExtension" */;
+			buildPhases = (
+				482A4DF7287BCB580015A96A /* Sources */,
+				482A4DF8287BCB580015A96A /* Frameworks */,
+				482A4DF9287BCB580015A96A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SosButtonExtension;
+			productName = SosButtonExtension;
+			productReference = 482A4DFB287BCB580015A96A /* SosButtonExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		487833A62875E0F100BD7C52 /* SilentSafteyV2 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 487833BB2875E0F800BD7C52 /* Build configuration list for PBXNativeTarget "SilentSafteyV2" */;
@@ -188,10 +268,12 @@
 				487833A42875E0F100BD7C52 /* Frameworks */,
 				487833A52875E0F100BD7C52 /* Resources */,
 				EE211BD90F0DA74654CCDD57 /* [CP] Embed Pods Frameworks */,
+				482A4E0F287BCB5F0015A96A /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				482A4E0A287BCB5F0015A96A /* PBXTargetDependency */,
 			);
 			name = SilentSafteyV2;
 			productName = SilentSafteyV2;
@@ -208,6 +290,9 @@
 				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1340;
 				TargetAttributes = {
+					482A4DFA287BCB580015A96A = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
 					487833A62875E0F100BD7C52 = {
 						CreatedOnToolsVersion = 13.4.1;
 					};
@@ -227,11 +312,21 @@
 			projectRoot = "";
 			targets = (
 				487833A62875E0F100BD7C52 /* SilentSafteyV2 */,
+				482A4DFA287BCB580015A96A /* SosButtonExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		482A4DF9287BCB580015A96A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				482A4E10287BCD670015A96A /* Assets.xcassets in Resources */,
+				482A4E05287BCB5E0015A96A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		487833A52875E0F100BD7C52 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -287,6 +382,15 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		482A4DF7287BCB580015A96A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				482A4E07287BCB5E0015A96A /* SosButton.intentdefinition in Sources */,
+				482A4E02287BCB590015A96A /* SosButton.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		487833A32875E0F100BD7C52 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -307,12 +411,21 @@
 				487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */,
 				4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */,
 				487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */,
+				482A4E08287BCB5F0015A96A /* SosButton.intentdefinition in Sources */,
 				4833C24E287730FE00A1FE37 /* TestViewController.swift in Sources */,
 				4833C24A287653B100A1FE37 /* SiriDirectionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		482A4E0A287BCB5F0015A96A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 482A4DFA287BCB580015A96A /* SosButtonExtension */;
+			targetProxy = 482A4E09287BCB5F0015A96A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		487833B02875E0F100BD7C52 /* Main.storyboard */ = {
@@ -334,6 +447,62 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		482A4E0D287BCB5F0015A96A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MC7QS8J7R8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SosButton/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SosButton;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV21.SosButton;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		482A4E0E287BCB5F0015A96A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MC7QS8J7R8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SosButton/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SosButton;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV21.SosButton;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		487833B92875E0F800BD7C52 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -452,6 +621,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 14D2887C0DB537E27B068F6D /* Pods-SilentSafteyV2.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -481,6 +651,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 0A6FA360D0CDBB4EE7E66666 /* Pods-SilentSafteyV2.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -509,6 +680,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		482A4E0C287BCB5F0015A96A /* Build configuration list for PBXNativeTarget "SosButtonExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				482A4E0D287BCB5F0015A96A /* Debug */,
+				482A4E0E287BCB5F0015A96A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		487833A22875E0F100BD7C52 /* Build configuration list for PBXProject "SilentSafteyV2" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
