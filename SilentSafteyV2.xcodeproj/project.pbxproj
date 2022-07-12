@@ -12,8 +12,6 @@
 		482A4DFF287BCB590015A96A /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482A4DFE287BCB590015A96A /* SwiftUI.framework */; };
 		482A4E02287BCB590015A96A /* SosButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482A4E01287BCB590015A96A /* SosButton.swift */; };
 		482A4E05287BCB5E0015A96A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 482A4E04287BCB5E0015A96A /* Assets.xcassets */; };
-		482A4E07287BCB5E0015A96A /* SosButton.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 482A4E03287BCB590015A96A /* SosButton.intentdefinition */; };
-		482A4E08287BCB5F0015A96A /* SosButton.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 482A4E03287BCB590015A96A /* SosButton.intentdefinition */; };
 		482A4E0B287BCB5F0015A96A /* SosButtonExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 482A4DFB287BCB580015A96A /* SosButtonExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		482A4E10287BCD670015A96A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487833B32875E0F700BD7C52 /* Assets.xcassets */; };
 		4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */; };
@@ -71,7 +69,6 @@
 		482A4DFC287BCB580015A96A /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		482A4DFE287BCB590015A96A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		482A4E01287BCB590015A96A /* SosButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SosButton.swift; sourceTree = "<group>"; };
-		482A4E03287BCB590015A96A /* SosButton.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = SosButton.intentdefinition; sourceTree = "<group>"; };
 		482A4E04287BCB5E0015A96A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		482A4E06287BCB5E0015A96A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDirectionViewController.swift; sourceTree = "<group>"; };
@@ -124,7 +121,6 @@
 			isa = PBXGroup;
 			children = (
 				482A4E01287BCB590015A96A /* SosButton.swift */,
-				482A4E03287BCB590015A96A /* SosButton.intentdefinition */,
 				482A4E04287BCB5E0015A96A /* Assets.xcassets */,
 				482A4E06287BCB5E0015A96A /* Info.plist */,
 			);
@@ -386,7 +382,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				482A4E07287BCB5E0015A96A /* SosButton.intentdefinition in Sources */,
 				482A4E02287BCB590015A96A /* SosButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,7 +406,6 @@
 				487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */,
 				4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */,
 				487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */,
-				482A4E08287BCB5F0015A96A /* SosButton.intentdefinition in Sources */,
 				4833C24E287730FE00A1FE37 /* TestViewController.swift in Sources */,
 				4833C24A287653B100A1FE37 /* SiriDirectionsViewController.swift in Sources */,
 			);

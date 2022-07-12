@@ -27,7 +27,7 @@ class IntroViewController: UIViewController {
         createUI()
     }
     
-    func createUI() {
+    func createUI() {        
         view.backgroundColor = .black
 
         let safeArea = view.safeAreaLayoutGuide

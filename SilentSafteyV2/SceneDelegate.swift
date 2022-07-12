@@ -7,11 +7,12 @@
 
 import UIKit
 import MediaPlayer
+import os
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var location: Location!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -19,12 +20,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let scene = (scene as? UIWindowScene) else { return }
         
-        if let userActivity = connectionOptions.userActivities.first {
+       /* if let userActivity = connectionOptions.userActivities.first {
             print("user actiivty in connectwithoptions")
             if let url = URL(string: "tel://\(4693555568)") {
                 UIApplication.shared.openURL(url)
             }
-        }
+        } */
         
       /*  window = UIWindow(windowScene: scene)
         let introVC = TestViewController() // Change this bac
@@ -35,9 +36,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         
+       // print("the phone")
         
+       
         
-      //  AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
+       // AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
+        
         let navController = UINavigationController()
         navController.navigationBar.barTintColor = .black
         navController.navigationBar.isTranslucent = false
@@ -86,12 +90,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     } */
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+        print("pick up ")
         print(userActivity.activityType)
         print("scene delegate continue suera activty")
+       
+        location = Location()
+        location.checkRequestPermission()
+        print("cash in cash out")
         
-      /*  if let url = URL(string: "tel://\(4693555568)") {
-            UIApplication.shared.openURL(url)
-        } */
+        NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
+        print("zombie 50")
+        
+        // location.retrieveLocation()
+    }
+    
+    @objc func tempFunc(notification: NSNotification) {
+        location.retrieveLocation()
     }
 }
 

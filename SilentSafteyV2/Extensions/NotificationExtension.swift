@@ -12,5 +12,6 @@ extension Notification.Name {
     static let locationFound = Notification.Name("locationFound")
     static let additionalMessage = Notification.Name("additionalMessage")
     static let tutorialPhoneCallFinished = Notification.Name("tutorialPhoneCallFinished")
+    static let locationAuthorizationGiven = Notification.Name("locationAuthorizationGiven")
     
 }

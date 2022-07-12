@@ -13,6 +13,8 @@ class MainViewController: UIViewController {
 
     var textView: UITextView!
     var stepOneLabel: UILabel!
+    var accessLocationLabel: UILabel!
+    var location: Location!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,7 @@ class MainViewController: UIViewController {
     }
     
     func createUI() {
+
         view.backgroundColor = .black
        // view.safeAreaLayoutGuide.owningView?.backgroundColor = .red
         let safeArea = view.safeAreaLayoutGuide
@@ -90,15 +93,23 @@ class MainViewController: UIViewController {
             stackView.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
             stackView.leadingAnchor.constraint(equalTo: uiView.leadingAnchor)
         ])
+        
+        accessLocationLabel = locationLabel
+        
+        location = Location()
+        location.delegate = self
+        location.checkRequestPermission()
     }
-    
+
     @objc func sendPressed() {
+
         
     }
     @objc func sosButtonPressed() {
-        print("zab")
-        let directionsLabel = ReusableUIElements.createLabel(fontSize: 31, text: "How to use the App")
-        directionsLabel.font = UIFont.boldSystemFont(ofSize: 31)
+        print("sos button pressed")
+        if location.checkAuthorization() {
+            location.retrieveLocation()
+        }
     }
 }
 
@@ -170,6 +181,11 @@ extension MainViewController {
     }
 }
 
+extension MainViewController: LocationProtocol {
+    func updateLocationLabel(text: String) {
+        accessLocationLabel.text = text
+    }
+}
 /*
 class MainViewController: UIViewController, UITextViewDelegate
 {

@@ -8,26 +8,26 @@
 import Foundation
 import CoreLocation
 
+protocol LocationProtocol {
+    func updateLocationLabel(text: String)
+}
 class Location: NSObject, CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager!
+    var delegate: LocationProtocol?
     
     override init() {
         super.init()
         
-        self.locationManager = CLLocationManager()
-        self.locationManager.delegate = self
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyBest // KCLLocationAccuracyNavigationBest
+        locationManager = CLLocationManager()
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest // KCLLocationAccuracyNavigationBest
     }
     
-    func checkLocationAuthorization() {
+    func checkRequestPermission() {
         if locationManager.authorizationStatus == .notDetermined {
             self.locationManager.requestWhenInUseAuthorization()
         }
-    }
-    
-    func setUpLocation()  {
-        checkLocationAuthorization()
     }
     
     func retrieveLocation()  {
@@ -39,86 +39,108 @@ class Location: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        
+    
         if let location = locations.last {
-            print(location.coordinate.latitude)
-            print(location.coordinate.longitude)
-            print("Accuracy \(location.horizontalAccuracy)")
             
             let geocoder = CLGeocoder()
             
             geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
                 
                 if error == nil {
-                    print("number of placemakr \(placemarks!.count)")
+                    print("Number of placemarks \(placemarks!.count)")
+                    
                     let pm = placemarks![0]
-                    let address = "My Location is " + "\(pm.subThoroughfare!) \(pm.thoroughfare!) \(pm.locality!) \(pm.administrativeArea!) \(pm.country!)"
+                    let address = "My Location is " + "\(pm.subThoroughfare!) \(pm.thoroughfare!) \(pm.locality!) within \(Int(location.horizontalAccuracy)) meters of Accuracy"
+                    
                     print(address)
-                    print(pm.region)
-                   /* print(pm.country)
-                    print(pm.locality)
-                    print(pm.subLocality)
-                    print(pm.thoroughfare)
-                    print(pm.postalCode)
-                    print(pm.subThoroughfare) */
                     
-                  /*  print(pm.name) // Not really sure
-                    print(pm.isoCountryCode)
-                    print(pm.country)
-                    print(pm.postalCode)
-                    print(pm.administrativeArea) // State/Province
-                    print(pm.subAdministrativeArea) // County
-                    print(pm.locality) // City
-                    print(pm.subLocality) // name of the neighborhood or landmark associated with the placemark. It might also refer to a common name that’s associated with the location.
-                    print(pm.thoroughfare) // Street name
-                    print(pm.subThoroughfare) //  street number for the location
-                    print(pm.postalAddress)
-                    
-                    let formatter = CNPostalAddressFormatter()
-                    print(formatter.string(from: pm.postalAddress!)) */ 
-                
                     NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
                 }
                 else {
-                    print("Error occured geocoding")
+                    self.delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
                 }
             })
         }
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location Manager did fail with error")
+        delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
     }
-    
-    // Called - the system calls as soon as your app creates the location manager, and any time your app’s authorization status changes.
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         print("changeAuthorization called")
-        
-        switch locationManager.accuracyAuthorization {
-            case .fullAccuracy:
-                print("full accuracy")
-            case .reducedAccuracy:
-                print("reduce")
-            default:
-                break
-        }
-        
+    
         switch locationManager.authorizationStatus {
-            case .denied:
-                print("denied")
+            case .denied, .restricted:
+                print("denied, restricted")
+                delegate?.updateLocationLabel(text: "Type location in additional message - Permission Not Granted")
             case .authorizedWhenInUse, .authorizedAlways:
-                print("authorized  when in use/always")
-            case .restricted :
-                print("Restricted")
+             //   NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
+            
+                print("authorized")
+                checkPrecisionAccuracyAuthroization()
             default:
-                print("Default")
+                print("not determiend")
+                delegate?.updateLocationLabel(text: "Location Services Enabled Not Determined")
+               // checkLocationAuthorization()
         }
-      //  locationManager.requestTemporaryFullAccuracyAuthorization(withPurposeKey: "ForDelivery")
     }
     
+    func checkPrecisionAccuracyAuthroization() {
+        switch locationManager.accuracyAuthorization {
+            case .reducedAccuracy:
+                print("reduced accuracy")
+                delegate?.updateLocationLabel(text: "Type location in additional message - Reduced Accuracy Selected")
+            default:
+                print("Full acc")
+                delegate?.updateLocationLabel(text: "")
+                NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
+        }
+    }
     
+    func checkAuthorization() -> Bool {
+        switch locationManager.authorizationStatus {
+            case .denied, .restricted:
+                return false
+            case .authorizedWhenInUse, .authorizedAlways:
+                return true
+            default:
+                return false
+        }
+    }
 }
 
 
+
+/* print(pm.country)
+ print(pm.locality)
+ print(pm.subLocality)
+ print(pm.thoroughfare)
+ print(pm.postalCode)
+ print(pm.subThoroughfare) */
+ 
+/*  print(pm.name) // Not really sure
+ print(pm.isoCountryCode)
+ print(pm.country)
+ print(pm.postalCode)
+ print(pm.administrativeArea) // State/Province
+ print(pm.subAdministrativeArea) // County
+ print(pm.locality) // City
+ print(pm.subLocality) // name of the neighborhood or landmark associated with the placemark. It might also refer to a common name that’s associated with the location.
+ print(pm.thoroughfare) // Street name
+ print(pm.subThoroughfare) //  street number for the location
+ print(pm.postalAddress)
+ 
+ let formatter = CNPostalAddressFormatter()
+ print(formatter.string(from: pm.postalAddress!)) */
+
+
+/*   print(location.coordinate.latitude)
+   print(location.coordinate.longitude)
+   print("Accuracy \(location.horizontalAccuracy)") */
+
+
+/*func setUpLocation()  {
+    checkLocationAuthorization()
+} */
