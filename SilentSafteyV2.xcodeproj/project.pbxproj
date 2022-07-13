@@ -35,6 +35,7 @@
 		48B65D92287A111A00414BD0 /* VolumeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D91287A111A00414BD0 /* VolumeExtension.swift */; };
 		48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D93287A113900414BD0 /* NotificationExtension.swift */; };
 		48B65D96287A116700414BD0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D95287A116700414BD0 /* Location.swift */; };
+		48DD44A9287DE5F700680C8F /* PhoneCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48DD44A8287DE5F600680C8F /* PhoneCall.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		48B65D91287A111A00414BD0 /* VolumeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeExtension.swift; sourceTree = "<group>"; };
 		48B65D93287A113900414BD0 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		48B65D95287A116700414BD0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		48DD44A8287DE5F600680C8F /* PhoneCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneCall.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +190,7 @@
 			children = (
 				487833C52875E2A300BD7C52 /* OnboardingObject.swift */,
 				48B65D95287A116700414BD0 /* Location.swift */,
+				48DD44A8287DE5F600680C8F /* PhoneCall.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -401,6 +404,7 @@
 				487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */,
 				487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */,
 				487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */,
+				48DD44A9287DE5F700680C8F /* PhoneCall.swift in Sources */,
 				487833C42875E24300BD7C52 /* IntroViewController.swift in Sources */,
 				48B65D902879E32C00414BD0 /* MainViewController.swift in Sources */,
 				487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */,
@@ -623,6 +627,7 @@
 				DEVELOPMENT_TEAM = MC7QS8J7R8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SilentSafteyV2/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We send your location to the police during an emergency. We recommend selecting \"precise location\" and \"Always use within app\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -653,6 +658,7 @@
 				DEVELOPMENT_TEAM = MC7QS8J7R8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SilentSafteyV2/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "We send your location to the police during an emergency. We recommend selecting \"precise location\" and \"Always use within app\"";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

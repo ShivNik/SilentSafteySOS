@@ -18,7 +18,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("main view did load")
         self.setupToHideKeyboardOnTapOnView()
         createUI()
         textView.returnKeyType = .send
@@ -35,7 +35,8 @@ class MainViewController: UIViewController {
         textView.delegate = self
         view.addSubview(textView)
         ReusableUIElements.textViewConstraints(textView: textView, safeArea: safeArea)
-
+        textView.autocorrectionType = .yes
+        
         // Create Send Button
         let button = ReusableUIElements.createSendButton(textView: textView)
         view.addSubview(button)
@@ -96,20 +97,29 @@ class MainViewController: UIViewController {
         
         accessLocationLabel = locationLabel
         
-        location = Location()
+        AppDelegate.location.delegate = self
+        AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager) 
+       /* location = Location()
         location.delegate = self
-        location.checkRequestPermission()
+        location.checkRequestPermission() */
     }
 
     @objc func sendPressed() {
-
+        if let message = textView.text {
+            NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": message])
+            textView.text = ""
+        }
         
     }
     @objc func sosButtonPressed() {
-        print("sos button pressed")
-        if location.checkAuthorization() {
-            location.retrieveLocation()
+        AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+       /* if(AppDelegate.location.checkAuthorization()) {
+            print("authorizaed")
+            AppDelegate.location.retrieveLocation()
         }
+        else {
+            print("denied/restricted")
+        } */
     }
 }
 

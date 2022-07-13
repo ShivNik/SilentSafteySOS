@@ -18,14 +18,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
+      //  print("scene delegate willconnectooptions")
         guard let scene = (scene as? UIWindowScene) else { return }
         
-       /* if let userActivity = connectionOptions.userActivities.first {
-            print("user actiivty in connectwithoptions")
-            if let url = URL(string: "tel://\(4693555568)") {
-                UIApplication.shared.openURL(url)
-            }
-        } */
+    //    AppDelegate.location.checkRequestPermission()
+       
+        if let userActivity = connectionOptions.userActivities.first {
+            print("ConnectOptions \(userActivity.activityType)")
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
+            
+            AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+        }
         
       /*  window = UIWindow(windowScene: scene)
         let introVC = TestViewController() // Change this bac
@@ -67,6 +72,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+       // AppDelegate.location.checkRequestPermission()
+      //  print("Scene became active")
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -90,22 +97,43 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     } */
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        print("pick up ")
         print(userActivity.activityType)
         print("scene delegate continue suera activty")
-       
-        location = Location()
-        location.checkRequestPermission()
-        print("cash in cash out")
+        // AppDelegate.location.checkAuthorization()
+        AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+        if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
+            print("Not determined in scene continue user activity")
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
+        }
+        else {
+            if(AppDelegate.location.checkAuthorization()) {
+                print("authorizaed")
+                AppDelegate.location.retrieveLocation()
+            }
+            else {
+                print("denied/restricted")
+            }
+        }
+       // NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
-        print("zombie 50")
+       /* location = Location()
+        location.checkRequestPermission()
+    
+        NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil) */ 
         
         // location.retrieveLocation()
     }
     
     @objc func tempFunc(notification: NSNotification) {
-        location.retrieveLocation()
+        if(AppDelegate.location.checkAuthorization()) {
+            print("authorizaed")
+            AppDelegate.location.retrieveLocation()
+        }
+        else {
+            print("denied/restricted")
+        }
+        NotificationCenter.default.removeObserver(self)
     }
 }
 

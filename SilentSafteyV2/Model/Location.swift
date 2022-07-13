@@ -66,6 +66,8 @@ class Location: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location Manager did fail with error")
         delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
+        print(error)
+        print(error.localizedDescription)
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -108,6 +110,10 @@ class Location: NSObject, CLLocationManagerDelegate {
             default:
                 return false
         }
+    }
+    
+    func doesNothing() {
+        
     }
 }
 
