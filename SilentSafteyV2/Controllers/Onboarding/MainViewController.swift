@@ -113,13 +113,13 @@ class MainViewController: UIViewController {
     }
     @objc func sosButtonPressed() {
         AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
-       /* if(AppDelegate.location.checkAuthorization()) {
+        if(AppDelegate.location.checkAuthorization()) {
             print("authorizaed")
             AppDelegate.location.retrieveLocation()
         }
         else {
             print("denied/restricted")
-        } */
+        } 
     }
 }
 

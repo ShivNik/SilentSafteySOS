@@ -22,6 +22,7 @@ class Location: NSObject, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // KCLLocationAccuracyNavigationBest
+      //  locationManager.allowsBackgroundLocationUpdates = true
     }
     
     func checkRequestPermission() {
