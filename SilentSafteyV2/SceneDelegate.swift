@@ -26,10 +26,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        
         if let userActivity = connectionOptions.userActivities.first {
             print("ConnectOptions \(userActivity.activityType)")
-            
+            AppDelegate.location.checkRequestPermission()
             NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
-            
-            AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
         }
         
       /*  window = UIWindow(windowScene: scene)
@@ -72,8 +70,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-       AppDelegate.location.checkRequestPermission()
-      //  print("Scene became active")
+      /*  AppDelegate.location.checkRequestPermission()
+        print("Scene became active") */
+        print("scene did become active")
+      //  AppDelegate.location.locationManager.stopUpdatingLocation()
+    
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -100,13 +101,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print(userActivity.activityType)
         print("scene delegate continue suera activty")
         // AppDelegate.location.checkAuthorization()
-        AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+        AppDelegate.location.checkRequestPermission()
         if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
             print("Not determined in scene continue user activity")
             
             NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
         }
         else {
+            AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
             if(AppDelegate.location.checkAuthorization()) {
                 print("authorizaed")
                 AppDelegate.location.retrieveLocation()
@@ -126,6 +128,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     @objc func tempFunc(notification: NSNotification) {
+        AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+        
         if(AppDelegate.location.checkAuthorization()) {
             print("authorizaed")
             AppDelegate.location.retrieveLocation()

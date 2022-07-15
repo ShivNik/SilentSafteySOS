@@ -29,13 +29,16 @@
 		487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */; };
 		487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C92875E67000BD7C52 /* ReusableUIElements.swift */; };
 		487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833CB2875F22E00BD7C52 /* InformationViewController.swift */; };
+		48852E2D2882283D0011628F /* ResponseVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48852E2C2882283D0011628F /* ResponseVariables.swift */; };
 		48ABFA7C2878B0FA00A7FFEC /* AllStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */; };
 		48ABFA7E2879206700A7FFEC /* CompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */; };
 		48B65D902879E32C00414BD0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D8F2879E32C00414BD0 /* MainViewController.swift */; };
 		48B65D92287A111A00414BD0 /* VolumeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D91287A111A00414BD0 /* VolumeExtension.swift */; };
 		48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D93287A113900414BD0 /* NotificationExtension.swift */; };
 		48B65D96287A116700414BD0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D95287A116700414BD0 /* Location.swift */; };
+		48B947012881C5DE0060090E /* LocationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B947002881C5DE0060090E /* LocationObject.swift */; };
 		48C96080287F4E7C004A47D8 /* PhoneCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C9607F287F4E7C004A47D8 /* PhoneCall.swift */; };
+		48C9608428805BE0004A47D8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C9608328805BE0004A47D8 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,13 +92,16 @@
 		487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
 		487833C92875E67000BD7C52 /* ReusableUIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableUIElements.swift; sourceTree = "<group>"; };
 		487833CB2875F22E00BD7C52 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
+		48852E2C2882283D0011628F /* ResponseVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseVariables.swift; sourceTree = "<group>"; };
 		48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStrings.swift; sourceTree = "<group>"; };
 		48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionViewController.swift; sourceTree = "<group>"; };
 		48B65D8F2879E32C00414BD0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		48B65D91287A111A00414BD0 /* VolumeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeExtension.swift; sourceTree = "<group>"; };
 		48B65D93287A113900414BD0 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		48B65D95287A116700414BD0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		48B947002881C5DE0060090E /* LocationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationObject.swift; sourceTree = "<group>"; };
 		48C9607F287F4E7C004A47D8 /* PhoneCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCall.swift; sourceTree = "<group>"; };
+		48C9608328805BE0004A47D8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,6 +197,8 @@
 				487833C52875E2A300BD7C52 /* OnboardingObject.swift */,
 				48B65D95287A116700414BD0 /* Location.swift */,
 				48C9607F287F4E7C004A47D8 /* PhoneCall.swift */,
+				48B947002881C5DE0060090E /* LocationObject.swift */,
+				48852E2C2882283D0011628F /* ResponseVariables.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -215,6 +223,7 @@
 				4833C24D287730FE00A1FE37 /* TestViewController.swift */,
 				48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */,
 				48B65D8F2879E32C00414BD0 /* MainViewController.swift */,
+				48C9608328805BE0004A47D8 /* SettingsViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -396,12 +405,14 @@
 				487833AF2875E0F100BD7C52 /* ViewController.swift in Sources */,
 				48ABFA7C2878B0FA00A7FFEC /* AllStrings.swift in Sources */,
 				48ABFA7E2879206700A7FFEC /* CompletionViewController.swift in Sources */,
+				48C9608428805BE0004A47D8 /* SettingsViewController.swift in Sources */,
 				487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */,
 				48B65D96287A116700414BD0 /* Location.swift in Sources */,
 				4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */,
 				48B65D92287A111A00414BD0 /* VolumeExtension.swift in Sources */,
 				48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */,
 				487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */,
+				48B947012881C5DE0060090E /* LocationObject.swift in Sources */,
 				487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */,
 				487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */,
 				48C96080287F4E7C004A47D8 /* PhoneCall.swift in Sources */,
@@ -411,6 +422,7 @@
 				4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */,
 				487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */,
 				4833C24E287730FE00A1FE37 /* TestViewController.swift in Sources */,
+				48852E2D2882283D0011628F /* ResponseVariables.swift in Sources */,
 				4833C24A287653B100A1FE37 /* SiriDirectionsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -457,7 +469,7 @@
 				INFOPLIST_FILE = SosButton/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SosButton;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -485,7 +497,7 @@
 				INFOPLIST_FILE = SosButton/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SosButton;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -632,7 +644,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -663,7 +675,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

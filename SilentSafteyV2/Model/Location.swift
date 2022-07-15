@@ -15,6 +15,7 @@ class Location: NSObject, CLLocationManagerDelegate {
     
     var locationManager: CLLocationManager!
     var delegate: LocationProtocol?
+    var locationsRecieved: [LocationObject] = []
     
     override init() {
         super.init()
@@ -22,7 +23,8 @@ class Location: NSObject, CLLocationManagerDelegate {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest // KCLLocationAccuracyNavigationBest
-      //  locationManager.allowsBackgroundLocationUpdates = true
+         locationManager.allowsBackgroundLocationUpdates = true
+         locationManager.showsBackgroundLocationIndicator = true
     }
     
     func checkRequestPermission() {
@@ -32,7 +34,28 @@ class Location: NSObject, CLLocationManagerDelegate {
     }
     
     func retrieveLocation()  {
-        self.locationManager.requestLocation()
+        self.locationManager.startUpdatingLocation()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            print("10 seconds after")
+            self.locationManager.stopUpdatingLocation()
+
+            var optimalLocation = 0
+            for i in 0..<self.locationsRecieved.count {
+                if self.locationsRecieved[optimalLocation].horizontalAccuracy > self.locationsRecieved[i].horizontalAccuracy {
+                    optimalLocation = i
+                }
+            }
+            
+            let optionalLocationObject = self.locationsRecieved[optimalLocation].placemark
+            
+            let address = "My Location is " + "\(optionalLocationObject.subThoroughfare!) \(optionalLocationObject.thoroughfare!) \(optionalLocationObject.locality!) within \(Int(self.locationsRecieved[optimalLocation].horizontalAccuracy)) meters of Accuracy"
+            
+            print(address)
+            
+            NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
+        
+        }
     }
     
     func retrieveLocationAuthorizaiton() -> CLAuthorizationStatus {
@@ -48,14 +71,17 @@ class Location: NSObject, CLLocationManagerDelegate {
             geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
                 
                 if error == nil {
+                    
+                    let locObj = LocationObject(horizontalAccuracy: location.horizontalAccuracy, placemark: placemarks![0])
+                    self.locationsRecieved.append(locObj)
+                    
                     print("Number of placemarks \(placemarks!.count)")
                     
                     let pm = placemarks![0]
-                    let address = "My Location is " + "\(pm.subThoroughfare!) \(pm.thoroughfare!) \(pm.locality!) within \(Int(location.horizontalAccuracy)) meters of Accuracy"
+                    let address = "My Location is " + "\(pm.subThoroughfare!) \(pm.thoroughfare!) \(pm.locality!) within \(Double(location.horizontalAccuracy)) meters of Accuracy"
                     
                     print(address)
-                    
-                    NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
+                
                 }
                 else {
                     self.delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
@@ -65,6 +91,7 @@ class Location: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        //    locationManager.requestLocation()
         print("Location Manager did fail with error")
         delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
         print(error)
@@ -112,11 +139,8 @@ class Location: NSObject, CLLocationManagerDelegate {
                 return false
         }
     }
-    
-    func doesNothing() {
-        
-    }
 }
+
 
 
 

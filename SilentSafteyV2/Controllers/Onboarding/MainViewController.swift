@@ -22,6 +22,16 @@ class MainViewController: UIViewController {
         self.setupToHideKeyboardOnTapOnView()
         createUI()
         textView.returnKeyType = .send
+        
+      /*  print(navigationController?.navigationBar.tintColor)
+        navigationController?.navigationBar.tintColor = .green
+        navigationController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: nil, action: nil) */ 
+        
+    }
+    
+    func settingsButtonPressed() {
+        print("settings button pressed")
+        self.navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
     
     func createUI() {
@@ -50,7 +60,7 @@ class MainViewController: UIViewController {
         view.addSubview(sosButton)
         
         NSLayoutConstraint.activate([
-            sosButton.topAnchor.constraint(equalTo: view.topAnchor),
+            sosButton.topAnchor.constraint(equalTo: safeArea.topAnchor),
             sosButton.widthAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 10),
             sosButton.heightAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 10),
             sosButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
@@ -97,8 +107,10 @@ class MainViewController: UIViewController {
         
         accessLocationLabel = locationLabel
         
+        AppDelegate.location.checkRequestPermission()
         AppDelegate.location.delegate = self
-        AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager) 
+       // AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
+       
        /* location = Location()
         location.delegate = self
         location.checkRequestPermission() */
@@ -112,14 +124,35 @@ class MainViewController: UIViewController {
         
     }
     @objc func sosButtonPressed() {
+        print("sos button rpessed")
+        AppDelegate.location.checkRequestPermission()
+        if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
+            print("Not determined in scene continue user activity")
+            
+            NotificationCenter.default.addObserver(self, selector: #selector(tempFuncMain(notification:)), name: .locationAuthorizationGiven, object: nil)
+        }
+        else {
+            AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+            if(AppDelegate.location.checkAuthorization()) {
+                print("authorizaed")
+                AppDelegate.location.retrieveLocation()
+            }
+            else {
+                print("denied/restricted")
+            }
+        }
+    }
+    @objc func tempFuncMain(notification: NSNotification) {
         AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+        
         if(AppDelegate.location.checkAuthorization()) {
             print("authorizaed")
             AppDelegate.location.retrieveLocation()
         }
         else {
             print("denied/restricted")
-        } 
+        }
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
