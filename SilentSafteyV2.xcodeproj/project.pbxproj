@@ -37,6 +37,7 @@
 		48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D93287A113900414BD0 /* NotificationExtension.swift */; };
 		48B65D96287A116700414BD0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D95287A116700414BD0 /* Location.swift */; };
 		48B947012881C5DE0060090E /* LocationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B947002881C5DE0060090E /* LocationObject.swift */; };
+		48C6549F28834FB30078C83A /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C6549E28834FB20078C83A /* ContactViewController.swift */; };
 		48C96080287F4E7C004A47D8 /* PhoneCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C9607F287F4E7C004A47D8 /* PhoneCall.swift */; };
 		48C9608428805BE0004A47D8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C9608328805BE0004A47D8 /* SettingsViewController.swift */; };
 /* End PBXBuildFile section */
@@ -100,6 +101,7 @@
 		48B65D93287A113900414BD0 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		48B65D95287A116700414BD0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		48B947002881C5DE0060090E /* LocationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationObject.swift; sourceTree = "<group>"; };
+		48C6549E28834FB20078C83A /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		48C9607F287F4E7C004A47D8 /* PhoneCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCall.swift; sourceTree = "<group>"; };
 		48C9608328805BE0004A47D8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -224,6 +226,7 @@
 				48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */,
 				48B65D8F2879E32C00414BD0 /* MainViewController.swift */,
 				48C9608328805BE0004A47D8 /* SettingsViewController.swift */,
+				48C6549E28834FB20078C83A /* ContactViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -416,6 +419,7 @@
 				487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */,
 				487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */,
 				48C96080287F4E7C004A47D8 /* PhoneCall.swift in Sources */,
+				48C6549F28834FB30078C83A /* ContactViewController.swift in Sources */,
 				487833C42875E24300BD7C52 /* IntroViewController.swift in Sources */,
 				48B65D902879E32C00414BD0 /* MainViewController.swift in Sources */,
 				487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */,

@@ -24,11 +24,36 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
     //    AppDelegate.location.checkRequestPermission()
        
-        if let userActivity = connectionOptions.userActivities.first {
-            print("ConnectOptions \(userActivity.activityType)")
-            AppDelegate.location.checkRequestPermission()
-            NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
+        if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
+            if let userActivity = connectionOptions.userActivities.first {
+                print("ConnectOptions \(userActivity.activityType)")
+                AppDelegate.location.checkRequestPermission()
+                NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
+            }
+        } else {
+            print("not executed widget 1")
         }
+        
+        /// 1. Capture the scene
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        /// 2. Create a new UIWindow using the windowScene constructor which takes in a window scene.
+        let window = UIWindow(windowScene: scene)
+        
+        /// 3. Create a view hierarchy programmatically
+        let viewController = MainViewController()
+        let navigation = UINavigationController(rootViewController: viewController)
+        
+      //  navigation.navigationBar.tintColor = .orange
+      //  UIBarButtonItem(title: "title", style: .plain, target: self, action: nil)
+        
+        
+        /// 4. Set the root view controller of the window with your view controller
+        window.rootViewController = navigation
+        
+        /// 5. Set the window and call makeKeyAndVisible()
+        self.window = window
+        window.makeKeyAndVisible()
         
       /*  window = UIWindow(windowScene: scene)
         let introVC = TestViewController() // Change this bac
@@ -36,14 +61,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible() */
         
         
-        window = UIWindow(windowScene: scene)
+   /*     window = UIWindow(windowScene: scene)
         window?.makeKeyAndVisible()
         
        // print("the phone")
+
         
-       
-        
-       // AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
+        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
         
         let navController = UINavigationController()
         navController.navigationBar.barTintColor = .black
@@ -57,7 +81,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             navController.addChild(IntroViewController())
             navController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
             window?.rootViewController = navController
-        }
+        } */
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -101,22 +125,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         print(userActivity.activityType)
         print("scene delegate continue suera activty")
         // AppDelegate.location.checkAuthorization()
-        AppDelegate.location.checkRequestPermission()
-        if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
-            print("Not determined in scene continue user activity")
-            
-            NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
-        }
-        else {
-            AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
-            if(AppDelegate.location.checkAuthorization()) {
-                print("authorizaed")
-                AppDelegate.location.retrieveLocation()
+        
+        if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
+            AppDelegate.location.checkRequestPermission()
+            if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
+                print("Not determined in scene continue user activity")
+                
+                NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
             }
             else {
-                print("denied/restricted")
+                AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+                if(AppDelegate.location.checkAuthorization()) {
+                    print("authorizaed")
+                    AppDelegate.location.retrieveLocation()
+                }
+                else {
+                    print("denied/restricted")
+                }
             }
+        } else {
+            print("not executed widget 2")
         }
+        
        // NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
         
        /* location = Location()

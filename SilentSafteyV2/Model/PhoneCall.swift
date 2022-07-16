@@ -75,6 +75,14 @@ extension PhoneCall : CXCallObserverDelegate {
             print("CXCallState :Disconnected")
             messageArray = []
             firstMessageRecieved = false
+            
+            if(Response.stringTapped == "widget") {
+                Response.widgetResponse = false
+            }
+            else if(Response.stringTapped == "sosButton"){
+                Response.sosButtonResponse = false
+            }
+            Response.stringTapped = ""
            /* if(!SceneDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinishedKey)) {
                 print("Endo")
                 NotificationCenter.default.post(name: .tutorialPhoneCallFinished, object: nil)
@@ -87,7 +95,12 @@ extension PhoneCall : CXCallObserverDelegate {
         
         if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
-        
+            if(Response.stringTapped == "widget") {
+                Response.widgetResponse = true
+            }
+            else if(Response.stringTapped == "sosButton"){
+                Response.sosButtonResponse = true
+            }
         }
         
         if call.hasConnected == true && call.hasEnded == false {

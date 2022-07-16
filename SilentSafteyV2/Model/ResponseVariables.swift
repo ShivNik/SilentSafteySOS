@@ -8,6 +8,7 @@
 import Foundation
 
 struct Response {
-    let widgetResponse: Bool = false
-    let sosButtonResponse: Bool = false
+    static var widgetResponse: Bool = false
+    static var sosButtonResponse: Bool = false
+    static var stringTapped: String = ""
 }

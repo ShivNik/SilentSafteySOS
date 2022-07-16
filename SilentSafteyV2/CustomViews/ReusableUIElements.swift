@@ -191,4 +191,10 @@ class ReusableUIElements {
         return sosButton
     }
     
+    static func settingButtonConstraint(button: UIButton, safeArea: UILayoutGuide) {
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalToConstant: 150),
+            button.heightAnchor.constraint(equalToConstant: 50),
+        ])
+    }
 }

@@ -23,13 +23,17 @@ class MainViewController: UIViewController {
         createUI()
         textView.returnKeyType = .send
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonPressed))
+        
+       // navigationController?.navigationBar.tintColor = .brown
+      /*  self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Title", style: .plain, target: self, action: nil) */
       /*  print(navigationController?.navigationBar.tintColor)
         navigationController?.navigationBar.tintColor = .green
         navigationController?.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: nil, action: nil) */ 
         
     }
     
-    func settingsButtonPressed() {
+    @objc func settingsButtonPressed() {
         print("settings button pressed")
         self.navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
@@ -125,21 +129,27 @@ class MainViewController: UIViewController {
     }
     @objc func sosButtonPressed() {
         print("sos button rpessed")
-        AppDelegate.location.checkRequestPermission()
-        if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
-            print("Not determined in scene continue user activity")
+        if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
+            AppDelegate.location.checkRequestPermission()
             
-            NotificationCenter.default.addObserver(self, selector: #selector(tempFuncMain(notification:)), name: .locationAuthorizationGiven, object: nil)
-        }
-        else {
-            AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
-            if(AppDelegate.location.checkAuthorization()) {
-                print("authorizaed")
-                AppDelegate.location.retrieveLocation()
+            if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
+                print("Not determined in scene continue user activity")
+                
+                NotificationCenter.default.addObserver(self, selector: #selector(tempFuncMain(notification:)), name: .locationAuthorizationGiven, object: nil)
             }
             else {
-                print("denied/restricted")
+                AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+                if(AppDelegate.location.checkAuthorization()) {
+                    print("authorizaed")
+                    AppDelegate.location.retrieveLocation()
+                }
+                else {
+                    print("denied/restricted")
+                }
             }
+        }
+        else {
+            print("not executed sos button")
         }
     }
     @objc func tempFuncMain(notification: NSNotification) {

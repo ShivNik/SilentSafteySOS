@@ -21,14 +21,35 @@ class SettingsViewController: UIViewController {
         let profileButton = ReusableUIElements.createButton(title: "Profile")
         let contactButton = ReusableUIElements.createButton(title: "Contact")
         
-        let stackView = ReusableUIElements.createStackView(stackViewElements: [tutorialButton,profileButton,contactButton], spacing: 40, distributionType: .equalSpacing)
+        tutorialButton.addTarget(self, action: #selector(tutorialButtonPressed), for: .touchUpInside)
+        profileButton.addTarget(self, action: #selector(profileButtonPressed), for: .touchUpInside)
+        contactButton.addTarget(self, action: #selector(contactButtonPressed), for: .touchUpInside)
+        
+        ReusableUIElements.settingButtonConstraint(button: tutorialButton, safeArea: safeArea)
+        ReusableUIElements.settingButtonConstraint(button: profileButton, safeArea: safeArea)
+        ReusableUIElements.settingButtonConstraint(button: contactButton, safeArea: safeArea)
+        
+        let stackView = ReusableUIElements.createStackView(stackViewElements: [tutorialButton,profileButton,contactButton], spacing: 40, distributionType: .fillEqually)
+        
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            stackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            stackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor)
+            stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
+    }
+    
+    @objc func tutorialButtonPressed() {
+        self.navigationController?.pushViewController(IntroViewController(), animated: true)
+    }
+    @objc func profileButtonPressed() {
+        self.navigationController?.pushViewController(InformationViewController(), animated: true)
+       /* let allVCs = self.navigationController!.children
+        print(allVCs.description) */
+        
+    }
+    
+    @objc func contactButtonPressed() {
+        self.navigationController?.pushViewController(ContactViewController(), animated: true)
     }
 }
