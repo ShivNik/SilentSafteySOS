@@ -52,12 +52,12 @@ extension InformationViewController {
         
         // Create the title Labels
         let titleLabels = [
-            ReusableUIElements.createLabel(fontSize: 31, text: "Step 1 information"),
+            ReusableUIElements.createLabel(fontSize: 30, text: "Step 1 information"),
             ReusableUIElements.createLabel(fontSize: 20, text: "Enter your information. This will be sent to the police")
         ]
     
         // Create and constraint the stack view that holds the title labels
-        let titleLabelStackView = ReusableUIElements.createStackView(stackViewElements: titleLabels, spacing: 0, distributionType: .fillEqually)
+        let titleLabelStackView = ReusableUIElements.createStackView(stackViewElements: titleLabels, spacing: 0, distributionType: .fillEqually) // .fillEqually
         view.addSubview(titleLabelStackView)
         
         NSLayoutConstraint.activate([
@@ -74,7 +74,8 @@ extension InformationViewController {
             ReusableUIElements.createSkyTextField(placeholder: "Enter Weight", title: "Enter Weight", id: AllStrings.weight),
             ReusableUIElements.createSkyTextField(placeholder: "Enter Age", title: "Enter Age", id: AllStrings.age),
             ReusableUIElements.createSkyTextField(placeholder: "Enter Height", title: "Enter Height", id: AllStrings.height),
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Any Additional Information (Optional)", title: "Any Additional Information", id: AllStrings.additionalInfo)
+            ReusableUIElements.createSkyTextField(placeholder: "Enter Any Additional Information (Optional)", title: "Any Additional Information", id: AllStrings.additionalInfo),
+
         ]
     
         for (_, skyTextField) in skyTextFields.enumerated() {
@@ -87,10 +88,34 @@ extension InformationViewController {
         let skyTextFieldStackView = ReusableUIElements.createStackView(stackViewElements: skyTextFields, spacing: 0, distributionType: .equalSpacing)
         view.addSubview(skyTextFieldStackView)
         
+      /*  let skyTextFieldScrollView = UIScrollView()
+        skyTextFieldScrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(skyTextFieldScrollView)
+        
+        NSLayoutConstraint.activate([
+            skyTextFieldScrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            skyTextFieldScrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            skyTextFieldScrollView.bottomAnchor.constraint(equalTo: saveButton.topAnchor),
+            skyTextFieldScrollView.topAnchor.constraint(equalTo: titleLabelStackView.bottomAnchor),
+        ])
+        
+        skyTextFieldScrollView.addSubview(skyTextFieldStackView)
+        
+        NSLayoutConstraint.activate([
+            skyTextFieldStackView.trailingAnchor.constraint(equalTo: skyTextFieldScrollView.trailingAnchor),
+            skyTextFieldStackView.leadingAnchor.constraint(equalTo: skyTextFieldScrollView.leadingAnchor),
+            skyTextFieldStackView.bottomAnchor.constraint(equalTo: skyTextFieldScrollView.bottomAnchor),
+            skyTextFieldStackView.topAnchor.constraint(equalTo: skyTextFieldScrollView.topAnchor),
+            skyTextFieldStackView.widthAnchor.constraint(equalTo: skyTextFieldScrollView.widthAnchor),
+        ])
+    
+        skyTextFieldStackView.backgroundColor = .red
+        skyTextFieldScrollView.backgroundColor = .orange */
+        
         NSLayoutConstraint.activate([
             skyTextFieldStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            skyTextFieldStackView.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -30),
-            skyTextFieldStackView.topAnchor.constraint(equalTo: titleLabelStackView.bottomAnchor, constant: 30),
+            skyTextFieldStackView.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -20),
+            skyTextFieldStackView.topAnchor.constraint(equalTo: titleLabelStackView.bottomAnchor, constant: 20),
             skyTextFieldStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             skyTextFieldStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])

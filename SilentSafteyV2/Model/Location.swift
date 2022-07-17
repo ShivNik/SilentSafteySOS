@@ -53,7 +53,12 @@ class Location: NSObject, CLLocationManagerDelegate {
             
             print(address)
             
-            NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
+            if(AppDelegate.phoneCall.inCall) {
+                NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
+            }
+            
+            
+            // Reset array locationsRecieved
         
         }
     }

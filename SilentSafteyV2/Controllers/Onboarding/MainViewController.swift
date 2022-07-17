@@ -139,13 +139,6 @@ class MainViewController: UIViewController {
             }
             else {
                 AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
-                if(AppDelegate.location.checkAuthorization()) {
-                    print("authorizaed")
-                    AppDelegate.location.retrieveLocation()
-                }
-                else {
-                    print("denied/restricted")
-                }
             }
         }
         else {
@@ -154,14 +147,6 @@ class MainViewController: UIViewController {
     }
     @objc func tempFuncMain(notification: NSNotification) {
         AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
-        
-        if(AppDelegate.location.checkAuthorization()) {
-            print("authorizaed")
-            AppDelegate.location.retrieveLocation()
-        }
-        else {
-            print("denied/restricted")
-        }
         NotificationCenter.default.removeObserver(self)
     }
 }

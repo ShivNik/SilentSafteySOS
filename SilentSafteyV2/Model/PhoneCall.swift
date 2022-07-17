@@ -19,6 +19,7 @@ class PhoneCall: NSObject, CXProviderDelegate {
     var backgroundTaskID: UIBackgroundTaskIdentifier?
     var synthesizer: AVSpeechSynthesizer!
     var firstMessageRecieved = false
+    var inCall: Bool = false
     
     var messageArray: [String] = [] {
         willSet {
@@ -30,7 +31,7 @@ class PhoneCall: NSObject, CXProviderDelegate {
     }
     
     func initiatePhoneCall(number: Double) {
-        messageArray = []
+      //  messageArray = []
         firstMessageRecieved = false
         setupCallObserver()
         if let url = URL(string: "tel:\(4693555568)") {
@@ -73,8 +74,7 @@ extension PhoneCall : CXCallObserverDelegate {
 
         if call.hasEnded == true {
             print("CXCallState :Disconnected")
-            messageArray = []
-            firstMessageRecieved = false
+            inCall = false
             
             if(Response.stringTapped == "widget") {
                 Response.widgetResponse = false
@@ -83,23 +83,39 @@ extension PhoneCall : CXCallObserverDelegate {
                 Response.sosButtonResponse = false
             }
             Response.stringTapped = ""
+            
+            AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
+            
            /* if(!SceneDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinishedKey)) {
                 print("Endo")
                 NotificationCenter.default.post(name: .tutorialPhoneCallFinished, object: nil)
             } */
             
             UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-            self.backgroundTaskID = .invalid 
+            self.backgroundTaskID = .invalid
+            
+            messageArray = []
+            firstMessageRecieved = false
 
         }
         
         if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
+            inCall = true
+            
             if(Response.stringTapped == "widget") {
                 Response.widgetResponse = true
             }
             else if(Response.stringTapped == "sosButton"){
                 Response.sosButtonResponse = true
+            }
+            
+            if(AppDelegate.location.checkAuthorization()) {
+                print("authorizaed")
+                AppDelegate.location.retrieveLocation()
+            }
+            else {
+                print("denied/restricted")
             }
         }
         

@@ -41,7 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: scene)
         
         /// 3. Create a view hierarchy programmatically
-        let viewController = MainViewController()
+        let viewController = PreTestViewController()
         let navigation = UINavigationController(rootViewController: viewController)
         
       //  navigation.navigationBar.tintColor = .orange
@@ -135,13 +135,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             else {
                 AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
-                if(AppDelegate.location.checkAuthorization()) {
-                    print("authorizaed")
-                    AppDelegate.location.retrieveLocation()
-                }
-                else {
-                    print("denied/restricted")
-                }
             }
         } else {
             print("not executed widget 2")
@@ -159,14 +152,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     @objc func tempFunc(notification: NSNotification) {
         AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
-        
-        if(AppDelegate.location.checkAuthorization()) {
-            print("authorizaed")
-            AppDelegate.location.retrieveLocation()
-        }
-        else {
-            print("denied/restricted")
-        }
         NotificationCenter.default.removeObserver(self)
     }
 }
