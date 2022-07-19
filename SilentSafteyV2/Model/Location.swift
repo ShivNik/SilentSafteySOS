@@ -110,8 +110,8 @@ class Location: NSObject, CLLocationManagerDelegate {
             case .denied, .restricted:
                 print("denied, restricted")
                 delegate?.updateLocationLabel(text: "Type location in additional message - Permission Not Granted")
+                NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
             case .authorizedWhenInUse, .authorizedAlways:
-             //   NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
             
                 print("authorized")
                 checkPrecisionAccuracyAuthroization()

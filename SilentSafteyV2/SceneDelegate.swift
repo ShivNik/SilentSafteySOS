@@ -27,8 +27,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
             if let userActivity = connectionOptions.userActivities.first {
                 print("ConnectOptions \(userActivity.activityType)")
+                
                 AppDelegate.location.checkRequestPermission()
-                NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
+                
+                if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
+                    print("Not determined in scene continue user activity")
+                    
+                    NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
+                }
+                else {
+                    Response.stringTapped = "widget"
+                    AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+                }
             }
         } else {
             print("not executed widget 1")
@@ -41,7 +51,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: scene)
         
         /// 3. Create a view hierarchy programmatically
-        let viewController = PreTestViewController()
+        let viewController = MainViewController()
         let navigation = UINavigationController(rootViewController: viewController)
         
       //  navigation.navigationBar.tintColor = .orange
@@ -128,12 +138,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
             AppDelegate.location.checkRequestPermission()
+            
             if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
                 print("Not determined in scene continue user activity")
                 
                 NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
             }
             else {
+                Response.stringTapped = "widget"
                 AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
             }
         } else {
@@ -151,6 +163,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     @objc func tempFunc(notification: NSNotification) {
+        Response.stringTapped = "widget"
         AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
         NotificationCenter.default.removeObserver(self)
     }

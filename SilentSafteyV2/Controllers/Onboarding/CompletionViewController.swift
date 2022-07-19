@@ -14,14 +14,17 @@ class CompletionViewController: UIViewController {
 
         view.backgroundColor = .black
         
-        let labelsTwo = [ReusableUIElements.createLabel(fontSize: 50, text: "You're Done!") , ReusableUIElements.createLabel(fontSize: 31, text: "Set up your contacts and custom Messages")]
+        let labelsTwo = [
+            ReusableUIElements.createLabel(fontSize: 50, text: "You're Done!"),
+            ReusableUIElements.createLabel(fontSize: 31, text: "Set up your contacts and custom Messages")
+        ]
         
-        let stackView = ReusableUIElements.createStackView(stackViewElements: labelsTwo, spacing: 20, distributionType: .fillEqually)
+        let stackView = ReusableUIElements.createStackView(stackViewElements: labelsTwo, spacing: 20, distributionType: .fill)
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])

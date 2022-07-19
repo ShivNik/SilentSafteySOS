@@ -38,87 +38,151 @@ class InformationViewController: UIViewController {
 
 // MARK: -  UI Elements
 extension InformationViewController {
+    
     func createUI() {
         view.backgroundColor = .black
+      
+        
+        let window = UIApplication.shared.windows.first
+        let topPadding = window!.safeAreaInsets.top
+        let bottomPadding = window!.safeAreaInsets.bottom
         
         let safeArea = self.view.safeAreaLayoutGuide
 
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+        ])
+        
+        let uiView = UIStackView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(uiView)
+        
+        NSLayoutConstraint.activate([
+            uiView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            uiView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            uiView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            uiView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            uiView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+        
         // Create the Save Button
         let saveButton = ReusableUIElements.createButton(title: "Save")
-        view.addSubview(saveButton)
+        uiView.addSubview(saveButton)
         saveButton.addTarget(self, action:#selector(saveButtonAction), for: .touchUpInside)
         
-        ReusableUIElements.buttonConstraints(button: saveButton, safeArea: safeArea, bottomAnchorConstant: -20)
-        
+        NSLayoutConstraint.activate([
+            saveButton.widthAnchor.constraint(equalToConstant: 150),
+            saveButton.heightAnchor.constraint(equalToConstant: 50),
+            
+            saveButton.centerXAnchor.constraint(equalTo: uiView.centerXAnchor, constant: 0),
+            saveButton.bottomAnchor.constraint(equalTo: uiView.bottomAnchor, constant: CGFloat(-40))
+            
+        ])
         // Create the title Labels
         let titleLabels = [
-            ReusableUIElements.createLabel(fontSize: 30, text: "Step 1 information"),
-            ReusableUIElements.createLabel(fontSize: 20, text: "Enter your information. This will be sent to the police")
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "Step 1 information"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "Enter your information. This will be sent to the police")
         ]
     
         // Create and constraint the stack view that holds the title labels
         let titleLabelStackView = ReusableUIElements.createStackView(stackViewElements: titleLabels, spacing: 0, distributionType: .fillEqually) // .fillEqually
-        view.addSubview(titleLabelStackView)
+        titleLabelStackView.backgroundColor = .orange
+        uiView.addSubview(titleLabelStackView)
         
         NSLayoutConstraint.activate([
-            titleLabelStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 0),
-            titleLabelStackView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            titleLabelStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            titleLabelStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            titleLabelStackView.centerXAnchor.constraint(equalTo: uiView.centerXAnchor, constant: 0),
+            titleLabelStackView.topAnchor.constraint(equalTo: uiView.topAnchor),
+            titleLabelStackView.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 16),
+            titleLabelStackView.trailingAnchor.constraint(equalTo: uiView.trailingAnchor, constant: -16)
         ])
-    
+        titleLabelStackView.layoutIfNeeded()
+     //   print(titleLabelStackView.frame.size.height)
+     //   print(titleLabelStackView.frame.size.width)
+        
         // Create the skyTextFields for inputting information
+        
+        let enterNameSkyTextField = ReusableUIElements.createSkyTextField(placeholder: "Enter Name", title: "Enter Name", id: AllStrings.name)
+        
         skyTextFields = [
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Name", title: "Enter Name", id: AllStrings.name),
+            enterNameSkyTextField,
             ReusableUIElements.createSkyTextField(placeholder: "Enter Race", title: "Enter Race", id: AllStrings.race),
             ReusableUIElements.createSkyTextField(placeholder: "Enter Weight", title: "Enter Weight", id: AllStrings.weight),
             ReusableUIElements.createSkyTextField(placeholder: "Enter Age", title: "Enter Age", id: AllStrings.age),
             ReusableUIElements.createSkyTextField(placeholder: "Enter Height", title: "Enter Height", id: AllStrings.height),
             ReusableUIElements.createSkyTextField(placeholder: "Enter Any Additional Information (Optional)", title: "Any Additional Information", id: AllStrings.additionalInfo),
-
         ]
-    
+        
+     //   print(enterNameSkyTextField.frame.size.height)
+     //   print(enterNameSkyTextField.frame.size.width)
+        
         for (_, skyTextField) in skyTextFields.enumerated() {
             skyTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
             skyTextField.delegate = self
             skyTextField.returnKeyType = .done
         }
         
+    //    print("Variant \(enterNameSkyTextField.frame.size.height)")
         // Create the sky text field stack view and constrain it
-        let skyTextFieldStackView = ReusableUIElements.createStackView(stackViewElements: skyTextFields, spacing: 0, distributionType: .equalSpacing)
-        view.addSubview(skyTextFieldStackView)
+        let skyTextFieldStackView = ReusableUIElements.createStackView(stackViewElements: skyTextFields, spacing: 47, distributionType: .equalSpacing) // Change spacing based on some math
+        uiView.addSubview(skyTextFieldStackView)
         
-      /*  let skyTextFieldScrollView = UIScrollView()
-        skyTextFieldScrollView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(skyTextFieldScrollView)
+        skyTextFieldStackView.layoutIfNeeded()
+    //    print("Variant \(enterNameSkyTextField.frame.size.height)")
         
-        NSLayoutConstraint.activate([
-            skyTextFieldScrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            skyTextFieldScrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            skyTextFieldScrollView.bottomAnchor.constraint(equalTo: saveButton.topAnchor),
-            skyTextFieldScrollView.topAnchor.constraint(equalTo: titleLabelStackView.bottomAnchor),
-        ])
+        let navControllerHeight = navigationController?.navigationBar.frame.size.height ?? 0
+        let stackViewSpace = (view.frame.size.height - (topPadding + bottomPadding + navControllerHeight) - 130 - titleLabelStackView.frame.size.height)
+    //    print(stackViewSpace)
         
-        skyTextFieldScrollView.addSubview(skyTextFieldStackView)
+        let spacing = (stackViewSpace - (enterNameSkyTextField.frame.size.height * CGFloat(skyTextFields.count))) / CGFloat((skyTextFields.count - 1))
         
-        NSLayoutConstraint.activate([
-            skyTextFieldStackView.trailingAnchor.constraint(equalTo: skyTextFieldScrollView.trailingAnchor),
-            skyTextFieldStackView.leadingAnchor.constraint(equalTo: skyTextFieldScrollView.leadingAnchor),
-            skyTextFieldStackView.bottomAnchor.constraint(equalTo: skyTextFieldScrollView.bottomAnchor),
-            skyTextFieldStackView.topAnchor.constraint(equalTo: skyTextFieldScrollView.topAnchor),
-            skyTextFieldStackView.widthAnchor.constraint(equalTo: skyTextFieldScrollView.widthAnchor),
-        ])
+        print("spacing \(spacing)")
+        
+        if(spacing < 25) {
+            skyTextFieldStackView.spacing = 25
+        }
+        else {
+            skyTextFieldStackView.spacing = spacing
+        }
     
-        skyTextFieldStackView.backgroundColor = .red
-        skyTextFieldScrollView.backgroundColor = .orange */
-        
         NSLayoutConstraint.activate([
-            skyTextFieldStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            skyTextFieldStackView.centerXAnchor.constraint(equalTo: uiView.centerXAnchor),
             skyTextFieldStackView.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -20),
             skyTextFieldStackView.topAnchor.constraint(equalTo: titleLabelStackView.bottomAnchor, constant: 20),
-            skyTextFieldStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            skyTextFieldStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            skyTextFieldStackView.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 16),
+            skyTextFieldStackView.trailingAnchor.constraint(equalTo: uiView.trailingAnchor, constant: -16)
         ])
+        
+     /*   print(view.frame.size.height)
+        print(safeArea.layoutFrame.size.height)
+        
+        uiView.layoutIfNeeded()
+       // uiView.backgroundColor = .green
+        print(uiView.frame.size.height)
+        print(navigationController?.navigationBar.frame.size.height)
+        
+        let screenBounds = UIScreen.main.bounds
+        let width = screenBounds.width
+        let height = screenBounds.height
+        
+        print(height)
+        
+        skyTextFieldStackView.layoutIfNeeded()
+        print(skyTextFieldStackView.frame.size.height)
+        
+        scrollView.layoutIfNeeded()
+        uiView.layoutIfNeeded()
+        print(safeArea.layoutFrame.size.height) */
+        
+        
+        
+        
     }
     
     func displayExistingInformation() {
@@ -555,4 +619,38 @@ extension InformationViewController {
  }
 
  
+ */
+
+
+
+
+
+
+
+
+
+/*
+ /*  let skyTextFieldScrollView = UIScrollView()
+   skyTextFieldScrollView.translatesAutoresizingMaskIntoConstraints = false
+   view.addSubview(skyTextFieldScrollView)
+   
+   NSLayoutConstraint.activate([
+       skyTextFieldScrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+       skyTextFieldScrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+       skyTextFieldScrollView.bottomAnchor.constraint(equalTo: saveButton.topAnchor),
+       skyTextFieldScrollView.topAnchor.constraint(equalTo: titleLabelStackView.bottomAnchor),
+   ])
+   
+   skyTextFieldScrollView.addSubview(skyTextFieldStackView)
+   
+   NSLayoutConstraint.activate([
+       skyTextFieldStackView.trailingAnchor.constraint(equalTo: skyTextFieldScrollView.trailingAnchor),
+       skyTextFieldStackView.leadingAnchor.constraint(equalTo: skyTextFieldScrollView.leadingAnchor),
+       skyTextFieldStackView.bottomAnchor.constraint(equalTo: skyTextFieldScrollView.bottomAnchor),
+       skyTextFieldStackView.topAnchor.constraint(equalTo: skyTextFieldScrollView.topAnchor),
+       skyTextFieldStackView.widthAnchor.constraint(equalTo: skyTextFieldScrollView.widthAnchor),
+   ])
+
+   skyTextFieldStackView.backgroundColor = .red
+   skyTextFieldScrollView.backgroundColor = .orange */
  */
