@@ -15,6 +15,7 @@ class MainViewController: UIViewController {
     var stepOneLabel: UILabel!
     var accessLocationLabel: UILabel!
     var location: Location!
+    var messageTipsLabelText: NSMutableAttributedString!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,6 +98,8 @@ class MainViewController: UIViewController {
         
         uiView.addSubview(oneLabel)
         
+        messageTipsLabelText = myMutableString
+        
         NSLayoutConstraint.activate([
             oneLabel.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
             oneLabel.topAnchor.constraint(equalTo: uiView.topAnchor),
@@ -106,7 +109,9 @@ class MainViewController: UIViewController {
         
         accessLocationLabel = oneLabel
         
-        updateLocationLabel(text: "donda amigo")
+        AppDelegate.location.checkRequestPermission()
+        AppDelegate.location.delegate = self
+        AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
     }
 
     @objc func sendPressed() {
@@ -213,14 +218,15 @@ extension MainViewController {
 
 extension MainViewController: LocationProtocol {
     func updateLocationLabel(text: String) {
-
+        print(text)
         let newLineText = "\n" + text
         
         let myMutableString = NSMutableAttributedString(string: newLineText, attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
 
         myMutableString.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Georgia", size: 25), range: NSRange(location: 0, length: newLineText.count))
         
-        let existingTextMutable = NSMutableAttributedString(attributedString: accessLocationLabel.attributedText!)
+        let existingTextMutable = NSMutableAttributedString(attributedString: messageTipsLabelText)
+        
         existingTextMutable.append(myMutableString)
         
         accessLocationLabel.attributedText = existingTextMutable

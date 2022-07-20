@@ -51,13 +51,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: scene)
         
         /// 3. Create a view hierarchy programmatically
-        let viewController = MainViewController()
+        let viewController = IntroViewController()
         let navigation = UINavigationController(rootViewController: viewController)
         
-      //  navigation.navigationBar.tintColor = .orange
-      //  UIBarButtonItem(title: "title", style: .plain, target: self, action: nil)
+        navigation.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Test", style: .done, target: nil, action: nil)
+        navigation.navigationItem.rightBarButtonItem?.tintColor = .red
         
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .black
         
+        navigation.navigationBar.standardAppearance = standardAppearance
+        navigation.navigationBar.scrollEdgeAppearance = standardAppearance
+        
+
         /// 4. Set the root view controller of the window with your view controller
         window.rootViewController = navigation
         

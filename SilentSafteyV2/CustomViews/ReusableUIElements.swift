@@ -201,3 +201,27 @@ class ReusableUIElements {
         ])
     }
 }
+
+// MARK: -  Navigation Controller Methods
+extension ReusableUIElements {
+    static func createNavigationController(rootVC: UIViewController) -> UINavigationController {
+        let navigation = UINavigationController(rootViewController: rootVC)
+        
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .black
+        
+        navigation.navigationBar.standardAppearance = standardAppearance
+        navigation.navigationBar.scrollEdgeAppearance = standardAppearance
+        
+        return navigation
+    }
+    
+    static func addExitButton(navController: UINavigationController) {
+        navController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Exit", style: .plain, target: self, action: #selector(exitPressed))
+    }
+    
+    @objc func exitPressed(navController: UINavigationController ) {
+        print(navController)
+        navController.popToRootViewController(animated: true)
+    }
+}

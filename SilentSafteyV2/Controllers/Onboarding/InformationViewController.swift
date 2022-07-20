@@ -16,6 +16,8 @@ class InformationViewController: UIViewController {
         super.viewDidLoad()
         createUI()
         displayExistingInformation()
+
+        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
 
     @objc
@@ -42,7 +44,6 @@ extension InformationViewController {
     func createUI() {
         view.backgroundColor = .black
       
-        
         let window = UIApplication.shared.windows.first
         let topPadding = window!.safeAreaInsets.top
         let bottomPadding = window!.safeAreaInsets.bottom
@@ -93,7 +94,7 @@ extension InformationViewController {
     
         // Create and constraint the stack view that holds the title labels
         let titleLabelStackView = ReusableUIElements.createStackView(stackViewElements: titleLabels, spacing: 0, distributionType: .fillEqually) // .fillEqually
-        titleLabelStackView.backgroundColor = .orange
+       // titleLabelStackView.backgroundColor = .orange
         uiView.addSubview(titleLabelStackView)
         
         NSLayoutConstraint.activate([

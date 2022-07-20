@@ -57,9 +57,8 @@ class Location: NSObject, CLLocationManagerDelegate {
                 NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
             }
             
-            
             // Reset array locationsRecieved
-        
+            self.locationsRecieved = []
         }
     }
     

@@ -17,6 +17,8 @@ class TestViewController: UIViewController {
         self.setupToHideKeyboardOnTapOnView()
         createUI()
         textView.returnKeyType = .send
+        
+        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func createUI() {

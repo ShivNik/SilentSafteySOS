@@ -35,15 +35,24 @@ class CompletionViewController: UIViewController {
         button.addTarget(self, action: #selector(finishTutorialPressed), for: .touchUpInside)
         view.addSubview(button)
         ReusableUIElements.buttonConstraints(button: button, safeArea: safeArea, bottomAnchorConstant: -40)
+        
+        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     @objc func finishTutorialPressed() {
         AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
-        self.navigationController?.dismiss(animated: false, completion: nil)
         
-        let newNavController = UINavigationController(rootViewController:  MainViewController())
+        self.navigationController?.dismiss(animated: true, completion: nil)
+
+        let viewController = MainViewController()
+        let navigation = UINavigationController(rootViewController: viewController)
         
-        self.present(newNavController, animated: true, completion: nil)
+        UIApplication.shared.keyWindow?.rootViewController = navigation
+           
+        
+      /*  let newNavController = UINavigationController(rootViewController:  MainViewController())
+        
+        self.present(newNavController, animated: true, completion: nil) */
     }
     
 

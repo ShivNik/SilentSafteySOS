@@ -37,16 +37,7 @@ class PhoneCall: NSObject, CXProviderDelegate {
         if let url = URL(string: "tel:\(4693555568)") {
             UIApplication.shared.open(url) { opened in
                 if opened {
-                    
-                    self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "CallObserver") {
-                        
-                        if self.backgroundTaskID != nil {
-                            
-                            UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-                            self.backgroundTaskID = .invalid
-        
-                        }
-                    }
+                
                 }
             }
         }
@@ -86,14 +77,15 @@ extension PhoneCall : CXCallObserverDelegate {
             
             AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
             
+            
            /* if(!SceneDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinishedKey)) {
                 print("Endo")
                 NotificationCenter.default.post(name: .tutorialPhoneCallFinished, object: nil)
             } */
             
-            UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-            self.backgroundTaskID = .invalid
-            
+           /* UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+            self.backgroundTaskID = .invalid */ 
+             
             messageArray = []
             firstMessageRecieved = false
 
@@ -101,6 +93,14 @@ extension PhoneCall : CXCallObserverDelegate {
         
         if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
+            
+            self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "CallObserver") {
+                if self.backgroundTaskID != nil {
+                    UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+                    self.backgroundTaskID = .invalid
+                }
+            }
+            
             inCall = true
             
             if(Response.stringTapped == "widget") {

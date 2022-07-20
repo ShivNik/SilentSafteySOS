@@ -14,9 +14,18 @@ class PreTestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .brown
+        
+      //  self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Exit", style: .plain, target: self, action: #selector(MainViewController.exitPressed))
+    //    ReusableUIElements.addExitButton(navController: self.navigationController!)
      //   self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .done, target: nil, action: nil)
         print("rains it pours")
         createUI()
+        
+        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+    }
+    
+    @objc func exitPressed() {
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func createUI() {

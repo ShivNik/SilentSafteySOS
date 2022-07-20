@@ -25,12 +25,15 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
+        
     }
     
     func createUI() {        
         view.backgroundColor = .black
 
         let safeArea = view.safeAreaLayoutGuide
+        
+        print(navigationController?.navigationItem)
        
         // Get Started Button
         let getStartedButton = ReusableUIElements.createButton(title: "Get Started!")
