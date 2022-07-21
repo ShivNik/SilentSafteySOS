@@ -120,30 +120,7 @@ class MainViewController: UIViewController {
         
     }
     @objc func sosButtonPressed() {
-      //  AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
-        print("sos button rpessed")
-        if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
-            AppDelegate.location.checkRequestPermission()
-            
-            if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
-                print("Not determined in scene continue user activity")
-                
-                NotificationCenter.default.addObserver(self, selector: #selector(tempFuncMain(notification:)), name: .locationAuthorizationGiven, object: nil)
-            }
-            else {
-                Response.stringTapped = "sosButton"
-                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
-            }
-        }
-        else {
-            print("not executed sos button")
-        } 
-    }
-    
-    @objc func tempFuncMain(notification: NSNotification) {
-        Response.stringTapped = "sosButton"
-        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
-        NotificationCenter.default.removeObserver(self) 
+        AppDelegate.response.completeResponse()
     }
 }
 

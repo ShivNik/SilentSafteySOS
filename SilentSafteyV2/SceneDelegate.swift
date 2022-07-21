@@ -15,33 +15,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
     var location: Location!
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
-      //  print("scene delegate willconnectooptions")
+        
         guard let scene = (scene as? UIWindowScene) else { return }
         
-    //    AppDelegate.location.checkRequestPermission()
-       
-        if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
-            if let userActivity = connectionOptions.userActivities.first {
-                print("ConnectOptions \(userActivity.activityType)")
-                
-                AppDelegate.location.checkRequestPermission()
-                
-                if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
-                    print("Not determined in scene continue user activity")
-                    
-                    NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
-                }
-                else {
-                    Response.stringTapped = "widget"
-                    AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
-                }
-            }
-        } else {
-            print("not executed widget 1")
+        if let userActivity = connectionOptions.userActivities.first {
+            AppDelegate.response.completeResponse()
         }
         
         let window = UIWindow(windowScene: scene)
@@ -105,40 +84,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
         print(userActivity.activityType)
         print("scene delegate continue suera activty")
-        // AppDelegate.location.checkAuthorization()
-        
-        if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
-            AppDelegate.location.checkRequestPermission()
-            
-            if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
-                print("Not determined in scene continue user activity")
-                
-                NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
-            }
-            else {
-                Response.stringTapped = "widget"
-                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
-            }
-        } else {
-            print("not executed widget 2")
-        }
-        
-       // NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil)
-        
-       /* location = Location()
-        location.checkRequestPermission()
     
-        NotificationCenter.default.addObserver(self, selector: #selector(tempFunc(notification:)), name: .locationAuthorizationGiven, object: nil) */ 
-        
-        // location.retrieveLocation()
+        AppDelegate.response.completeResponse()
     }
-    
-    @objc func tempFunc(notification: NSNotification) {
-        Response.stringTapped = "widget"
-        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
-        NotificationCenter.default.removeObserver(self)
-    }
-    
+
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         
         viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -146,8 +95,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
             let vcType = type(of: viewController)
             print("Scene Delegate \(viewController)")
-           // print("VC Git \(vcType)")
-            
+        
             let vcValid = (vcType == MainViewController.self) || (vcType == SettingsViewController.self) || (vcType == ContactViewController.self)
             
             if(!vcValid) {
@@ -160,8 +108,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
     }
     
     @objc func exitPressed(sender: CustomBarButtonItem) {
-        print("exit pressed")
-        print(sender.title)
+        print("Exist pressed")
         sender.navController?.popToRootViewController(animated: true)
     }
 }

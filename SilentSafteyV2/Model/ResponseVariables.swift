@@ -7,8 +7,32 @@
 
 import Foundation
 
-struct Response {
+class Response {
     static var widgetResponse: Bool = false
     static var sosButtonResponse: Bool = false
     static var stringTapped: String = ""
+    
+    static var responseActive: Bool = false
+    
+    func completeResponse() {
+        if(!Response.responseActive) {
+            AppDelegate.location.checkRequestPermission()
+            
+            if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
+                print("set up notification")
+                
+                NotificationCenter.default.addObserver(self, selector: #selector(tempFuncMain(notification:)), name: .locationAuthorizationGiven, object: nil)
+            }
+            else {
+                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
+            }
+        } else {
+            print("no executed response")
+        }
+    }
+    
+    @objc func tempFuncMain(notification: NSNotification) {
+        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
+        NotificationCenter.default.removeObserver(self)
+    }
 }

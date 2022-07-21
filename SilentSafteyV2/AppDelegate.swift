@@ -14,14 +14,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static let userDefaults = UserDefaults.standard
     static let location = Location()
     static let phoneCall = PhoneCall()
-    static let validation = TextFieldValidation() 
+    static let validation = TextFieldValidation()
+    static let response = Response() 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         AppDelegate.phoneCall.createSynthesizer()
         AppDelegate.phoneCall.setUpObservers()
-       // AppDelegate.location.checkRequestPermission()
-        print("did finish launching with options")
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false

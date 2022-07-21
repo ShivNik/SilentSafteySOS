@@ -57,13 +57,7 @@ extension PhoneCall : CXCallObserverDelegate {
             print("CXCallState :Disconnected")
             inCall = false
             
-            if(Response.stringTapped == "widget") {
-                Response.widgetResponse = false
-            }
-            else if(Response.stringTapped == "sosButton"){
-                Response.sosButtonResponse = false
-            }
-            Response.stringTapped = ""
+            Response.responseActive = false
             
             AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
             
@@ -95,14 +89,8 @@ extension PhoneCall : CXCallObserverDelegate {
             
             inCall = true
         
-            
-            if(Response.stringTapped == "widget") {
-                Response.widgetResponse = true
-            }
-            else if(Response.stringTapped == "sosButton"){
-                Response.sosButtonResponse = true
-            }
-            
+            Response.responseActive = true
+    
             if(AppDelegate.location.checkAuthorization()) {
                 print("authorizaed")
                 AppDelegate.location.retrieveLocation()
@@ -129,7 +117,6 @@ extension PhoneCall : CXCallObserverDelegate {
     
     func createSynthesizer() {
         print("create synthesizers")
-        
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: .duckOthers)
         
         do {
