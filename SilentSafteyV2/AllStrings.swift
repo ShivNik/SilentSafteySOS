@@ -17,4 +17,5 @@ struct AllStrings {
     static let height = "height"
     static let additionalInfo = "additionalInfo"
     static let tutorialFinished = "tutorialFinished"
+    static let phoneNumber = "phoneNumber"
 }

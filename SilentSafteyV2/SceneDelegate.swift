@@ -46,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
         
         let window = UIWindow(windowScene: scene)
         
-        AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
+        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
         
         let viewController: UIViewController?
         
@@ -148,15 +148,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         
         viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-     /*   let vcType = type(of: viewController)
-        if(vcType != MainViewController.self || vcType != SettingsViewController.self) {
-            
-            let exitBarButton = CustomBarButtonItem(title: "Exit", style: .plain, target: self, action: #selector(exitPressed(sender:)))
-            exitBarButton.navController = navigationController
-            
-            viewController.navigationItem.rightBarButtonItem = exitBarButton
-        } */
         
+        if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
+            let vcType = type(of: viewController)
+            print("Scene Delegate \(viewController)")
+           // print("VC Git \(vcType)")
+            
+            let vcValid = (vcType == MainViewController.self) || (vcType == SettingsViewController.self) || (vcType == ContactViewController.self)
+            
+            if(!vcValid) {
+                 let exitBarButton = CustomBarButtonItem(title: "Exit", style: .plain, target: self, action: #selector(exitPressed(sender:)))
+                 exitBarButton.navController = navigationController
+                 
+                 viewController.navigationItem.rightBarButtonItem = exitBarButton
+            }
+        }
     }
     
     @objc func exitPressed(sender: CustomBarButtonItem) {

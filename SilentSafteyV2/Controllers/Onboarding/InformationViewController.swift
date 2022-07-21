@@ -36,6 +36,19 @@ class InformationViewController: UIViewController {
                 AppDelegate.userDefaults.set(trimmed, forKey: skyTextField.accessibilityIdentifier!)
             }
         }
+        
+        if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
+            if let vcLength = navigationController?.viewControllers.count {
+                print(vcLength)
+                let vc = (navigationController?.viewControllers[vcLength - 2])!
+                let vcType = type(of: vc)
+                
+                if(vcType.self == SettingsViewController.self) {
+                    self.navigationController?.popToRootViewController(animated: true)
+                    return
+                }
+            }
+        }
 
         if(allValid) {
             self.navigationController?.pushViewController(WidgetDirectionViewController(), animated: true)
