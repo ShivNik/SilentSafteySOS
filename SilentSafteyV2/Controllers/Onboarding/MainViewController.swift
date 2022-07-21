@@ -133,7 +133,7 @@ class MainViewController: UIViewController {
             }
             else {
                 Response.stringTapped = "sosButton"
-                AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
             }
         }
         else {
@@ -143,7 +143,7 @@ class MainViewController: UIViewController {
     
     @objc func tempFuncMain(notification: NSNotification) {
         Response.stringTapped = "sosButton"
-        AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
         NotificationCenter.default.removeObserver(self)
     }
 }

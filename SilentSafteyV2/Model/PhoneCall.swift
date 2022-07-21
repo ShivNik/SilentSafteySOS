@@ -30,11 +30,12 @@ class PhoneCall: NSObject, CXProviderDelegate {
         }
     }
     
-    func initiatePhoneCall(number: Double) {
+    func initiatePhoneCall(phoneNumber: String) {
       //  messageArray = []
         firstMessageRecieved = false
         setupCallObserver()
-        if let url = URL(string: "tel:\(4693555568)") {
+        
+        if let url = URL(string: ("tel:" + phoneNumber)) {
             UIApplication.shared.open(url) { opened in
                 if opened {
                 

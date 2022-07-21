@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static let userDefaults = UserDefaults.standard
     static let location = Location()
     static let phoneCall = PhoneCall()
+    static let validation = TextFieldValidation() 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         

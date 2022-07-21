@@ -18,6 +18,7 @@ class WidgetDirectionViewController: UIViewController {
     
     var getStartedButton: UIButton!
     var collectionView: UICollectionView!
+    
     var currentPage = 0 {
         didSet {
             pageControl.currentPage = currentPage
@@ -33,7 +34,6 @@ class WidgetDirectionViewController: UIViewController {
         super.viewDidLoad()
         createUI()
         
-        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     func createUI() {
@@ -41,18 +41,18 @@ class WidgetDirectionViewController: UIViewController {
         
         let safeArea = view.safeAreaLayoutGuide
        
-        // Get Started Button
-        getStartedButton = ReusableUIElements.createButton(title: "Continue")
+        // Create and Constrain Next Button
+        getStartedButton = ReusableUIElements.createButton(title: "Next")
         view.addSubview(getStartedButton)
-        getStartedButton.addTarget(self, action:#selector(getStartedButtonAction), for: .touchUpInside)
+        getStartedButton.addTarget(self, action:#selector(nextButtonPressed), for: .touchUpInside)
         ReusableUIElements.buttonConstraints(button: getStartedButton, safeArea: safeArea, bottomAnchorConstant: -40)
          
-        // Create Page Control
+        // Create and Constrain Page Control
         pageControl = ReusableUIElements.createPageControl()
         view.addSubview(pageControl)
         ReusableUIElements.pageControlConstraints(pageControl: pageControl, safeArea: safeArea, getStartedButton: getStartedButton)
         
-        // Create Collection-View
+        // Create and Constrain Collection-View
         collectionView = ReusableUIElements.createCollectionView()
         view.addSubview(collectionView)
         
@@ -62,8 +62,8 @@ class WidgetDirectionViewController: UIViewController {
         ReusableUIElements.collectionViewConstraints(collectionView: collectionView, safeArea: safeArea, pageControl: pageControl)
     }
     
-    @objc
-    func getStartedButtonAction(button: UIButton) {
+    
+    @objc func nextButtonPressed(button: UIButton) {
         if currentPage == onboardingObjects.count - 1 {
             self.navigationController?.pushViewController(PreTestViewController(), animated: true)
        } else {
@@ -77,21 +77,25 @@ class WidgetDirectionViewController: UIViewController {
 // MARK: -  Create Cells
 extension WidgetDirectionViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    // Number of Cells
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 3
     }
+    
+    // Create Cell
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnboardingCollectionViewCell.identifier, for: indexPath) as! OnboardingCollectionViewCell
         
         cell.configure(onboardingObject: onboardingObjects[indexPath.row])
         return cell
     }
-    
+    // Return Cell Size
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
     
+    // Update Current Page
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let width = scrollView.frame.width
         currentPage = Int(scrollView.contentOffset.x / width)

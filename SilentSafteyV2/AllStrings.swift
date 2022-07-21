@@ -11,10 +11,10 @@ struct AllStrings {
     // User-Default Keys
     static let name = "name"
     static let race = "race"
+    static let gender = "gender"
     static let weight = "weight"
     static let age = "age"
     static let height = "height"
     static let additionalInfo = "additionalInfo"
     static let tutorialFinished = "tutorialFinished"
-  
 }

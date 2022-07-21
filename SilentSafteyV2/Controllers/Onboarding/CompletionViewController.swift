@@ -46,13 +46,9 @@ class CompletionViewController: UIViewController {
 
         let viewController = MainViewController()
         let navigation = UINavigationController(rootViewController: viewController)
+        navigation.delegate = self.view.window!.windowScene!.delegate as! UINavigationControllerDelegate
         
         UIApplication.shared.keyWindow?.rootViewController = navigation
-           
-        
-      /*  let newNavController = UINavigationController(rootViewController:  MainViewController())
-        
-        self.present(newNavController, animated: true, completion: nil) */
     }
     
 

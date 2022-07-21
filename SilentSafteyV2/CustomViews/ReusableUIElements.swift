@@ -10,11 +10,12 @@ import UIKit
 import SkyFloatingLabelTextField
 
 class ReusableUIElements {
-    static let titleFontSize = 30
-    static let descriptionFontSize = 20
+    static let titleFontSize = 25
+    static let descriptionFontSize = 15
     
     static func createButton(title: String) -> UIButton {
         let button = UIButton()
+        
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .systemRed
         button.setTitle(title, for: .normal)
@@ -39,8 +40,9 @@ class ReusableUIElements {
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         
         pageControl.currentPageIndicatorTintColor = .red
-        pageControl.tintColor = .blue
+        pageControl.pageIndicatorTintColor = .darkGray
         pageControl.numberOfPages = 3
+        pageControl.isUserInteractionEnabled = false
         
         return pageControl
     }

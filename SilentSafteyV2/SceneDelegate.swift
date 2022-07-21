@@ -9,7 +9,7 @@ import UIKit
 import MediaPlayer
 import os
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerDelegate {
 
     var window: UIWindow?
     var location: Location!
@@ -37,67 +37,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 }
                 else {
                     Response.stringTapped = "widget"
-                    AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+                    AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
                 }
             }
         } else {
             print("not executed widget 1")
         }
         
-        /// 1. Capture the scene
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        /// 2. Create a new UIWindow using the windowScene constructor which takes in a window scene.
         let window = UIWindow(windowScene: scene)
         
-        /// 3. Create a view hierarchy programmatically
-        let viewController = IntroViewController()
-        let navigation = UINavigationController(rootViewController: viewController)
+        AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
         
-        navigation.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Test", style: .done, target: nil, action: nil)
-        navigation.navigationItem.rightBarButtonItem?.tintColor = .red
+        let viewController: UIViewController?
+        
+        if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
+            viewController = MainViewController()
+        } else {
+            viewController = IntroViewController()
+        }
+        
+        let navController = UINavigationController(rootViewController: viewController!)
+        navController.delegate = self
         
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.backgroundColor = .black
         
-        navigation.navigationBar.standardAppearance = standardAppearance
-        navigation.navigationBar.scrollEdgeAppearance = standardAppearance
-        
+        navController.navigationBar.standardAppearance = standardAppearance
+        navController.navigationBar.scrollEdgeAppearance = standardAppearance
 
-        /// 4. Set the root view controller of the window with your view controller
-        window.rootViewController = navigation
+        window.rootViewController = navController
         
-        /// 5. Set the window and call makeKeyAndVisible()
         self.window = window
         window.makeKeyAndVisible()
-        
-      /*  window = UIWindow(windowScene: scene)
-        let introVC = TestViewController() // Change this bac
-        window?.rootViewController = introVC
-        window?.makeKeyAndVisible() */
-        
-        
-   /*     window = UIWindow(windowScene: scene)
-        window?.makeKeyAndVisible()
-        
-       // print("the phone")
-
-        
-        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
-        
-        let navController = UINavigationController()
-        navController.navigationBar.barTintColor = .black
-        navController.navigationBar.isTranslucent = false
-        
-        if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
-            navController.addChild(MainViewController())
-            window?.rootViewController = navController
-        } else {
-            
-            navController.addChild(IntroViewController())
-            navController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-            window?.rootViewController = navController
-        } */
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -152,7 +123,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             }
             else {
                 Response.stringTapped = "widget"
-                AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
             }
         } else {
             print("not executed widget 2")
@@ -170,8 +141,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     @objc func tempFunc(notification: NSNotification) {
         Response.stringTapped = "widget"
-        AppDelegate.phoneCall.initiatePhoneCall(number: 1231242)
+        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        
+        viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+     /*   let vcType = type(of: viewController)
+        if(vcType != MainViewController.self || vcType != SettingsViewController.self) {
+            
+            let exitBarButton = CustomBarButtonItem(title: "Exit", style: .plain, target: self, action: #selector(exitPressed(sender:)))
+            exitBarButton.navController = navigationController
+            
+            viewController.navigationItem.rightBarButtonItem = exitBarButton
+        } */
+        
+    }
+    
+    @objc func exitPressed(sender: CustomBarButtonItem) {
+        print("exit pressed")
+        print(sender.title)
+        sender.navController?.popToRootViewController(animated: true)
     }
 }
 
+class CustomBarButtonItem: UIBarButtonItem {
+    var navController: UINavigationController?
+}
