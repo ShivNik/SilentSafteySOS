@@ -9,7 +9,15 @@ import UIKit
 
 class IntroViewController: UIViewController {
 
-    var pageControl: UIPageControl!
+    let pageControl: UIPageControl = {
+       return ReusableUIElements.createPageControl()
+    }()
+    
+    var currentPage = 0 {
+        didSet {
+            pageControl.currentPage = currentPage
+        }
+    }
     
     let onboardingObjects = [
         OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Automated SOS Calling", description: "Automatically call 911 with an automated bot in a situation where you can't talk on the phone with the tap of a button"),
@@ -19,12 +27,6 @@ class IntroViewController: UIViewController {
         OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Automated SMS For the kids Messaging", description: "Use your voice to send customizable messages to emergency contacts when you can't reach your phone. Very useful!")
     ]
     
-    var currentPage = 0 {
-        didSet {
-            pageControl.currentPage = currentPage
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
@@ -32,27 +34,23 @@ class IntroViewController: UIViewController {
     
     func createUI() {        
         view.backgroundColor = .black
-
         let safeArea = view.safeAreaLayoutGuide
     
-        // Create Get Started Button and Constraints
+        // Get Started Button
         let getStartedButton = ReusableUIElements.createButton(title: "Get Started!")
-        view.addSubview(getStartedButton)
         getStartedButton.addTarget(self, action:#selector(getStartedButtonPressed), for: .touchUpInside)
+        view.addSubview(getStartedButton)
         ReusableUIElements.buttonConstraints(button: getStartedButton, safeArea: safeArea, bottomAnchorConstant: -40)
          
-        // Create Page Control and Constraints
-        pageControl = ReusableUIElements.createPageControl()
+        // Page Control
         view.addSubview(pageControl)
         ReusableUIElements.pageControlConstraints(pageControl: pageControl, safeArea: safeArea, getStartedButton: getStartedButton)
         
-        // Create Collection-View and Constraints
+        // Collection View
         let collectionView = ReusableUIElements.createCollectionView()
         view.addSubview(collectionView)
-        
         collectionView.dataSource = self
         collectionView.delegate = self
-        
         ReusableUIElements.collectionViewConstraints(collectionView: collectionView, safeArea: safeArea, pageControl: pageControl)
     }
     

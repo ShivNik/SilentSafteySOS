@@ -79,7 +79,7 @@ class TestViewController: UIViewController {
         mainButtonPressed = true
         stepOneLabel.text = "2. Type an Additional Message and Tap the Send Button"
         
-        if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
+      /*  if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
             AppDelegate.location.checkRequestPermission()
             
             if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
@@ -94,14 +94,14 @@ class TestViewController: UIViewController {
         }
         else {
             print("not executed sos button")
-        }
+        } */
     }
     
-    @objc func tempFuncMain(notification: NSNotification) {
+  /*  @objc func tempFuncMain(notification: NSNotification) {
         Response.stringTapped = "sosButton"
         AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: testPhoneNumber)
         NotificationCenter.default.removeObserver(self)
-    }
+    } */ 
 }
 
 // MARK: -  Text View Delegate Methods

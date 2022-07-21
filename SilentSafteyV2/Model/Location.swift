@@ -11,20 +11,25 @@ import CoreLocation
 protocol LocationProtocol {
     func updateLocationLabel(text: String)
 }
+
 class Location: NSObject, CLLocationManagerDelegate {
     
-    var locationManager: CLLocationManager!
+    let locationManager: CLLocationManager = {
+        
+        let locMan = CLLocationManager()
+        locMan.desiredAccuracy = kCLLocationAccuracyBest // KCLLocationAccuracyNavigationBest
+        locMan.allowsBackgroundLocationUpdates = true
+        locMan.showsBackgroundLocationIndicator = true
+        
+        return locMan
+    }()
+    
     var delegate: LocationProtocol?
     var locationsRecieved: [LocationObject] = []
     
     override init() {
         super.init()
-        
-        locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest // KCLLocationAccuracyNavigationBest
-         locationManager.allowsBackgroundLocationUpdates = true
-         locationManager.showsBackgroundLocationIndicator = true
     }
     
     func checkRequestPermission() {
@@ -40,24 +45,32 @@ class Location: NSObject, CLLocationManagerDelegate {
             print("10 seconds after")
             self.locationManager.stopUpdatingLocation()
 
-            var optimalLocation = 0
-            for i in 0..<self.locationsRecieved.count {
-                if self.locationsRecieved[optimalLocation].horizontalAccuracy > self.locationsRecieved[i].horizontalAccuracy {
-                    optimalLocation = i
+            if(AppDelegate.phoneCall.inCall) {
+                if(self.locationsRecieved.count != 0) {
+                    
+                    var optimalLocationIndex = 0
+                    for i in 0..<self.locationsRecieved.count {
+                        if self.locationsRecieved[optimalLocationIndex].horizontalAccuracy > self.locationsRecieved[i].horizontalAccuracy {
+                            optimalLocationIndex = i
+                        }
+                    }
+                    
+                    let optimalLocation = self.locationsRecieved[optimalLocationIndex]
+                    let optimalLocationPlacemark = optimalLocation.placemark
+                    
+                    if let streetNumber = optimalLocationPlacemark.subThoroughfare, let streetName = optimalLocationPlacemark.thoroughfare, let city = optimalLocationPlacemark.locality {
+                        
+                        let address = "My Location is \(streetNumber) \(streetName) \(city) within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
+                        print(address)
+                        
+                        
+                        NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
+                    }
+                } else {
+                    self.delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
                 }
             }
-            
-            let optionalLocationObject = self.locationsRecieved[optimalLocation].placemark
-            
-            let address = "My Location is " + "\(optionalLocationObject.subThoroughfare!) \(optionalLocationObject.thoroughfare!) \(optionalLocationObject.locality!) within \(Int(self.locationsRecieved[optimalLocation].horizontalAccuracy)) meters of Accuracy"
-            
-            print(address)
-            
-            if(AppDelegate.phoneCall.inCall) {
-                NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
-            }
-            
-            // Reset array locationsRecieved
+        
             self.locationsRecieved = []
         }
     }
@@ -76,26 +89,25 @@ class Location: NSObject, CLLocationManagerDelegate {
                 
                 if error == nil {
                     
-                    let locObj = LocationObject(horizontalAccuracy: location.horizontalAccuracy, placemark: placemarks![0])
-                    self.locationsRecieved.append(locObj)
-                    
-                    print("Number of placemarks \(placemarks!.count)")
-                    
-                    let pm = placemarks![0]
-                    let address = "My Location is " + "\(pm.subThoroughfare!) \(pm.thoroughfare!) \(pm.locality!) within \(Double(location.horizontalAccuracy)) meters of Accuracy"
-                    
-                    print(address)
-                
-                }
-                else {
-                    self.delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
+                    guard let place = placemarks?.first else {
+                        return
+                    }
+
+                    if let streetNumber = place.subThoroughfare, let streetName = place.thoroughfare, let city = place.locality {
+                        
+                        let address = "My Location is \(streetNumber) \(streetName) \(city) within \(Int(location.horizontalAccuracy)) meters of Accuracy"
+                        print(address)
+                        
+                        let locObj = LocationObject(horizontalAccuracy: location.horizontalAccuracy, placemark: place)
+                        self.locationsRecieved.append(locObj)
+                        
+                    }
                 }
             })
         }
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        //    locationManager.requestLocation()
         print("Location Manager did fail with error")
         delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
         print(error)
@@ -113,7 +125,7 @@ class Location: NSObject, CLLocationManagerDelegate {
             case .authorizedWhenInUse, .authorizedAlways:
             
                 print("authorized")
-                checkPrecisionAccuracyAuthroization()
+                checkPrecisionAccuracyAuthorization()
             default:
                 print("not determiend")
                 delegate?.updateLocationLabel(text: "Location Services Enabled Not Determined")
@@ -121,7 +133,7 @@ class Location: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func checkPrecisionAccuracyAuthroization() {
+    func checkPrecisionAccuracyAuthorization() {
         switch locationManager.accuracyAuthorization {
             case .reducedAccuracy:
                 print("reduced accuracy")
@@ -147,35 +159,3 @@ class Location: NSObject, CLLocationManagerDelegate {
 
 
 
-
-/* print(pm.country)
- print(pm.locality)
- print(pm.subLocality)
- print(pm.thoroughfare)
- print(pm.postalCode)
- print(pm.subThoroughfare) */
- 
-/*  print(pm.name) // Not really sure
- print(pm.isoCountryCode)
- print(pm.country)
- print(pm.postalCode)
- print(pm.administrativeArea) // State/Province
- print(pm.subAdministrativeArea) // County
- print(pm.locality) // City
- print(pm.subLocality) // name of the neighborhood or landmark associated with the placemark. It might also refer to a common name that’s associated with the location.
- print(pm.thoroughfare) // Street name
- print(pm.subThoroughfare) //  street number for the location
- print(pm.postalAddress)
- 
- let formatter = CNPostalAddressFormatter()
- print(formatter.string(from: pm.postalAddress!)) */
-
-
-/*   print(location.coordinate.latitude)
-   print(location.coordinate.longitude)
-   print("Accuracy \(location.horizontalAccuracy)") */
-
-
-/*func setUpLocation()  {
-    checkLocationAuthorization()
-} */

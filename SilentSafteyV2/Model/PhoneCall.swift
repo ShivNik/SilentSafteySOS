@@ -11,10 +11,8 @@ import AVFoundation
 import AVFAudio
 import WidgetKit
 
-class PhoneCall: NSObject, CXProviderDelegate {
-    
-    private var provider: CXProvider!
-    private var callController: CXCallController!
+class PhoneCall: NSObject {
+
     var callObserver: CXCallObserver!
     var backgroundTaskID: UIBackgroundTaskIdentifier?
     var synthesizer: AVSpeechSynthesizer!
@@ -42,18 +40,8 @@ class PhoneCall: NSObject, CXProviderDelegate {
                 }
             }
         }
-
-    }
-    
-    func providerDidReset(_ provider: CXProvider) {
-        
-    }
-
-    func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
-        action.fulfill()
     }
 }
-
 
 extension PhoneCall : CXCallObserverDelegate {
     
@@ -63,7 +51,8 @@ extension PhoneCall : CXCallObserverDelegate {
     }
     
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-
+        print("called")
+        print(call)
         if call.hasEnded == true {
             print("CXCallState :Disconnected")
             inCall = false
@@ -78,6 +67,8 @@ extension PhoneCall : CXCallObserverDelegate {
             
             AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
             
+            AppDelegate.location.locationManager.stopUpdatingLocation()
+            
             
            /* if(!SceneDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinishedKey)) {
                 print("Endo")
@@ -85,14 +76,14 @@ extension PhoneCall : CXCallObserverDelegate {
             } */
             
            /* UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-            self.backgroundTaskID = .invalid */ 
+            self.backgroundTaskID = .invalid */
              
             messageArray = []
             firstMessageRecieved = false
+            
+            print("in call? \(inCall)")
 
-        }
-        
-        if call.isOutgoing == true && call.hasConnected == false {
+        } else if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
             
             self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "CallObserver") {
@@ -103,6 +94,7 @@ extension PhoneCall : CXCallObserverDelegate {
             }
             
             inCall = true
+        
             
             if(Response.stringTapped == "widget") {
                 Response.widgetResponse = true
@@ -118,9 +110,8 @@ extension PhoneCall : CXCallObserverDelegate {
             else {
                 print("denied/restricted")
             }
-        }
-        
-        if call.hasConnected == true && call.hasEnded == false {
+            
+        } else if call.hasConnected == true && call.hasEnded == false {
             print("connected")
             let firstMessage = "Hello. My name is Shivansh Nikhra and I'm really good at soccer"
             messageArray.insert(firstMessage, at: 0)
@@ -130,9 +121,7 @@ extension PhoneCall : CXCallObserverDelegate {
             }
             
             firstMessageRecieved = true
-        }
-        
-        if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
+        } else if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
             print("CXCallState :Incoming")
         }
 
@@ -140,11 +129,10 @@ extension PhoneCall : CXCallObserverDelegate {
     
     func createSynthesizer() {
         print("create synthesizers")
+        
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: .duckOthers)
         
         do {
-            // 1) Configure your audio session category, options, and mode
-            // 2) Activate your audio session to enable your custom configuration
             try AVAudioSession.sharedInstance().setActive(true)
         } catch let error as NSError {
             print("Unable to activate audio session:  \(error.localizedDescription)")
@@ -153,10 +141,13 @@ extension PhoneCall : CXCallObserverDelegate {
         synthesizer = AVSpeechSynthesizer()
         synthesizer.mixToTelephonyUplink = true
         
-        if let currentChannels = AVAudioSession.sharedInstance().currentRoute.outputs.first?.channels {
-            print(AVAudioSession.sharedInstance().currentRoute.outputs.count)
+
+      /*  if let currentChannels =
+            AVAudioSession.sharedInstance().currentRoute.outputs.first?.channels {
+            /* print(AVAudioSession.sharedInstance().currentRoute.outputs.count)
+            print(AVAudioSession.sharedInstance().currentRoute.outputs) */ 
             synthesizer.outputChannels = currentChannels
-        }
+        }  */
     }
     
     func setUpObservers() {

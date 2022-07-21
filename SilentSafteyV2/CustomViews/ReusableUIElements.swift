@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import SkyFloatingLabelTextField
 
-class ReusableUIElements {
+class ReusableUIElements:  NSObject, UITextFieldDelegate {
     static let titleFontSize = 25
     static let descriptionFontSize = 15
     

@@ -8,7 +8,9 @@
 import UIKit
 
 class WidgetDirectionViewController: UIViewController {
-    var pageControl: UIPageControl!
+    var pageControl: UIPageControl = {
+        return ReusableUIElements.createPageControl()
+    }()
     
     let onboardingObjects = [
         OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 1: Hold down the Home Screen", description: "Hold down the homescreen until all the apps begin to wobble and tap the plus button at the top"),
@@ -16,8 +18,13 @@ class WidgetDirectionViewController: UIViewController {
         OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 3: Drag and Drop the Widget onto your Home Screen", description: "Make sure to drag it onto the screen which first appears when you open your phone")
     ]
     
-    var getStartedButton: UIButton!
-    var collectionView: UICollectionView!
+    var getStartedButton: UIButton = {
+       return ReusableUIElements.createButton(title: "Next")
+    }()
+    
+    var collectionView: UICollectionView = {
+        return ReusableUIElements.createCollectionView()
+    }()
     
     var currentPage = 0 {
         didSet {
@@ -42,18 +49,15 @@ class WidgetDirectionViewController: UIViewController {
         let safeArea = view.safeAreaLayoutGuide
        
         // Create and Constrain Next Button
-        getStartedButton = ReusableUIElements.createButton(title: "Next")
         view.addSubview(getStartedButton)
         getStartedButton.addTarget(self, action:#selector(nextButtonPressed), for: .touchUpInside)
         ReusableUIElements.buttonConstraints(button: getStartedButton, safeArea: safeArea, bottomAnchorConstant: -40)
          
         // Create and Constrain Page Control
-        pageControl = ReusableUIElements.createPageControl()
         view.addSubview(pageControl)
         ReusableUIElements.pageControlConstraints(pageControl: pageControl, safeArea: safeArea, getStartedButton: getStartedButton)
         
         // Create and Constrain Collection-View
-        collectionView = ReusableUIElements.createCollectionView()
         view.addSubview(collectionView)
         
         collectionView.dataSource = self

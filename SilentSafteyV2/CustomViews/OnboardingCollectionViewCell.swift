@@ -11,10 +11,17 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "OnboardingCollectionViewCell"
     
-    private var imageView: UIImageView!
-    private var titleLabel: UILabel!
-    private var descriptionLabel: UILabel!
-    private var stackView: UIStackView!
+    private let imageView: UIImageView = {
+        return ReusableUIElements.createImageView(resourceName: "greenPhone")
+    }()
+    
+    private let titleLabel: UILabel = {
+        return ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "")
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        return ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "")
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,18 +31,14 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     func createUI() {
         contentView.backgroundColor = .black
         
-        // Create Image View
-        imageView = ReusableUIElements.createImageView(resourceName: "greenPhone")
+        // Image View
         contentView.addSubview(imageView)
     
-        // Create Titles
-        titleLabel = ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "")
-        descriptionLabel = ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "")
-        
+        // Title/Description Stack View
         let stackView = ReusableUIElements.createStackView(stackViewElements: [titleLabel,descriptionLabel], spacing: 16, distributionType: .fillProportionally)
         contentView.addSubview(stackView)
         
-        // Titles Constraints
+        // Stack View Constraints
         NSLayoutConstraint.activate([
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -40),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),

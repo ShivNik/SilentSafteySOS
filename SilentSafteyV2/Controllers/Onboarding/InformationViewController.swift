@@ -10,18 +10,31 @@ import SkyFloatingLabelTextField
 
 class InformationViewController: UIViewController {
 
-    var skyTextFields: [SkyFloatingLabelTextField] = []
+    let skyTextFields: [SkyFloatingLabelTextField] = [
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Name", title: "Enter Name", id: AllStrings.name),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Race", title: "Enter Race", id: AllStrings.race),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Gender", title: "Enter Gender", id: AllStrings.gender),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Weight", title: "Enter Weight", id: AllStrings.weight),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Age", title: "Enter Age", id: AllStrings.age),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Height", title: "Enter Height", id: AllStrings.height),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Any Additional Information (Optional)", title: "Any Additional Information", id: AllStrings.additionalInfo),
+    ]
+    
+    var textFieldEssential: TextFieldEssential!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldEssential = TextFieldEssential(vcView: view)
+        
         createUI()
         displayExistingInformation()
-        setupToHideKeyboardOnTapOnView()
         setKeyBoardType()
+        
+        textFieldEssential.setupToHideKeyboardOnTapOnView()
+      //  setupToHideKeyboardOnTapOnView()
     }
-
-    @objc
-    func saveButtonAction(button: UIButton) {
+    
+    @objc func saveButtonAction(button: UIButton) {
     
         var allValid = true
         
@@ -39,13 +52,14 @@ class InformationViewController: UIViewController {
         
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
             if let vcLength = navigationController?.viewControllers.count {
-                print(vcLength)
-                let vc = (navigationController?.viewControllers[vcLength - 2])!
-                let vcType = type(of: vc)
-                
-                if(vcType.self == SettingsViewController.self) {
-                    self.navigationController?.popToRootViewController(animated: true)
-                    return
+                if vcLength >= 2 {
+                    let vc = (navigationController?.viewControllers[vcLength - 2])!
+                    let vcType = type(of: vc)
+                    
+                    if(vcType == SettingsViewController.self) {
+                        self.navigationController?.popToRootViewController(animated: true)
+                        return
+                    }
                 }
             }
         }
@@ -127,22 +141,12 @@ extension InformationViewController {
         
         titleLabelStackView.layoutIfNeeded()
         
-        // Create the skyTextFields for inputting information
-        skyTextFields = [
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Name", title: "Enter Name", id: AllStrings.name),
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Race", title: "Enter Race", id: AllStrings.race),
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Gender", title: "Enter Gender", id: AllStrings.gender),
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Weight", title: "Enter Weight", id: AllStrings.weight),
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Age", title: "Enter Age", id: AllStrings.age),
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Height", title: "Enter Height", id: AllStrings.height),
-            ReusableUIElements.createSkyTextField(placeholder: "Enter Any Additional Information (Optional)", title: "Any Additional Information", id: AllStrings.additionalInfo),
-        ]
-        
+        // SkyTextFields
         skyTextFields[0].autocorrectionType = .no
     
         for (_, skyTextField) in skyTextFields.enumerated() {
-            skyTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-            skyTextField.delegate = self
+            skyTextField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)
+            skyTextField.delegate = textFieldEssential
             skyTextField.returnKeyType = .done
         }
     
@@ -156,8 +160,6 @@ extension InformationViewController {
         let stackViewSpace = (view.frame.size.height - (topPadding + bottomPadding + navControllerHeight) - 130 - titleLabelStackView.frame.size.height)
         
         let spacing = (stackViewSpace - (skyTextFields[0].frame.size.height * CGFloat(skyTextFields.count))) / CGFloat((skyTextFields.count - 1))
-        
-        print("spacing \(spacing)")
         
         if(spacing < 25) {
             skyTextFieldStackView.spacing = 25
@@ -185,7 +187,7 @@ extension InformationViewController {
     }
     
     func setKeyBoardType() {
-        for i in 3...5 {
+        for i in 3...4 {
             skyTextFields[i].keyboardType = .asciiCapableNumberPad
         }
     }
@@ -240,37 +242,5 @@ extension InformationViewController {
         default:
             return true
         }
-    }
-}
-
-// MARK: -  Text Field Delegate Methods
-
-extension InformationViewController: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.endEditing(true)
-        return true
-    }
-
-    @objc func textFieldDidChange(_ textfield: UITextField) {
-       if let floatingLabelTextField = textfield as? SkyFloatingLabelTextField {
-           AppDelegate.validation.replaceDot(skyTextField: floatingLabelTextField)
-       }
-    }
-}
-
-extension InformationViewController {
-    func setupToHideKeyboardOnTapOnView()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(TestViewController.dismissKeyboard))
-
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-
-    @objc func dismissKeyboard()
-    {
-        view.endEditing(true)
     }
 }

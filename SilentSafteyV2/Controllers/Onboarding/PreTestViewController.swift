@@ -9,13 +9,19 @@ import UIKit
 import SkyFloatingLabelTextField
 
 class PreTestViewController: UIViewController {
-    var validTextField = false
-    var skyTextField: SkyFloatingLabelTextField!
+
+    var skyTextField: SkyFloatingLabelTextField = {
+        return ReusableUIElements.createSkyTextField(placeholder: "Enter phone number", title: "Enter Phone Number", id: "phoneNumber")
+    }()
+    
+    var textFieldEssential: TextFieldEssential!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldEssential = TextFieldEssential(vcView: view)
         createUI()
-        self.setupToHideKeyboardOnTapOnView()
+        textFieldEssential.setupToHideKeyboardOnTapOnView()
+        
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipButtonPressed))
     }
@@ -25,19 +31,18 @@ class PreTestViewController: UIViewController {
         
         let safeArea = view.safeAreaLayoutGuide
         
-        // Create Start Test Button
+        // Start Test Button
         let button = ReusableUIElements.createButton(title: "Start the Test")
         view.addSubview(button)
         button.addTarget(self, action:#selector(continueToTestButtonPressed), for: .touchUpInside)
         ReusableUIElements.buttonConstraints(button: button, safeArea: safeArea, bottomAnchorConstant: -40)
         
-        // Create Phone Number Sky Text Field
-        skyTextField = ReusableUIElements.createSkyTextField(placeholder: "Enter phone number", title: "Enter Phone Number", id: "phoneNumber")
-        
-        skyTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        // Phone Number Sky Text Field
+        skyTextField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)
+        skyTextField.delegate = textFieldEssential
         skyTextField.keyboardType = .asciiCapableNumberPad
         
-        // Create and Constrain Custom View
+        // Custom View
         let skyView = CustomView()
         skyView.size = skyTextField.intrinsicContentSize
         skyView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,12 +51,11 @@ class PreTestViewController: UIViewController {
         NSLayoutConstraint.activate([
             skyTextField.centerXAnchor.constraint(equalTo: skyView.centerXAnchor),
             skyTextField.centerYAnchor.constraint(equalTo: skyView.centerYAnchor),
-            // skyTextField.heightAnchor.constraint(equalToConstant: 50),
             skyTextField.leadingAnchor.constraint(equalTo: skyView.leadingAnchor),
             skyTextField.trailingAnchor.constraint(equalTo: skyView.trailingAnchor),
         ])
 
-        // Create All Labels
+        // All Labels
         let labels = [
             ReusableUIElements.createLabel(fontSize: 31, text: "Step 3: Let's try it out"),
             ReusableUIElements.createLabel(fontSize: 20, text: "Enter a phone number you can test the app with"),
@@ -62,7 +66,7 @@ class PreTestViewController: UIViewController {
             ReusableUIElements.createLabel(fontSize: 20, text: "3. Type any additional Messages into the Text-Field"),
         ]
         
-        // Create and Constrain Label Stack View
+        // Label Stack View
         let directionsStackView = UIStackView(arrangedSubviews: labels)
         directionsStackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -70,7 +74,7 @@ class PreTestViewController: UIViewController {
         directionsStackView.distribution = .fillProportionally
         directionsStackView.alignment = .fill
     
-        // Create and Constrain Super Stack View
+        // Super Stack View
         let superStackView = ReusableUIElements.createStackView(stackViewElements: [  directionsStackView], spacing: 0, distributionType: .fillProportionally)
         view.addSubview(superStackView)
         
@@ -100,30 +104,8 @@ class PreTestViewController: UIViewController {
             skyTextField.errorMessage = "Invalid Phone Number"
         }
     }
-    
-    @objc func textFieldDidChange(_ textfield: UITextField) {
-        if let floatingLabelTextField = textfield as? SkyFloatingLabelTextField {
-            AppDelegate.validation.replaceDot(skyTextField: floatingLabelTextField)
-        }
-    }
-    
 }
-extension PreTestViewController {
-    func setupToHideKeyboardOnTapOnView()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(TestViewController.dismissKeyboard))
 
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-
-    @objc func dismissKeyboard()
-    {
-        view.endEditing(true)
-    }
-}
 // Custom View with Size
 class CustomView: UIView {
     var size: CGSize?

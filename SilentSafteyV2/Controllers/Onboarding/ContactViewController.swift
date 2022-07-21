@@ -12,10 +12,14 @@ class ContactViewController: UIViewController {
     
     var textField: SkyFloatingLabelTextField!
     var button: UIButton!
+    var textFieldEssential: TextFieldEssential!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldEssential = TextFieldEssential(vcView: view)
         createUI()
+        textFieldEssential.setupToHideKeyboardOnTapOnView()
+        
         displayExisitingNumber()
     }
     
@@ -25,7 +29,8 @@ class ContactViewController: UIViewController {
         let titleLabel = ReusableUIElements.createLabel(fontSize: 31, text: "Custom Contact Number (By default set to 911)")
 
         textField = ReusableUIElements.createSkyTextField(placeholder: "Enter ", title: "Enter Phone Number ", id: "CustomContactField")
-        textField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+        textField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)
+        textField.delegate = textFieldEssential
         
         button = ReusableUIElements.createButton(title: "Save")
         button.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
@@ -66,12 +71,6 @@ class ContactViewController: UIViewController {
         } else {
             textField.errorMessage = "Invalid Phone Number"
             button.setTitle("Try Again", for: .normal)
-        }
-    }
-    
-    @objc func textFieldDidChange(_ textfield: UITextField) {
-        if let floatingLabelTextField = textfield as? SkyFloatingLabelTextField {
-            AppDelegate.validation.replaceDot(skyTextField: floatingLabelTextField)
         }
     }
 }
