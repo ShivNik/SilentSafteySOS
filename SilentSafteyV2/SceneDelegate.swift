@@ -46,7 +46,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
         
         let window = UIWindow(windowScene: scene)
         
-        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
+        AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
         
         let viewController: UIViewController?
         
@@ -56,15 +56,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
             viewController = IntroViewController()
         }
         
-        let navController = UINavigationController(rootViewController: viewController!)
+        let navController = ReusableUIElements.createNavigationController(root: viewController!)
         navController.delegate = self
-        
-        let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.backgroundColor = .black
-        
-        navController.navigationBar.standardAppearance = standardAppearance
-        navController.navigationBar.scrollEdgeAppearance = standardAppearance
-
+    
         window.rootViewController = navController
         
         self.window = window

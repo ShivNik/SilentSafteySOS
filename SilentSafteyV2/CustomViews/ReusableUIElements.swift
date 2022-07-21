@@ -226,4 +226,16 @@ extension ReusableUIElements {
         print(navController)
         navController.popToRootViewController(animated: true)
     }
+    
+    static func createNavigationController(root: UIViewController) -> UINavigationController {
+        let navController = UINavigationController(rootViewController: root)
+
+        let standardAppearance = UINavigationBarAppearance()
+        standardAppearance.backgroundColor = .black
+        
+        navController.navigationBar.standardAppearance = standardAppearance
+        navController.navigationBar.scrollEdgeAppearance = standardAppearance
+        
+        return navController
+    }
 }
