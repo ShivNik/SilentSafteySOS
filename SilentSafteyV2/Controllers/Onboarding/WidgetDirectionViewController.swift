@@ -48,16 +48,16 @@ class WidgetDirectionViewController: UIViewController {
         
         let safeArea = view.safeAreaLayoutGuide
        
-        // Create and Constrain Next Button
+        // Next Button
         view.addSubview(getStartedButton)
         getStartedButton.addTarget(self, action:#selector(nextButtonPressed), for: .touchUpInside)
         ReusableUIElements.buttonConstraints(button: getStartedButton, safeArea: safeArea, bottomAnchorConstant: -40)
          
-        // Create and Constrain Page Control
+        // Page Control
         view.addSubview(pageControl)
         ReusableUIElements.pageControlConstraints(pageControl: pageControl, safeArea: safeArea, getStartedButton: getStartedButton)
         
-        // Create and Constrain Collection-View
+        // Collection-View
         view.addSubview(collectionView)
         
         collectionView.dataSource = self

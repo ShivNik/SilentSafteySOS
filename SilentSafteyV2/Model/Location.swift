@@ -45,9 +45,10 @@ class Location: NSObject, CLLocationManagerDelegate {
             print("10 seconds after")
             self.locationManager.stopUpdatingLocation()
 
-            if(AppDelegate.phoneCall.inCall) {
+            if(Response.responseActive) {
                 if(self.locationsRecieved.count != 0) {
                     
+                    // Determine optimal location
                     var optimalLocationIndex = 0
                     for i in 0..<self.locationsRecieved.count {
                         if self.locationsRecieved[optimalLocationIndex].horizontalAccuracy > self.locationsRecieved[i].horizontalAccuracy {
@@ -75,10 +76,6 @@ class Location: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func retrieveLocationAuthorizaiton() -> CLAuthorizationStatus {
-        return locationManager.authorizationStatus
-    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     
         if let location = locations.last {
@@ -100,7 +97,6 @@ class Location: NSObject, CLLocationManagerDelegate {
                         
                         let locObj = LocationObject(horizontalAccuracy: location.horizontalAccuracy, placemark: place)
                         self.locationsRecieved.append(locObj)
-                        
                     }
                 }
             })
@@ -110,8 +106,6 @@ class Location: NSObject, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location Manager did fail with error")
         delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
-        print(error)
-        print(error.localizedDescription)
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -123,25 +117,22 @@ class Location: NSObject, CLLocationManagerDelegate {
                 delegate?.updateLocationLabel(text: "Type location in additional message - Permission Not Granted")
                 NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
             case .authorizedWhenInUse, .authorizedAlways:
-            
                 print("authorized")
                 checkPrecisionAccuracyAuthorization()
+                NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
             default:
                 print("not determiend")
-                delegate?.updateLocationLabel(text: "Location Services Enabled Not Determined")
-               // checkLocationAuthorization()
+                delegate?.updateLocationLabel(text: "Location Services Not Determined")
         }
     }
     
     func checkPrecisionAccuracyAuthorization() {
-        switch locationManager.accuracyAuthorization {
-            case .reducedAccuracy:
-                print("reduced accuracy")
-                delegate?.updateLocationLabel(text: "Type location in additional message - Reduced Accuracy Selected")
-            default:
-                print("Full acc")
-                delegate?.updateLocationLabel(text: "")
-                NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
+        if (locationManager.accuracyAuthorization == .fullAccuracy) {
+            print("Full acc")
+            delegate?.updateLocationLabel(text: "")
+        } else {
+            print("reduced accuracy")
+            delegate?.updateLocationLabel(text: "Type location in additional message - Reduced Accuracy Selected")
         }
     }
     
@@ -150,10 +141,18 @@ class Location: NSObject, CLLocationManagerDelegate {
             case .denied, .restricted:
                 return false
             case .authorizedWhenInUse, .authorizedAlways:
-                return true
+                if (locationManager.accuracyAuthorization == .fullAccuracy) {
+                    return true
+                } else {
+                    return false
+                }
             default:
                 return false
         }
+    }
+    
+    func retrieveLocationAuthorizaiton() -> CLAuthorizationStatus {
+        return locationManager.authorizationStatus
     }
 }
 

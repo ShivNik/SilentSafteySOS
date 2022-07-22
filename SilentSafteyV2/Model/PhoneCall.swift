@@ -17,7 +17,6 @@ class PhoneCall: NSObject {
     var backgroundTaskID: UIBackgroundTaskIdentifier?
     var synthesizer: AVSpeechSynthesizer!
     var firstMessageRecieved = false
-    var inCall: Bool = false
     
     var messageArray: [String] = [] {
         willSet {
@@ -55,8 +54,7 @@ extension PhoneCall : CXCallObserverDelegate {
         print(call)
         if call.hasEnded == true {
             print("CXCallState :Disconnected")
-            inCall = false
-            
+        
             Response.responseActive = false
             
             AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
@@ -74,8 +72,7 @@ extension PhoneCall : CXCallObserverDelegate {
              
             messageArray = []
             firstMessageRecieved = false
-            
-            print("in call? \(inCall)")
+
 
         } else if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
@@ -86,8 +83,7 @@ extension PhoneCall : CXCallObserverDelegate {
                     self.backgroundTaskID = .invalid
                 }
             }
-            
-            inCall = true
+        
         
             Response.responseActive = true
     

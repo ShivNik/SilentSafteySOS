@@ -9,14 +9,12 @@ import UIKit
 import MediaPlayer
 import os
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-    var window: UIWindow?
-    var location: Location!
-
+    static var window: UIWindow?
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        
-        
+    
         guard let scene = (scene as? UIWindowScene) else { return }
         
         if let userActivity = connectionOptions.userActivities.first {
@@ -25,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
         
         let window = UIWindow(windowScene: scene)
         
-        AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
+        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
         
         let viewController: UIViewController?
         
@@ -36,11 +34,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
         }
         
         let navController = ReusableUIElements.createNavigationController(root: viewController!)
-        navController.delegate = self
+        navController.delegate = AppDelegate.navControllerEssentials
     
         window.rootViewController = navController
         
-        self.window = window
+        SceneDelegate.window = window
         window.makeKeyAndVisible()
     }
 
@@ -87,32 +85,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, UINavigationControllerD
     
         AppDelegate.response.completeResponse()
     }
-
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        
-        viewController.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
-        if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
-            let vcType = type(of: viewController)
-            print("Scene Delegate \(viewController)")
-        
-            let vcValid = (vcType == MainViewController.self) || (vcType == SettingsViewController.self) || (vcType == ContactViewController.self)
-            
-            if(!vcValid) {
-                 let exitBarButton = CustomBarButtonItem(title: "Exit", style: .plain, target: self, action: #selector(exitPressed(sender:)))
-                 exitBarButton.navController = navigationController
-                 
-                 viewController.navigationItem.rightBarButtonItem = exitBarButton
-            }
-        }
-    }
-    
-    @objc func exitPressed(sender: CustomBarButtonItem) {
-        print("Exist pressed")
-        sender.navController?.popToRootViewController(animated: true)
-    }
 }
 
-class CustomBarButtonItem: UIBarButtonItem {
-    var navController: UINavigationController?
-}

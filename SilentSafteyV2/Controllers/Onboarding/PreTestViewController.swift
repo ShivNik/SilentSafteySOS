@@ -19,10 +19,11 @@ class PreTestViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldEssential = TextFieldEssential(vcView: view)
+        
         createUI()
         textFieldEssential.setupToHideKeyboardOnTapOnView()
         
-        
+
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipButtonPressed))
     }
     
@@ -67,12 +68,7 @@ class PreTestViewController: UIViewController {
         ]
         
         // Label Stack View
-        let directionsStackView = UIStackView(arrangedSubviews: labels)
-        directionsStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        directionsStackView.axis = .vertical
-        directionsStackView.distribution = .fillProportionally
-        directionsStackView.alignment = .fill
+        let directionsStackView = ReusableUIElements.createStackView(stackViewElements: labels, spacing: 0, distributionType: .fillProportionally)
     
         // Super Stack View
         let superStackView = ReusableUIElements.createStackView(stackViewElements: [  directionsStackView], spacing: 0, distributionType: .fillProportionally)
@@ -91,7 +87,7 @@ class PreTestViewController: UIViewController {
     }
 
     @objc func continueToTestButtonPressed(button: UIButton) {
-        if(AppDelegate.validation.validatePhoneNumber(skyTextField: skyTextField)) {
+        if(textFieldEssential.validatePhoneNumber(skyTextField: skyTextField)) {
             skyTextField.errorMessage = ""
             
             let vc = TestViewController()

@@ -31,7 +31,6 @@ class InformationViewController: UIViewController {
         setKeyBoardType()
         
         textFieldEssential.setupToHideKeyboardOnTapOnView()
-      //  setupToHideKeyboardOnTapOnView()
     }
     
     @objc func saveButtonAction(button: UIButton) {
@@ -83,7 +82,7 @@ extension InformationViewController {
         
         let safeArea = self.view.safeAreaLayoutGuide
 
-        // Create and Constrain Scroll View
+        // Scroll View
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
@@ -95,53 +94,53 @@ extension InformationViewController {
             scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
         ])
         
-        // Create and Constrain UIView
-        let uiView = UIStackView()
-        uiView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(uiView)
+        // Stack View Scroll View
+        let scrollViewStackView = UIStackView()
+        scrollViewStackView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(scrollViewStackView)
         
         NSLayoutConstraint.activate([
-            uiView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            uiView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            uiView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            uiView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            uiView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+            scrollViewStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollViewStackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            scrollViewStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollViewStackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollViewStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
         
-        // Create and Constrain Save Button
+        // Save Button
         let saveButton = ReusableUIElements.createButton(title: "Save")
-        uiView.addSubview(saveButton)
+        scrollViewStackView.addSubview(saveButton)
         saveButton.addTarget(self, action:#selector(saveButtonAction), for: .touchUpInside)
-        
+
         NSLayoutConstraint.activate([
             saveButton.widthAnchor.constraint(equalToConstant: 150),
             saveButton.heightAnchor.constraint(equalToConstant: 50),
             
-            saveButton.centerXAnchor.constraint(equalTo: uiView.centerXAnchor, constant: 0),
-            saveButton.bottomAnchor.constraint(equalTo: uiView.bottomAnchor, constant: CGFloat(-40))
+            saveButton.centerXAnchor.constraint(equalTo: scrollViewStackView.centerXAnchor, constant: 0),
+            saveButton.bottomAnchor.constraint(equalTo: scrollViewStackView.bottomAnchor, constant: CGFloat(-40))
             
         ])
         
-        // Create Title Labels
+        // Title Label
         let titleLabels = [
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "Step 1 information"),
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "Enter your information. This will be sent to the police")
         ]
     
-        // Create and Constraint Stack View Labels
+        // Label Stack View
         let titleLabelStackView = ReusableUIElements.createStackView(stackViewElements: titleLabels, spacing: 0, distributionType: .fillEqually)
-        uiView.addSubview(titleLabelStackView)
+        scrollViewStackView.addSubview(titleLabelStackView)
         
         NSLayoutConstraint.activate([
-            titleLabelStackView.centerXAnchor.constraint(equalTo: uiView.centerXAnchor, constant: 0),
-            titleLabelStackView.topAnchor.constraint(equalTo: uiView.topAnchor),
-            titleLabelStackView.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 16),
-            titleLabelStackView.trailingAnchor.constraint(equalTo: uiView.trailingAnchor, constant: -16)
+            titleLabelStackView.centerXAnchor.constraint(equalTo: scrollViewStackView.centerXAnchor, constant: 0),
+            titleLabelStackView.topAnchor.constraint(equalTo: scrollViewStackView.topAnchor),
+            titleLabelStackView.leadingAnchor.constraint(equalTo: scrollViewStackView.leadingAnchor, constant: 16),
+            titleLabelStackView.trailingAnchor.constraint(equalTo: scrollViewStackView.trailingAnchor, constant: -16)
         ])
         
         titleLabelStackView.layoutIfNeeded()
         
-        // SkyTextFields
+        // Information Sky Text Field
         skyTextFields[0].autocorrectionType = .no
     
         for (_, skyTextField) in skyTextFields.enumerated() {
@@ -151,11 +150,11 @@ extension InformationViewController {
         }
     
         let skyTextFieldStackView = ReusableUIElements.createStackView(stackViewElements: skyTextFields, spacing: 0, distributionType: .equalSpacing)
-        uiView.addSubview(skyTextFieldStackView)
+        scrollViewStackView.addSubview(skyTextFieldStackView)
         
         skyTextFieldStackView.layoutIfNeeded()
         
-        // Determine Stack View Spaincg
+        // Stack View Spacing
         let navControllerHeight = navigationController?.navigationBar.frame.size.height ?? 0
         let stackViewSpace = (view.frame.size.height - (topPadding + bottomPadding + navControllerHeight) - 130 - titleLabelStackView.frame.size.height)
         
@@ -167,14 +166,13 @@ extension InformationViewController {
         else {
             skyTextFieldStackView.spacing = spacing
         }
-    
-        // Constraint Sky Text Field Stack View
+
         NSLayoutConstraint.activate([
-            skyTextFieldStackView.centerXAnchor.constraint(equalTo: uiView.centerXAnchor),
+            skyTextFieldStackView.centerXAnchor.constraint(equalTo: scrollViewStackView.centerXAnchor),
             skyTextFieldStackView.bottomAnchor.constraint(equalTo: saveButton.topAnchor, constant: -20),
             skyTextFieldStackView.topAnchor.constraint(equalTo: titleLabelStackView.bottomAnchor, constant: 20),
-            skyTextFieldStackView.leadingAnchor.constraint(equalTo: uiView.leadingAnchor, constant: 16),
-            skyTextFieldStackView.trailingAnchor.constraint(equalTo: uiView.trailingAnchor, constant: -16)
+            skyTextFieldStackView.leadingAnchor.constraint(equalTo: scrollViewStackView.leadingAnchor, constant: 16),
+            skyTextFieldStackView.trailingAnchor.constraint(equalTo: scrollViewStackView.trailingAnchor, constant: -16)
         ])
     }
     
@@ -202,7 +200,7 @@ extension InformationViewController {
         switch floatingLabelTextField.accessibilityIdentifier {
             
         case AllStrings.name, AllStrings.race, AllStrings.gender:
-            if(AppDelegate.validation.validateOnlyAlphabet(skyTextField: floatingLabelTextField)) {
+            if(textFieldEssential.validateOnlyAlphabet(skyTextField: floatingLabelTextField)) {
                 floatingLabelTextField.errorMessage = ""
                 return true
             }
@@ -211,7 +209,7 @@ extension InformationViewController {
                 return false
             }
         case AllStrings.weight:
-            if(AppDelegate.validation.validateNumberConstraints(skyTextField: floatingLabelTextField, lowConstraint: 10, highConstraint: 1500)) {
+            if(textFieldEssential.validateNumberConstraints(skyTextField: floatingLabelTextField, lowConstraint: 10, highConstraint: 1500)) {
                 floatingLabelTextField.errorMessage = ""
                 return true
             }
@@ -221,7 +219,7 @@ extension InformationViewController {
             }
 
         case AllStrings.age:
-            if(AppDelegate.validation.validateNumberConstraints(skyTextField: floatingLabelTextField, lowConstraint: 0, highConstraint: 123)) {
+            if(textFieldEssential.validateNumberConstraints(skyTextField: floatingLabelTextField, lowConstraint: 0, highConstraint: 123)) {
                 floatingLabelTextField.errorMessage = ""
                 return true
             }
@@ -231,7 +229,7 @@ extension InformationViewController {
             }
 
         case AllStrings.height:
-            if(AppDelegate.validation.validateHeight(skyTextField: floatingLabelTextField)) {
+            if(textFieldEssential.validateHeight(skyTextField: floatingLabelTextField)) {
                 floatingLabelTextField.errorMessage = ""
                 return true
             }

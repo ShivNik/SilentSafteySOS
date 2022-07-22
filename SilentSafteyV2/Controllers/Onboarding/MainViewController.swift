@@ -36,17 +36,20 @@ class MainViewController: UIViewController {
         return myMutableString
     }()
     
+    var textFieldEssential: TextFieldEssential!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        textFieldEssential = TextFieldEssential(vcView: view)
+        textFieldEssential.setupToHideKeyboardOnTapOnView()
+        
         createUI()
-        setupToHideKeyboardOnTapOnView()
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonPressed))
-    }
-    
-    @objc func settingsButtonPressed() {
-        self.navigationController?.pushViewController(SettingsViewController(), animated: false)
-
+        
+        AppDelegate.location.checkRequestPermission()
+        AppDelegate.location.delegate = self
+        AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
     }
     
     func createUI() {
@@ -103,22 +106,27 @@ class MainViewController: UIViewController {
             directionsLabel.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
             directionsLabel.leadingAnchor.constraint(equalTo: uiView.leadingAnchor)
         ])
-        
-        AppDelegate.location.checkRequestPermission()
-        AppDelegate.location.delegate = self
-        AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
     }
-
+    
+    @objc func settingsButtonPressed() {
+        self.navigationController?.pushViewController(SettingsViewController(), animated: true)
+    }
+    
     @objc func sendPressed() {
         if let message = textView.text {
-            if(message == "Type Additional Message Here") {
+            
+            let trimmedString = message.trimmingCharacters(in: .whitespaces)
+            
+            if(trimmedString == "Type Additional Message Here" || trimmedString == "") {
                 return
             }
-            NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": message])
+            
+            NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": trimmedString])
+            
             textView.text = ""
         }
-        
     }
+    
     @objc func sosButtonPressed() {
         AppDelegate.response.completeResponse()
     }
@@ -130,14 +138,12 @@ extension MainViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "Type Additional Message Here" {
             textView.text = ""
-            textView.textColor = UIColor.white
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "Type Additional Message Here"
-            textView.textColor = UIColor.white
         }
     }
     
@@ -161,44 +167,21 @@ extension MainViewController: UITextViewDelegate {
             for constraint in textView.constraints {
                 if(constraint.identifier == "heightConstraint") {
                     constraint.constant = newHeight
-                   // constraint.priority = UILayoutPriority(250)
                 }
             }
         }
     }
 }
 
-extension MainViewController {
-    func setupToHideKeyboardOnTapOnView()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(TestViewController.dismissKeyboard))
-
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-
-    @objc func dismissKeyboard()
-    {
-        view.endEditing(true)
-    }
-}
-/*
-extension MainViewController {
-    override func restoreUserActivityState(_ activity: NSUserActivity) {
-        print("restore user activity")
-    }
-} */
-
 extension MainViewController: LocationProtocol {
     func updateLocationLabel(text: String) {
         print(text)
-        let newLineText = "\n" + text
         
+        let newLineText = "\n" + text
+
         let myMutableString = NSMutableAttributedString(string: newLineText, attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
 
-        myMutableString.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Georgia", size: 25), range: NSRange(location: 0, length: newLineText.count))
+        myMutableString.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Georgia", size: 25)!, range: NSRange(location: 0, length: newLineText.count))
         
         let existingTextMutable = NSMutableAttributedString(attributedString: messageTipsLabelText)
         
@@ -207,4 +190,3 @@ extension MainViewController: LocationProtocol {
         directionsLabel.attributedText = existingTextMutable
     }
 }
-

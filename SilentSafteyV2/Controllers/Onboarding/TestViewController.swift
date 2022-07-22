@@ -8,7 +8,10 @@
 import UIKit
 
 class TestViewController: UIViewController {
-    var textView: UITextView!
+    let textView: UITextView = {
+        return ReusableUIElements.createTextView()
+    }()
+    
     var stepOneLabel: UILabel!
     var testPhoneNumber: String = ""
     var mainButtonPressed = false
@@ -22,22 +25,22 @@ class TestViewController: UIViewController {
     
     func createUI() {
         view.backgroundColor = .black
+        
         let safeArea = view.safeAreaLayoutGuide
         
-        // Create and Constrain Text View
-        textView = ReusableUIElements.createTextView()
+        // Text View
         textView.delegate = self
         view.addSubview(textView)
         ReusableUIElements.textViewConstraints(textView: textView, safeArea: safeArea)
 
-        // Create and Constrain SOS Button
+        // Send Button
         let button = ReusableUIElements.createSendButton(textView: textView)
         view.addSubview(button)
         button.addTarget(self, action:#selector(sendPressed), for: .touchUpInside)
         
         ReusableUIElements.sendButtonConstraints(button: button, view: self.view, safeArea: safeArea, textView: textView)
          
-        // Create and Constrain Directions Title Label
+        // Title Label
         stepOneLabel = ReusableUIElements.createLabel(fontSize: 25, text: "1. Tap the SOS Button and Start the Call")
         stepOneLabel.numberOfLines = 0
         view.addSubview(stepOneLabel)
@@ -79,29 +82,8 @@ class TestViewController: UIViewController {
         mainButtonPressed = true
         stepOneLabel.text = "2. Type an Additional Message and Tap the Send Button"
         
-      /*  if(Response.sosButtonResponse == false && Response.widgetResponse == false) {
-            AppDelegate.location.checkRequestPermission()
-            
-            if(AppDelegate.location.retrieveLocationAuthorizaiton() == .notDetermined) {
-                print("Not determined in scene continue user activity")
-                
-                NotificationCenter.default.addObserver(self, selector: #selector(tempFuncMain(notification:)), name: .locationAuthorizationGiven, object: nil)
-            }
-            else {
-                Response.stringTapped = "sosButton"
-                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: testPhoneNumber)
-            }
-        }
-        else {
-            print("not executed sos button")
-        } */
+        AppDelegate.response.completeResponse()
     }
-    
-  /*  @objc func tempFuncMain(notification: NSNotification) {
-        Response.stringTapped = "sosButton"
-        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: testPhoneNumber)
-        NotificationCenter.default.removeObserver(self)
-    } */ 
 }
 
 // MARK: -  Text View Delegate Methods

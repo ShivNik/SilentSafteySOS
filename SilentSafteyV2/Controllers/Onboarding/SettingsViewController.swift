@@ -12,14 +12,12 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
-        
-        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
-    
     
     func createUI() {
         let safeArea = view.safeAreaLayoutGuide
         
+        // Buttons
         let tutorialButton = ReusableUIElements.createButton(title: "Tutorial")
         let profileButton = ReusableUIElements.createButton(title: "Profile")
         let contactButton = ReusableUIElements.createButton(title: "Contact")
@@ -32,6 +30,7 @@ class SettingsViewController: UIViewController {
         ReusableUIElements.settingButtonConstraint(button: profileButton, safeArea: safeArea)
         ReusableUIElements.settingButtonConstraint(button: contactButton, safeArea: safeArea)
         
+        // Stack View
         let stackView = ReusableUIElements.createStackView(stackViewElements: [tutorialButton,profileButton,contactButton], spacing: 40, distributionType: .fillEqually)
         
         view.addSubview(stackView)
@@ -47,9 +46,6 @@ class SettingsViewController: UIViewController {
     }
     @objc func profileButtonPressed() {
         self.navigationController?.pushViewController(InformationViewController(), animated: true)
-       /* let allVCs = self.navigationController!.children
-        print(allVCs.description) */
-        
     }
     
     @objc func contactButtonPressed() {

@@ -8,10 +8,7 @@
 import Foundation
 
 class Response {
-    static var widgetResponse: Bool = false
-    static var sosButtonResponse: Bool = false
-    static var stringTapped: String = ""
-    
+
     static var responseActive: Bool = false
     
     func completeResponse() {

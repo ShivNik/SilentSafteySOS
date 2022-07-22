@@ -14,8 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static let userDefaults = UserDefaults.standard
     static let location = Location()
     static let phoneCall = PhoneCall()
-    static let validation = TextFieldValidation()
-    static let response = Response() 
+    static let response = Response()
+    static let navControllerEssentials = NavigationControllerEssentials()
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.enableAutoToolbar = false
-        IQKeyboardManager.shared.disabledToolbarClasses = [MainViewController.self]
+     //   IQKeyboardManager.shared.disabledToolbarClasses = [MainViewController.self]
         return true
     }
 

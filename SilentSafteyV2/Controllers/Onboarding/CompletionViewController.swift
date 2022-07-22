@@ -8,17 +8,26 @@
 import UIKit
 
 class CompletionViewController: UIViewController {
-
+    
+    let navControllerEssentials = NavigationControllerEssentials()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        createUI()
+    }
+    
+    func createUI() {
         view.backgroundColor = .black
         
+        let safeArea = self.view.safeAreaLayoutGuide
+        
+        // Title Labels
         let labelsTwo = [
             ReusableUIElements.createLabel(fontSize: 50, text: "You're Done!"),
             ReusableUIElements.createLabel(fontSize: 31, text: "Set up your contacts and custom Messages")
         ]
         
+        // Title Labels Stack View
         let stackView = ReusableUIElements.createStackView(stackViewElements: labelsTwo, spacing: 20, distributionType: .fill)
         view.addSubview(stackView)
         
@@ -29,25 +38,25 @@ class CompletionViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
         
-        let safeArea = self.view.safeAreaLayoutGuide
-        
+        // Finish tutorial Button
         let button = ReusableUIElements.createButton(title: "Finish Tutorial")
         button.addTarget(self, action: #selector(finishTutorialPressed), for: .touchUpInside)
         view.addSubview(button)
         ReusableUIElements.buttonConstraints(button: button, safeArea: safeArea, bottomAnchorConstant: -40)
-        
-        self.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     @objc func finishTutorialPressed() {
-        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
-        
-        self.navigationController?.dismiss(animated: true, completion: nil)
+        if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
+            self.navigationController?.popToRootViewController(animated: true)
+            
+        } else {
+            AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
 
-        let viewController = MainViewController()
-        let navigation = ReusableUIElements.createNavigationController(root: viewController)
-        
-        navigation.delegate = self.view.window!.windowScene!.delegate as! UINavigationControllerDelegate
-        UIApplication.shared.keyWindow?.rootViewController = navigation
+            let viewController = MainViewController()
+            let navigation = ReusableUIElements.createNavigationController(root: viewController)
+            navigation.delegate = AppDelegate.navControllerEssentials
+
+            SceneDelegate.window?.rootViewController = navigation
+        }
     }
 }

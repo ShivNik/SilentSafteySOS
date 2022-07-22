@@ -10,39 +10,47 @@ import SkyFloatingLabelTextField
 
 class ContactViewController: UIViewController {
     
-    var textField: SkyFloatingLabelTextField!
-    var button: UIButton!
+    var textField: SkyFloatingLabelTextField = {
+        return ReusableUIElements.createSkyTextField(placeholder: "Enter ", title: "Enter Phone Number ", id: "CustomContactField")
+    }()
+    
+    var button: UIButton = {
+        return ReusableUIElements.createButton(title: "Save")
+    }()
+    
     var textFieldEssential: TextFieldEssential!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         textFieldEssential = TextFieldEssential(vcView: view)
-        createUI()
         textFieldEssential.setupToHideKeyboardOnTapOnView()
         
+        createUI()
         displayExisitingNumber()
     }
     
     func createUI() {
+        view.backgroundColor = .black
         let safeArea = view.safeAreaLayoutGuide
         
+        // Title Label
         let titleLabel = ReusableUIElements.createLabel(fontSize: 31, text: "Custom Contact Number (By default set to 911)")
 
-        textField = ReusableUIElements.createSkyTextField(placeholder: "Enter ", title: "Enter Phone Number ", id: "CustomContactField")
+        // Phone Number Text Field
         textField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)
         textField.delegate = textFieldEssential
         
-        button = ReusableUIElements.createButton(title: "Save")
+        // Save Button
         button.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
         view.addSubview(button)
         
+        // Title and Text Field Stack VIew
         let stackView = ReusableUIElements.createStackView(stackViewElements: [titleLabel,textField], spacing: 40, distributionType: .fillProportionally)
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
             stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
-           // stackView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
@@ -64,7 +72,7 @@ class ContactViewController: UIViewController {
     }
     
     @objc func saveButtonPressed() {
-        if(AppDelegate.validation.validatePhoneNumber(skyTextField: textField) || textField.text == "123" ) { // == "911"
+        if(textFieldEssential.validatePhoneNumber(skyTextField: textField) || textField.text == "123" ) { // == "911"
             textField.errorMessage = ""
             AppDelegate.userDefaults.set(textField.text, forKey: AllStrings.phoneNumber)
             navigationController?.popToRootViewController(animated: true)
