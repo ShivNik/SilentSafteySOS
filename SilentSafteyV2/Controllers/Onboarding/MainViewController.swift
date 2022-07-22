@@ -37,6 +37,7 @@ class MainViewController: UIViewController {
     }()
     
     var textFieldEssential: TextFieldEssential!
+   // let viewMessageVC = ViewMessageViewController() // Check This 
     
     override func viewDidLoad() {
         super.viewDidLoad()

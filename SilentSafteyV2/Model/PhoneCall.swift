@@ -11,11 +11,14 @@ import AVFoundation
 import AVFAudio
 import WidgetKit
 
-class PhoneCall: NSObject {
+class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
+    
     let callObserver: CXCallObserver = CXCallObserver()
     var backgroundTaskID: UIBackgroundTaskIdentifier?
-    var synthesizer: AVSpeechSynthesizer!
+    var synthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
     var firstMessageRecieved = false
+    var spokenMessages: [String] = []
+    var observeSynthesizerDelegate: ObserveSynthesizer?
 
     override init() {
         super.init()
@@ -152,12 +155,13 @@ extension PhoneCall : CXCallObserverDelegate {
             endBackGroundTask()
             
             messageArray = []
+            spokenMessages = []
+            
             firstMessageRecieved = false
-
+            self.synthesizer.stopSpeaking(at: .immediate) // Stop speaking after done
 
         } else if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
-            
             setUpBackgroundTask()
             Response.responseActive = true
             locationPhoneCall()
@@ -174,8 +178,6 @@ extension PhoneCall : CXCallObserverDelegate {
         } else if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
             print("CXCallState :Incoming")
         }
-
-
     }
     
     func createSynthesizer() {
@@ -187,8 +189,8 @@ extension PhoneCall : CXCallObserverDelegate {
             print("Unable to activate audio session:  \(error.localizedDescription)")
         }
         
-        synthesizer = AVSpeechSynthesizer()
         synthesizer.mixToTelephonyUplink = true
+        synthesizer.delegate = self
     }
     
     func setUpObservers() {
@@ -218,6 +220,25 @@ extension PhoneCall : CXCallObserverDelegate {
         myUtterance.rate = 0.5
         synthesizer.speak(myUtterance)
     }
+    
+   /* func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
+        print("745 YELLOW BEAMER")
+        
+        let text = utterance.speechString
+        spokenMessages.append(text)
+        observeSynthesizerDelegate?.synthesizerStarted(message: text)
+        
+        print(utterance.speechString)
+    }
+    
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        print("did finish")
+    } */
+}
+
+protocol ObserveSynthesizer {
+    func synthesizerStarted(message: String)
+    func synthesizerEnded()
 }
 
 
