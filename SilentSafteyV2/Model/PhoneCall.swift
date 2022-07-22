@@ -12,12 +12,15 @@ import AVFAudio
 import WidgetKit
 
 class PhoneCall: NSObject {
-
-    var callObserver: CXCallObserver!
+    let callObserver: CXCallObserver = CXCallObserver()
     var backgroundTaskID: UIBackgroundTaskIdentifier?
     var synthesizer: AVSpeechSynthesizer!
     var firstMessageRecieved = false
-    
+
+    override init() {
+        super.init()
+        callObserver.setDelegate(self, queue: nil)
+    }
     var messageArray: [String] = [] {
         willSet {
             print("firstMessageRecieved \(firstMessageRecieved)")
@@ -30,46 +33,124 @@ class PhoneCall: NSObject {
     func initiatePhoneCall(phoneNumber: String) {
       //  messageArray = []
         firstMessageRecieved = false
-        setupCallObserver()
         
         if let url = URL(string: ("tel:" + phoneNumber)) {
-            UIApplication.shared.open(url) { opened in
-                if opened {
-                
-                }
-            }
+            UIApplication.shared.open(url)
         }
     }
+    
+  /*  func providerDidReset(_ provider: CXProvider) {
+        print("provider did reset")
+    }
+    func providerDidBegin(_ provider: CXProvider) {
+        print("provider did begin")
+    }
+    
+    func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
+        print("call started")
+    }
+    
+    func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
+        print("CALLL HOLD")
+    } */
 }
 
 extension PhoneCall : CXCallObserverDelegate {
+    func setUpBackgroundTask() {
+        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "CallObserver") {
+            print("YYYYEEEESSSS SMOOOGGGGG")
+            
+            self.endBackGroundTask()
+        }
+    }
     
-    func setupCallObserver() {
-        callObserver = CXCallObserver()
-        callObserver.setDelegate(self, queue: nil)
+    func endBackGroundTask() {
+        if self.backgroundTaskID != nil {
+            UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
+            self.backgroundTaskID = .invalid
+        }
+    }
+    
+    func locationPhoneCall() {
+        if(AppDelegate.location.checkAuthorization()) {
+            print("authorizaed")
+            AppDelegate.location.retrieveLocation()
+        }
+        else {
+            print("denied/restricted")
+        }
+    }
+    
+    func generateFirstMessage() -> String {
+        var templateString = "Hello. This is a call from the Silent Safety App. "
+        var dynamicMessage = "I'm "
+        
+        var oneValuePresent = false
+        
+        if let name = AppDelegate.userDefaults.string(forKey: AllStrings.name) {
+            templateString += "My name is \(name). "
+        }
+        
+        if let race = AppDelegate.userDefaults.string(forKey: AllStrings.race) {
+            dynamicMessage += "\(race), "
+            oneValuePresent = true
+        }
+        
+        if let gender = AppDelegate.userDefaults.string(forKey: AllStrings.gender) {
+            dynamicMessage += "\(gender), "
+            oneValuePresent = true
+        }
+        
+        if let weight = AppDelegate.userDefaults.string(forKey: AllStrings.weight) {
+            dynamicMessage += "\(weight) pounds, "
+            oneValuePresent = true
+        }
+        
+        if let age = AppDelegate.userDefaults.string(forKey: AllStrings.age) {
+            dynamicMessage += "\(age) years old, "
+            oneValuePresent = true
+        }
+        
+        if let height = AppDelegate.userDefaults.string(forKey: AllStrings.height) {
+            let components = height.components(separatedBy: " ")
+            dynamicMessage += "\(components[0]) feet \(components[1]) inches, "
+            oneValuePresent = true
+        }
+        
+        if let additionalInfo = AppDelegate.userDefaults.string(forKey: AllStrings.additionalInfo) {
+            dynamicMessage += ". \(additionalInfo). "
+            oneValuePresent = true
+        }
+        
+        if(oneValuePresent) {
+            print(templateString + dynamicMessage)
+            return (templateString + dynamicMessage)
+        } else {
+            return templateString
+        }
+    }
+    
+    func readMessages() {
+        for i in 0..<messageArray.count {
+            speakMessage(messageArray[i])
+        }
+    }
+    
+    func callEndedLocationResponse() {
+        AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
+        
+        AppDelegate.location.locationManager.stopUpdatingLocation()
     }
     
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-        print("called")
-        print(call)
+
         if call.hasEnded == true {
             print("CXCallState :Disconnected")
         
             Response.responseActive = false
+            callEndedLocationResponse()
+            endBackGroundTask()
             
-            AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
-            
-            AppDelegate.location.locationManager.stopUpdatingLocation()
-            
-            
-           /* if(!SceneDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinishedKey)) {
-                print("Endo")
-                NotificationCenter.default.post(name: .tutorialPhoneCallFinished, object: nil)
-            } */
-            
-           /* UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-            self.backgroundTaskID = .invalid */
-             
             messageArray = []
             firstMessageRecieved = false
 
@@ -77,42 +158,27 @@ extension PhoneCall : CXCallObserverDelegate {
         } else if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
             
-            self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "CallObserver") {
-                if self.backgroundTaskID != nil {
-                    UIApplication.shared.endBackgroundTask(self.backgroundTaskID!)
-                    self.backgroundTaskID = .invalid
-                }
-            }
-        
-        
+            setUpBackgroundTask()
             Response.responseActive = true
-    
-            if(AppDelegate.location.checkAuthorization()) {
-                print("authorizaed")
-                AppDelegate.location.retrieveLocation()
-            }
-            else {
-                print("denied/restricted")
-            }
+            locationPhoneCall()
             
         } else if call.hasConnected == true && call.hasEnded == false {
+            
             print("connected")
-            let firstMessage = "Hello. My name is Shivansh Nikhra and I'm really good at soccer"
+            
+            let firstMessage = generateFirstMessage()
             messageArray.insert(firstMessage, at: 0)
-            
-            for i in 0..<messageArray.count {
-                speakMessage(messageArray[i])
-            }
-            
+            readMessages()
             firstMessageRecieved = true
+            
         } else if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
             print("CXCallState :Incoming")
         }
 
+
     }
     
     func createSynthesizer() {
-        print("create synthesizers")
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: .duckOthers)
         
         do {
@@ -123,33 +189,20 @@ extension PhoneCall : CXCallObserverDelegate {
         
         synthesizer = AVSpeechSynthesizer()
         synthesizer.mixToTelephonyUplink = true
-        
-
-      /*  if let currentChannels =
-            AVAudioSession.sharedInstance().currentRoute.outputs.first?.channels {
-            /* print(AVAudioSession.sharedInstance().currentRoute.outputs.count)
-            print(AVAudioSession.sharedInstance().currentRoute.outputs) */ 
-            synthesizer.outputChannels = currentChannels
-        }  */
     }
     
     func setUpObservers() {
-        print("set up observers")
         NotificationCenter.default.addObserver(self, selector: #selector(recievedLocationNotification(notification:)), name: .locationFound, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(recievedAdditionalMessageNotification(notification:)), name: .additionalMessage, object: nil)
     }
-    
-   
+
     @objc func recievedLocationNotification(notification: NSNotification) {
         print("Got location notification")
     
         if let message = notification.userInfo?["placemark"] as? String {
             messageArray.append(message)
         }
-      /*  if let message = notification.userInfo?["placemark"] as? String {
-            speakMessage(message)
-         } */
     }
     
     @objc func recievedAdditionalMessageNotification(notification: NSNotification) {
@@ -164,7 +217,27 @@ extension PhoneCall : CXCallObserverDelegate {
         let myUtterance = AVSpeechUtterance(string: message)
         myUtterance.rate = 0.5
         synthesizer.speak(myUtterance)
-
     }
 }
 
+
+
+
+/*  let cxt = CXTransaction(action: CXStartCallAction(call: call.uuid, handle: CXHandle(type: .phoneNumber, value: "4693555568")))
+  
+  callController.request(cxt) { error in
+      if error == nil {
+          print("completion heandler")
+      } else {
+          
+      }
+  }
+  print("call observered")
+
+  print("UUID \(call.uuid)")
+  print("Outgoing \(call.isOutgoing)")
+  print("hasConnected \(call.hasConnected)")
+  print("hasEnded \(call.hasEnded)")
+  print("isOnHold \(call.isOnHold)")
+  print("called")
+  print(call) */
