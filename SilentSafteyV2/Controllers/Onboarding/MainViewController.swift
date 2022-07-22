@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
     }()
     
     var textFieldEssential: TextFieldEssential!
-   // let viewMessageVC = ViewMessageViewController() // Check This 
+    let viewMessageVC = ViewMessageViewController() // Check This
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,9 +48,13 @@ class MainViewController: UIViewController {
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonPressed))
         
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(pencilPressed))
+        
         AppDelegate.location.checkRequestPermission()
         AppDelegate.location.delegate = self
         AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
+        
+        AppDelegate.phoneCall.observeSynthesizerDelegate = viewMessageVC
     }
     
     func createUI() {
@@ -130,6 +134,10 @@ class MainViewController: UIViewController {
     
     @objc func sosButtonPressed() {
         AppDelegate.response.completeResponse()
+    }
+    
+    @objc func pencilPressed() {
+        self.navigationController?.pushViewController(viewMessageVC, animated: true)
     }
 }
 

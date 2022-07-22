@@ -159,6 +159,7 @@ extension PhoneCall : CXCallObserverDelegate {
             
             firstMessageRecieved = false
             self.synthesizer.stopSpeaking(at: .immediate) // Stop speaking after done
+            self.observeSynthesizerDelegate?.callEndedClear()
 
         } else if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
@@ -221,24 +222,33 @@ extension PhoneCall : CXCallObserverDelegate {
         synthesizer.speak(myUtterance)
     }
     
-   /* func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
         print("745 YELLOW BEAMER")
-        
-        let text = utterance.speechString
-        spokenMessages.append(text)
-        observeSynthesizerDelegate?.synthesizerStarted(message: text)
-        
-        print(utterance.speechString)
+
+        observeSynthesizerDelegate?.synthesizerStarted()
     }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        print("did finish")
-    } */
+        
+        let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
+        var changeLabel = true
+        
+        for message in spokenMessages {
+            if(text == message) {
+                changeLabel = false
+                break
+            }
+        }
+        
+        observeSynthesizerDelegate?.synthesizerEnded(message: text, changeLabel: changeLabel)
+        spokenMessages.append(text)
+    } 
 }
 
 protocol ObserveSynthesizer {
-    func synthesizerStarted(message: String)
-    func synthesizerEnded()
+    func synthesizerStarted()
+    func synthesizerEnded(message: String, changeLabel: Bool)
+    func callEndedClear()
 }
 
 

@@ -9,24 +9,60 @@ import UIKit
 
 class ViewMessageViewController: UIViewController, ObserveSynthesizer {
 
+    let titleLabel: UILabel = {
+        return ReusableUIElements.createLabel(fontSize: 30, text: "View what messages have been sent")
+    }()
+    
+    let sentMessagesLabel: UILabel = {
+        let label = ReusableUIElements.createLabel(fontSize: 20, text: "")
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.2
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("here")
+        createUI()
+        print("VIEW MESSAGE CONTROLLER PRESENT")
     }
-    
+      
     func createUI() {
+        
+        let safeArea = view.safeAreaLayoutGuide
         view.backgroundColor = .black
+        
+        view.addSubview(titleLabel)
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16)
+        ])
+        
+        view.addSubview(sentMessagesLabel)
+        NSLayoutConstraint.activate([
+            sentMessagesLabel.topAnchor.constraint(equalTo: titleLabel.topAnchor, constant: 16),
+            sentMessagesLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            sentMessagesLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            sentMessagesLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16)
+        ])
     }
     
-    func synthesizerStarted(message: String) {
-        view.backgroundColor = .green
-        print(message)
-        print("ended")
+    func synthesizerStarted() {
+        navigationController?.navigationBar.backgroundColor = .green
+        print("Synthesizer started")
     }
     
-    func synthesizerEnded() {
-        print("started")
+    func synthesizerEnded(message: String, changeLabel: Bool) {
+        print("Synthesizer ended")
+        navigationController?.navigationBar.backgroundColor = .black
+        
+        if(changeLabel) {
+            sentMessagesLabel.text = sentMessagesLabel.text! + "\n \n" + message
+        }
     }
     
-    
+    func callEndedClear() {
+        sentMessagesLabel.text = ""
+        self.navigationController?.popToRootViewController(animated: true)
+    }
 }
