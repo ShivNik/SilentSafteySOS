@@ -25,9 +25,8 @@ class ViewMessageViewController: UIViewController, ObserveSynthesizer {
         createUI()
         print("VIEW MESSAGE CONTROLLER PRESENT")
     }
-      
+    
     func createUI() {
-        
         let safeArea = view.safeAreaLayoutGuide
         view.backgroundColor = .black
         
@@ -48,21 +47,22 @@ class ViewMessageViewController: UIViewController, ObserveSynthesizer {
     }
     
     func synthesizerStarted() {
-        navigationController?.navigationBar.backgroundColor = .green
+        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .green
         print("Synthesizer started")
     }
     
     func synthesizerEnded(message: String, changeLabel: Bool) {
+        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
         print("Synthesizer ended")
-        navigationController?.navigationBar.backgroundColor = .black
-        
+    
         if(changeLabel) {
             sentMessagesLabel.text = sentMessagesLabel.text! + "\n \n" + message
         }
     }
     
-    func callEndedClear() {
+    func callEnded() {
         sentMessagesLabel.text = ""
+        // self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
         self.navigationController?.popToRootViewController(animated: true)
     }
 }

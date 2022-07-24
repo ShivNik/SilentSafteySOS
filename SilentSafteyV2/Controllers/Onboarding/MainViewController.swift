@@ -29,7 +29,7 @@ class MainViewController: UIViewController {
     }()
     
     let messageTipsLabelText: NSMutableAttributedString = {
-        let myMutableString = NSMutableAttributedString(string: "Message Tips", attributes: [NSAttributedString.Key.font : UIFont(name: "Georgia", size: 25)!])
+        let myMutableString = NSMutableAttributedString(string: "Message Tips", attributes: [NSAttributedString.Key.font : UIFont(name: "Georgia", size: 20)!])
         
         myMutableString.append(NSMutableAttributedString(string: "\n 1. Describe the Situation \n 2. Describe identifier - Tatoos, Scars, Clothes \n 3. Enter Specific Loction (Apartment number etc.)"))
         
@@ -48,7 +48,15 @@ class MainViewController: UIViewController {
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonPressed))
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(pencilPressed))
+        let viewSentMessageButton = ReusableUIElements.createButton(title: "  View Sent Messages  ")
+        viewSentMessageButton.addTarget(self, action: #selector(viewSentMessageButtonPressed), for: .touchUpInside)
+        viewSentMessageButton.sizeToFit()
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: viewSentMessageButton)
+        
+      //  self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+        
+     //   self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(pencilPressed))
         
         AppDelegate.location.checkRequestPermission()
         AppDelegate.location.delegate = self
@@ -80,7 +88,7 @@ class MainViewController: UIViewController {
         view.addSubview(sosButton)
         
         NSLayoutConstraint.activate([
-            sosButton.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            sosButton.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             sosButton.widthAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 50),
             sosButton.heightAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 50),
             sosButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
@@ -100,7 +108,7 @@ class MainViewController: UIViewController {
     
         // Tips Label
         directionsLabel.attributedText = messageTipsLabelText
-      //  directionsLabel.font = oneLabel.font.withSize(CGFloat(15.0))
+        directionsLabel.font = directionsLabel.font.withSize(CGFloat(15.0))
         directionsLabel.adjustsFontSizeToFitWidth = true
         directionsLabel.minimumScaleFactor = 0.2
         uiView.addSubview(directionsLabel)
@@ -136,7 +144,7 @@ class MainViewController: UIViewController {
         AppDelegate.response.completeResponse()
     }
     
-    @objc func pencilPressed() {
+    @objc func viewSentMessageButtonPressed() {
         self.navigationController?.pushViewController(viewMessageVC, animated: true)
     }
 }
@@ -190,7 +198,7 @@ extension MainViewController: LocationProtocol {
 
         let myMutableString = NSMutableAttributedString(string: newLineText, attributes: [NSAttributedString.Key.foregroundColor : UIColor.red])
 
-        myMutableString.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Georgia", size: 25)!, range: NSRange(location: 0, length: newLineText.count))
+        myMutableString.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Georgia", size: 20)!, range: NSRange(location: 0, length: newLineText.count))
         
         let existingTextMutable = NSMutableAttributedString(attributedString: messageTipsLabelText)
         

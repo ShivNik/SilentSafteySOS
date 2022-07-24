@@ -19,19 +19,20 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     var firstMessageRecieved = false
     var spokenMessages: [String] = []
     var observeSynthesizerDelegate: ObserveSynthesizer?
+    var messageLength: Int!
 
     override init() {
         super.init()
         callObserver.setDelegate(self, queue: nil)
     }
-    var messageArray: [String] = [] {
+    var messageArray: [String] = [] /* {
         willSet {
             print("firstMessageRecieved \(firstMessageRecieved)")
             if(firstMessageRecieved && newValue.count - 1 >= 0) {
                 speakMessage(newValue[newValue.count - 1])
             }
         }
-    }
+    } */
     
     func initiatePhoneCall(phoneNumber: String) {
       //  messageArray = []
@@ -41,27 +42,11 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
             UIApplication.shared.open(url)
         }
     }
-    
-  /*  func providerDidReset(_ provider: CXProvider) {
-        print("provider did reset")
-    }
-    func providerDidBegin(_ provider: CXProvider) {
-        print("provider did begin")
-    }
-    
-    func provider(_ provider: CXProvider, perform action: CXStartCallAction) {
-        print("call started")
-    }
-    
-    func provider(_ provider: CXProvider, perform action: CXSetHeldCallAction) {
-        print("CALLL HOLD")
-    } */
 }
 
 extension PhoneCall : CXCallObserverDelegate {
     func setUpBackgroundTask() {
         self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "CallObserver") {
-            print("YYYYEEEESSSS SMOOOGGGGG")
             
             self.endBackGroundTask()
         }
@@ -133,10 +118,12 @@ extension PhoneCall : CXCallObserverDelegate {
         }
     }
     
-    func readMessages() {
-        for i in 0..<messageArray.count {
+    func readMessages(boundOne: Int, boundTwo: Int) {
+        for i in boundOne..<boundTwo {
             speakMessage(messageArray[i])
         }
+        print("read messages")
+        
     }
     
     func callEndedLocationResponse() {
@@ -159,7 +146,7 @@ extension PhoneCall : CXCallObserverDelegate {
             
             firstMessageRecieved = false
             self.synthesizer.stopSpeaking(at: .immediate) // Stop speaking after done
-            self.observeSynthesizerDelegate?.callEndedClear()
+         //   self.observeSynthesizerDelegate?.callEnded()
 
         } else if call.isOutgoing == true && call.hasConnected == false {
             print("CXCallState :Dialing")
@@ -173,11 +160,26 @@ extension PhoneCall : CXCallObserverDelegate {
             
             let firstMessage = generateFirstMessage()
             messageArray.insert(firstMessage, at: 0)
-            readMessages()
+            readMessages(boundOne: 0,boundTwo: messageArray.count)
             firstMessageRecieved = true
+            messageLength = messageArray.count
+            
+           /* DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+                self.readMessages()
+            } */
             
         } else if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
             print("CXCallState :Incoming")
+        }
+        
+        
+        
+        if call.isOutgoing == true && call.isOnHold == true {
+           print("outgoing call is on hold")
+        }
+        
+        if call.isOutgoing == false && call.isOnHold == true {
+             print("incoming call is on hold")
         }
     }
     
@@ -224,13 +226,39 @@ extension PhoneCall : CXCallObserverDelegate {
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
         print("745 YELLOW BEAMER")
-
-        observeSynthesizerDelegate?.synthesizerStarted()
+      //  observeSynthesizerDelegate?.synthesizerStarted()
     }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        
         let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
+        if(!checkSpokenMessagesSpoken(text: text)) {
+            spokenMessages.append(text)
+        }
+        
+        print(messageLength)
+        messageLength -= 1
+        
+        if(messageLength == 0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.messageLength = self.messageArray.count
+                print("there")
+                print(self.spokenMessages)
+                print(self.messageArray)
+                
+                if(self.messageLength > self.spokenMessages.count) {
+                    print("here")
+                    print(self.spokenMessages)
+                    print(self.messageArray)
+                    
+                    self.readMessages(boundOne: self.spokenMessages.count, boundTwo: self.messageArray.count)
+                    self.readMessages(boundOne: 0, boundTwo: self.spokenMessages.count)
+                    
+                } else {
+                    self.readMessages(boundOne: 0,boundTwo: self.messageArray.count)
+                }
+            }
+        }
+       /* let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
         var changeLabel = true
         
         for message in spokenMessages {
@@ -241,14 +269,23 @@ extension PhoneCall : CXCallObserverDelegate {
         }
         
         observeSynthesizerDelegate?.synthesizerEnded(message: text, changeLabel: changeLabel)
-        spokenMessages.append(text)
-    } 
+        spokenMessages.append(text) */
+    }
+    
+    func checkSpokenMessagesSpoken(text: String) -> Bool {
+        for message in spokenMessages {
+            if(text == message) {
+                return true
+            }
+        }
+        return false
+    }
 }
 
 protocol ObserveSynthesizer {
     func synthesizerStarted()
     func synthesizerEnded(message: String, changeLabel: Bool)
-    func callEndedClear()
+    func callEnded()
 }
 
 

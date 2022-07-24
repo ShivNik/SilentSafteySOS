@@ -17,7 +17,7 @@ class NavigationControllerEssentials: NSObject, UINavigationControllerDelegate {
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
             let vcType = type(of: viewController)
             
-            let vcValid = (vcType == MainViewController.self) || (vcType == SettingsViewController.self) || (vcType == ContactViewController.self)
+            let vcValid = (vcType == MainViewController.self) || (vcType == SettingsViewController.self) || (vcType == ContactViewController.self) || (vcType == ViewMessageViewController.self)
             
             if(!vcValid) {
                  let exitBarButton = CustomBarButtonItem(title: "Exit", style: .plain, target: self, action: #selector(exitPressed(sender:)))
