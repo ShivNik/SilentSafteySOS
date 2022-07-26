@@ -118,7 +118,6 @@ extension InformationViewController {
             
             saveButton.centerXAnchor.constraint(equalTo: scrollViewStackView.centerXAnchor, constant: 0),
             saveButton.bottomAnchor.constraint(equalTo: scrollViewStackView.bottomAnchor, constant: CGFloat(-40))
-            
         ])
         
         // Title Label
@@ -126,7 +125,7 @@ extension InformationViewController {
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "Step 1 information"),
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "Enter your information. This will be sent to the police")
         ]
-    
+        
         // Label Stack View
         let titleLabelStackView = ReusableUIElements.createStackView(stackViewElements: titleLabels, spacing: 0, distributionType: .fillEqually)
         scrollViewStackView.addSubview(titleLabelStackView)
@@ -137,7 +136,6 @@ extension InformationViewController {
             titleLabelStackView.leadingAnchor.constraint(equalTo: scrollViewStackView.leadingAnchor, constant: 16),
             titleLabelStackView.trailingAnchor.constraint(equalTo: scrollViewStackView.trailingAnchor, constant: -16)
         ])
-        
         titleLabelStackView.layoutIfNeeded()
         
         // Information Sky Text Field
@@ -191,7 +189,7 @@ extension InformationViewController {
     }
 }
 
-// MARK: -  Text Validation Methods
+// MARK: -  Text Validation Method
 extension InformationViewController {
     
     func allValidation(floatingLabelTextField: SkyFloatingLabelTextField) -> Bool {

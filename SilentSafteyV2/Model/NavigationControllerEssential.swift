@@ -29,7 +29,6 @@ class NavigationControllerEssentials: NSObject, UINavigationControllerDelegate {
     }
     
     @objc func exitPressed(sender: CustomBarButtonItem) {
-        print("Exist pressed")
         sender.navController?.popToRootViewController(animated: true)
     }
 }

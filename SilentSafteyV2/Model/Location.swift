@@ -115,11 +115,11 @@ class Location: NSObject, CLLocationManagerDelegate {
             case .denied, .restricted:
                 print("denied, restricted")
                 delegate?.updateLocationLabel(text: "Type location in additional message - Permission Not Granted")
-                NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
+                NotificationCenter.default.post(name: .locationAuthorizationDetermined, object: nil)
             case .authorizedWhenInUse, .authorizedAlways:
                 print("authorized")
                 checkPrecisionAccuracyAuthorization()
-                NotificationCenter.default.post(name: .locationAuthorizationGiven, object: nil)
+                NotificationCenter.default.post(name: .locationAuthorizationDetermined, object: nil)
             default:
                 print("not determiend")
                 delegate?.updateLocationLabel(text: "Location Services Not Determined")
@@ -151,10 +151,13 @@ class Location: NSObject, CLLocationManagerDelegate {
         }
     }
     
-    func retrieveLocationAuthorizaiton() -> CLAuthorizationStatus {
+    func retrieveLocationAuthorization() -> CLAuthorizationStatus {
         return locationManager.authorizationStatus
     }
 }
 
-
+struct LocationObject {
+    let horizontalAccuracy: Double
+    let placemark: CLPlacemark
+}
 

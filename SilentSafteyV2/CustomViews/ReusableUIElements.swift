@@ -195,7 +195,7 @@ class ReusableUIElements:  NSObject, UITextFieldDelegate {
         
         NSLayoutConstraint.activate([
             textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -5),
             textView.widthAnchor.constraint(equalTo: safeArea.widthAnchor, multiplier: 0.85)
         ])
     }

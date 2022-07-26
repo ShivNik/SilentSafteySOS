@@ -13,10 +13,14 @@ import WidgetKit
 
 class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     
+    // Call Observer, Background Task, Synthesizer
     let callObserver: CXCallObserver = CXCallObserver()
     var backgroundTaskID: UIBackgroundTaskIdentifier?
     var synthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
+    
+    // Hold/Repeat
     var firstMessageRecieved = false
+    var messageArray: [String] = []
     var spokenMessages: [String] = []
     var observeSynthesizerDelegate: ObserveSynthesizer?
     var index = 0
@@ -26,14 +30,6 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
         super.init()
         callObserver.setDelegate(self, queue: nil)
     }
-    var messageArray: [String] = [] /* {
-        willSet {
-            print("firstMessageRecieved \(firstMessageRecieved)")
-            if(firstMessageRecieved && newValue.count - 1 >= 0) {
-                speakMessage(newValue[newValue.count - 1])
-            }
-        }
-    } */
     
     func initiatePhoneCall(phoneNumber: String) {
       //  messageArray = []
@@ -45,10 +41,103 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     }
 }
 
+// MARK: -  Call Observer and Responses
 extension PhoneCall : CXCallObserverDelegate {
-    func setUpBackgroundTask() {
-        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "CallObserver") {
+    
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+
+        if call.hasEnded == true {
+            print("CXCallState :Disconnected")
+            callEnded()
             
+        } else if call.isOutgoing == true && call.hasConnected == false {
+            print("CXCallState :Dialing")
+            callDialed()
+            
+        } else if call.hasConnected == true && call.hasEnded == false {
+            print("CXCallState :Connected")
+            callConnected()
+        }
+    }
+    
+    func callDialed() {
+        startBackGroundTask()
+        
+        Response.responseActive = true
+        startLocation()
+        observeSynthesizerDelegate?.callStarted()
+    }
+    
+    func callConnected() {
+        let firstMessage = generateFirstMessage()
+        messageArray.insert(firstMessage, at: 0)
+        speakMessage(firstMessage)
+        
+        target = 1
+        firstMessageRecieved = true
+    }
+    
+    func callEnded() {
+        Response.responseActive = false
+        firstMessageRecieved = false
+        endLocation()
+        endBackGroundTask()
+        
+        messageArray = []
+        spokenMessages = []
+        index = 0
+        target = 1
+        
+        self.synthesizer.stopSpeaking(at: .immediate) // Stop speaking after done
+        observeSynthesizerDelegate?.callEnded()
+    }
+}
+
+// MARK: -  Set Up Methods
+extension PhoneCall {
+    func createSynthesizer() {
+        let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: .duckOthers)
+        
+        do {
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch let error as NSError {
+            print("Unable to activate audio session:  \(error.localizedDescription)")
+        }
+        
+        synthesizer.mixToTelephonyUplink = true
+        synthesizer.delegate = self
+    }
+    
+    func setUpObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(recievedLocationNotification(notification:)), name: .locationFound, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(recievedAdditionalMessageNotification(notification:)), name: .additionalMessage, object: nil)
+    }
+    
+    @objc func recievedLocationNotification(notification: NSNotification) {
+        print("Got location notification")
+    
+        if let message = notification.userInfo?["placemark"] as? String {
+            if(firstMessageRecieved) {
+                messageArray.insert(message, at: 1)
+            } else {
+                messageArray.insert(message, at: 0)
+            }
+        }
+        
+        
+    }
+    
+    @objc func recievedAdditionalMessageNotification(notification: NSNotification) {
+        print("Got additional message notification notification")
+        
+        if let message = notification.userInfo?["additionalMessage"] as? String {
+            messageArray.append(message)
+        }
+    }
+    
+    func startBackGroundTask() {
+        self.backgroundTaskID = UIApplication.shared.beginBackgroundTask(withName: "CallObserver") {
             self.endBackGroundTask()
         }
     }
@@ -59,17 +148,52 @@ extension PhoneCall : CXCallObserverDelegate {
             self.backgroundTaskID = .invalid
         }
     }
-    
-    func locationPhoneCall() {
-        if(AppDelegate.location.checkAuthorization()) {
-            print("authorizaed")
-            AppDelegate.location.retrieveLocation()
-        }
-        else {
-            print("denied/restricted")
-        }
+}
+
+// MARK: -  Synthesizer Delegate Methods
+extension PhoneCall {
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
+        observeSynthesizerDelegate?.synthesizerStarted()
     }
     
+    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        observeSynthesizerDelegate?.synthesizerEnded()
+    
+        if(Response.responseActive) {
+            let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
+            print("text \(text)")
+            
+            if(!checkSpokenMessagesSpoken(text: text)) {
+                spokenMessages.append(text)
+            }
+            
+            if(messageArray.count > spokenMessages.count) {
+                speakMessage(messageArray[spokenMessages.count])
+                
+            } else if(messageArray.count == spokenMessages.count) {
+                index += 1
+                
+                if(index == target) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [self] in
+                        if(Response.responseActive) {
+                            index = 0
+                            target = spokenMessages.count
+                            
+                            if(messageArray.count >= 1) {
+                                speakMessage(messageArray[index])
+                            }
+                        }
+                    }
+                } else {
+                    speakMessage(messageArray[index])
+                }
+            }
+        }
+    }
+}
+
+// MARK: -  Helper Methods
+extension PhoneCall {
     func generateFirstMessage() -> String {
         var templateString = "Hello. This is a call from the Silent Safety App. "
         var dynamicMessage = "I'm "
@@ -112,163 +236,19 @@ extension PhoneCall : CXCallObserverDelegate {
         }
         
         if(oneValuePresent) {
-            print(templateString + dynamicMessage)
             return (templateString + dynamicMessage)
         } else {
             return templateString
         }
     }
     
-    func readMessages(boundOne: Int, boundTwo: Int) {
-        for i in boundOne..<boundTwo {
-            speakMessage(messageArray[i])
-        }
-        print("read messages")
-        
-    }
-    
-    func callEndedLocationResponse() {
-        AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
-        
-        AppDelegate.location.locationManager.stopUpdatingLocation()
-    }
-    
-    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-
-        if call.hasEnded == true {
-            print("CXCallState :Disconnected")
-        
-            Response.responseActive = false
-            callEndedLocationResponse()
-            endBackGroundTask()
-            
-            messageArray = []
-            spokenMessages = []
-            index = 0
-            
-            firstMessageRecieved = false
-            self.synthesizer.stopSpeaking(at: .immediate) // Stop speaking after done
-         //   self.observeSynthesizerDelegate?.callEnded()
-
-        } else if call.isOutgoing == true && call.hasConnected == false {
-            print("CXCallState :Dialing")
-            setUpBackgroundTask()
-            Response.responseActive = true
-            locationPhoneCall()
-            
-        } else if call.hasConnected == true && call.hasEnded == false {
-            
-            print("connected")
-            
-            let firstMessage = generateFirstMessage()
-            messageArray.insert(firstMessage, at: 0)
-            speakMessage(firstMessage)
-            target = 1
-            firstMessageRecieved = true
-
-            
-        } else if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
-            print("CXCallState :Incoming")
-        }
-        
-        
-        
-        if call.isOutgoing == true && call.isOnHold == true {
-           print("outgoing call is on hold")
-        }
-        
-        if call.isOutgoing == false && call.isOnHold == true {
-             print("incoming call is on hold")
-        }
-    }
-    
-    func createSynthesizer() {
-        let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.playback, options: .duckOthers)
-        
-        do {
-            try AVAudioSession.sharedInstance().setActive(true)
-        } catch let error as NSError {
-            print("Unable to activate audio session:  \(error.localizedDescription)")
-        }
-        
-        synthesizer.mixToTelephonyUplink = true
-        synthesizer.delegate = self
-    }
-    
-    func setUpObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(recievedLocationNotification(notification:)), name: .locationFound, object: nil)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(recievedAdditionalMessageNotification(notification:)), name: .additionalMessage, object: nil)
-    }
-
-    @objc func recievedLocationNotification(notification: NSNotification) {
-        print("Got location notification")
-    
-        if let message = notification.userInfo?["placemark"] as? String {
-            if(firstMessageRecieved) {
-                messageArray.insert(message, at: 1)
-            } else {
-                messageArray.insert(message, at: 0)
-            }
-        }
-        
-        
-    }
-    
-    @objc func recievedAdditionalMessageNotification(notification: NSNotification) {
-        print("Got additional message notification notification")
-        
-        if let message = notification.userInfo?["additionalMessage"] as? String {
-            messageArray.append(message)
-        }
-    }
-    
     func speakMessage(_ message: String) {
         let myUtterance = AVSpeechUtterance(string: message)
-        myUtterance.rate = 0.5
+        myUtterance.rate = 0.45
         synthesizer.speak(myUtterance)
         
     }
-    
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
-        print("745 YELLOW BEAMER")
-    }
-    
-    func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-            
-        print(messageArray)
-        print(spokenMessages)
-        print(index)
-        
-        let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
-        print("text \(text)")
-        
-        if(!checkSpokenMessagesSpoken(text: text)) {
-            spokenMessages.append(text)
-        }
-        
-        if(messageArray.count > spokenMessages.count) {
-            speakMessage(messageArray[spokenMessages.count])
-            
-        } else if(messageArray.count == spokenMessages.count) {
-            index += 1
-            
-            if(index == target) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [self] in
-                    print("3 second wait")
-                    index = 0
-                    target = spokenMessages.count
-                    
-                    if(messageArray.count >= 1) {
-                        speakMessage(messageArray[index])
-                    }
-                }
-            } else {
-                speakMessage(messageArray[index])
-            }
-        }
-    }
-    
+
     func checkSpokenMessagesSpoken(text: String) -> Bool {
         for message in spokenMessages {
             if(text == message) {
@@ -279,63 +259,28 @@ extension PhoneCall : CXCallObserverDelegate {
     }
 }
 
+// MARK: -  Location Start and Stop
+extension PhoneCall {
+    func startLocation() {
+        if(AppDelegate.location.checkAuthorization()) {
+            print("authorizaed")
+            AppDelegate.location.retrieveLocation()
+        }
+        else {
+            print("denied/restricted")
+        }
+    }
+    
+    func endLocation() {
+        AppDelegate.location.locationManager.stopUpdatingLocation()
+        AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
+    }
+}
+
 protocol ObserveSynthesizer {
     func synthesizerStarted()
-    func synthesizerEnded(message: String, changeLabel: Bool)
+    func synthesizerEnded()
     func callStarted() 
     func callEnded()
 }
 
-
-/*
- let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
- print("text \(text)")
- if(!checkSpokenMessagesSpoken(text: text)) {
-     spokenMessages.append(text)
- }
- 
- messageLength -= 1
- print(spokenMessages)
- print(messageArray)
- print(messageLength)
- print(spokenMessages.count)
- print(messageArray.count)
- 
- if(messageArray.count > spokenMessages.count) {
-     print("RRRAWAAWR")
-     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
-         synthesizer.stopSpeaking(at: .immediate)
-         
-         for i in spokenMessages.count..<(messageArray.count) {
-             print(messageArray[i])
-             speakMessage(messageArray[i])
-         }
-         
-         for i in (spokenMessages.count - messageLength)..<(spokenMessages.count) {
-             print(spokenMessages[i])
-             speakMessage(spokenMessages[i])
-         }
- 
-         messageLength += (messageArray.count - spokenMessages.count)
-         print("messageLength \(messageLength)")
-     }
-     return
- }
- 
- if(messageLength == 0) {
-     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-         self.messageLength = self.messageArray.count
-         print("there")
- 
-         if(self.messageLength > self.spokenMessages.count) {
-             print("here")
-             
-             self.readMessages(boundOne: self.spokenMessages.count, boundTwo: self.messageArray.count)
-             self.readMessages(boundOne: 0, boundTwo: self.spokenMessages.count)
-             
-         } else {
-             self.readMessages(boundOne: 0,boundTwo: self.messageArray.count)
-         }
-     }
- }
- */

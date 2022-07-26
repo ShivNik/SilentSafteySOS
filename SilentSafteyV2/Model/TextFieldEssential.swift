@@ -107,8 +107,11 @@ extension TextFieldEssential {
         
         if(trimmedString != "") {
             let set = CharacterSet(charactersIn: trimmedString)
+            
             if CharacterSet.decimalDigits.isSuperset(of: set) && trimmedString.count == 10 {
                return true
+            } else if(trimmedString == "911") {
+                return true
             }
         }
         return false

@@ -87,6 +87,7 @@ class PreTestViewController: UIViewController {
     }
 
     @objc func continueToTestButtonPressed(button: UIButton) {
+    
         if(textFieldEssential.validatePhoneNumber(skyTextField: skyTextField)) {
             skyTextField.errorMessage = ""
             

@@ -68,3 +68,9 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
         super.prepareForReuse()
     }
 }
+
+struct OnboardingObject {
+    let image: UIImage
+    let title: String
+    let description: String
+}

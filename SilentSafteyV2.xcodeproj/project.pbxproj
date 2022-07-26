@@ -25,7 +25,6 @@
 		487833B42875E0F700BD7C52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487833B32875E0F700BD7C52 /* Assets.xcassets */; };
 		487833B72875E0F800BD7C52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487833B52875E0F800BD7C52 /* LaunchScreen.storyboard */; };
 		487833C42875E24300BD7C52 /* IntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C32875E24300BD7C52 /* IntroViewController.swift */; };
-		487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C52875E2A300BD7C52 /* OnboardingObject.swift */; };
 		487833C82875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */; };
 		487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833C92875E67000BD7C52 /* ReusableUIElements.swift */; };
 		487833CC2875F22E00BD7C52 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487833CB2875F22E00BD7C52 /* InformationViewController.swift */; };
@@ -36,7 +35,6 @@
 		48B65D92287A111A00414BD0 /* VolumeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D91287A111A00414BD0 /* VolumeExtension.swift */; };
 		48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D93287A113900414BD0 /* NotificationExtension.swift */; };
 		48B65D96287A116700414BD0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D95287A116700414BD0 /* Location.swift */; };
-		48B947012881C5DE0060090E /* LocationObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B947002881C5DE0060090E /* LocationObject.swift */; };
 		48BBECDE28899C92000B2BF9 /* TextFieldEssential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BBECDD28899C92000B2BF9 /* TextFieldEssential.swift */; };
 		48BBECE0288A13E5000B2BF9 /* NavigationControllerEssential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BBECDF288A13E5000B2BF9 /* NavigationControllerEssential.swift */; };
 		48C6549F28834FB30078C83A /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C6549E28834FB20078C83A /* ContactViewController.swift */; };
@@ -91,7 +89,6 @@
 		487833B62875E0F800BD7C52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		487833B82875E0F800BD7C52 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		487833C32875E24300BD7C52 /* IntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroViewController.swift; sourceTree = "<group>"; };
-		487833C52875E2A300BD7C52 /* OnboardingObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingObject.swift; sourceTree = "<group>"; };
 		487833C72875E2EB00BD7C52 /* OnboardingCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCollectionViewCell.swift; sourceTree = "<group>"; };
 		487833C92875E67000BD7C52 /* ReusableUIElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableUIElements.swift; sourceTree = "<group>"; };
 		487833CB2875F22E00BD7C52 /* InformationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
@@ -102,7 +99,6 @@
 		48B65D91287A111A00414BD0 /* VolumeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeExtension.swift; sourceTree = "<group>"; };
 		48B65D93287A113900414BD0 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
 		48B65D95287A116700414BD0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
-		48B947002881C5DE0060090E /* LocationObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationObject.swift; sourceTree = "<group>"; };
 		48BBECDD28899C92000B2BF9 /* TextFieldEssential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldEssential.swift; sourceTree = "<group>"; };
 		48BBECDF288A13E5000B2BF9 /* NavigationControllerEssential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerEssential.swift; sourceTree = "<group>"; };
 		48C6549E28834FB20078C83A /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -200,10 +196,8 @@
 		487833C02875E12700BD7C52 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				487833C52875E2A300BD7C52 /* OnboardingObject.swift */,
 				48B65D95287A116700414BD0 /* Location.swift */,
 				48C9607F287F4E7C004A47D8 /* PhoneCall.swift */,
-				48B947002881C5DE0060090E /* LocationObject.swift */,
 				48852E2C2882283D0011628F /* ResponseVariables.swift */,
 				48BBECDD28899C92000B2BF9 /* TextFieldEssential.swift */,
 				48BBECDF288A13E5000B2BF9 /* NavigationControllerEssential.swift */,
@@ -422,9 +416,7 @@
 				48B65D92287A111A00414BD0 /* VolumeExtension.swift in Sources */,
 				48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */,
 				487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */,
-				48B947012881C5DE0060090E /* LocationObject.swift in Sources */,
 				487833AD2875E0F100BD7C52 /* SceneDelegate.swift in Sources */,
-				487833C62875E2A300BD7C52 /* OnboardingObject.swift in Sources */,
 				48C96080287F4E7C004A47D8 /* PhoneCall.swift in Sources */,
 				48C6549F28834FB30078C83A /* ContactViewController.swift in Sources */,
 				487833C42875E24300BD7C52 /* IntroViewController.swift in Sources */,

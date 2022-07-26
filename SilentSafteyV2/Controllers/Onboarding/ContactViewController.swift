@@ -72,10 +72,11 @@ class ContactViewController: UIViewController {
     }
     
     @objc func saveButtonPressed() {
-        if(textFieldEssential.validatePhoneNumber(skyTextField: textField) || textField.text == "123" ) { // == "911"
+        if(textFieldEssential.validatePhoneNumber(skyTextField: textField)) {
             textField.errorMessage = ""
             AppDelegate.userDefaults.set(textField.text, forKey: AllStrings.phoneNumber)
             navigationController?.popToRootViewController(animated: true)
+            
         } else {
             textField.errorMessage = "Invalid Phone Number"
             button.setTitle("Try Again", for: .normal)

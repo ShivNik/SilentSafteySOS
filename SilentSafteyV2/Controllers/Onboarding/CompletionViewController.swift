@@ -57,6 +57,8 @@ class CompletionViewController: UIViewController {
             navigation.delegate = AppDelegate.navControllerEssentials
 
             SceneDelegate.window?.rootViewController = navigation
+            
+            // Set default number to 911 - AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber)
         }
     }
 }

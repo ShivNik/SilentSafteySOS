@@ -18,4 +18,5 @@ struct AllStrings {
     static let additionalInfo = "additionalInfo"
     static let tutorialFinished = "tutorialFinished"
     static let phoneNumber = "phoneNumber"
+    static let widgetUserActivityName = "SOS Button"
 }

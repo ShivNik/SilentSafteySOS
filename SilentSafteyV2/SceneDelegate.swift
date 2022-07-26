@@ -17,10 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
         guard let scene = (scene as? UIWindowScene) else { return }
         
-        if let userActivity = connectionOptions.userActivities.first {
-            AppDelegate.response.completeResponse()
-        }
-        
         let window = UIWindow(windowScene: scene)
         
         AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
@@ -40,6 +36,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         SceneDelegate.window = window
         window.makeKeyAndVisible()
+        
+        if let userActivity = connectionOptions.userActivities.first {
+            if(userActivity.activityType == AllStrings.widgetUserActivityName) {
+                AppDelegate.response.completeResponse()
+            }
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -52,11 +54,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-      /*  AppDelegate.location.checkRequestPermission()
-        print("Scene became active") */
-        print("scene did become active")
-      //  AppDelegate.location.locationManager.stopUpdatingLocation()
-    
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -75,15 +72,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
     
-  /*  func scene(_ scene: UIScene, willContinueUserActivityWithType userActivityType: String) {
-        print(userActivityType)
-    } */
-    
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        print(userActivity.activityType)
-        print("scene delegate continue suera activty")
-    
-        AppDelegate.response.completeResponse()
+        if(userActivity.activityType == AllStrings.widgetUserActivityName) {
+            AppDelegate.response.completeResponse()
+        }
     }
 }
 
