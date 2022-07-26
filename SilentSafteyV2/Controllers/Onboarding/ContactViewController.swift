@@ -34,7 +34,7 @@ class ContactViewController: UIViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         // Title Label
-        let titleLabel = ReusableUIElements.createLabel(fontSize: 31, text: "Custom Contact Number (By default set to 911)")
+        let titleLabel = ReusableUIElements.createLabel(fontSize: 30, text: "Custom Contact Number (By default set to 911)")
 
         // Phone Number Text Field
         textField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)

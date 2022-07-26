@@ -20,6 +20,7 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     var spokenMessages: [String] = []
     var observeSynthesizerDelegate: ObserveSynthesizer?
     var messageLength: Int!
+    var ended: Bool = false
 
     override init() {
         super.init()
@@ -160,13 +161,11 @@ extension PhoneCall : CXCallObserverDelegate {
             
             let firstMessage = generateFirstMessage()
             messageArray.insert(firstMessage, at: 0)
+          //  messageArray.insert("trying to instigate a conflict", at: 1)
+          //  messageArray.insert("King von", at: 2)
             readMessages(boundOne: 0,boundTwo: messageArray.count)
             firstMessageRecieved = true
             messageLength = messageArray.count
-            
-           /* DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
-                self.readMessages()
-            } */
             
         } else if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
             print("CXCallState :Incoming")
@@ -206,8 +205,14 @@ extension PhoneCall : CXCallObserverDelegate {
         print("Got location notification")
     
         if let message = notification.userInfo?["placemark"] as? String {
-            messageArray.append(message)
+            if(firstMessageRecieved) {
+                messageArray.insert(message, at: 1)
+            } else {
+                messageArray.insert(message, at: 0)
+            }
         }
+        
+        
     }
     
     @objc func recievedAdditionalMessageNotification(notification: NSNotification) {
@@ -222,54 +227,69 @@ extension PhoneCall : CXCallObserverDelegate {
         let myUtterance = AVSpeechUtterance(string: message)
         myUtterance.rate = 0.5
         synthesizer.speak(myUtterance)
+        
     }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
         print("745 YELLOW BEAMER")
-      //  observeSynthesizerDelegate?.synthesizerStarted()
+       // synthesizer.stopSpeaking(at: .immediate)
+        
     }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
-        if(!checkSpokenMessagesSpoken(text: text)) {
-            spokenMessages.append(text)
-        }
         
-        print(messageLength)
-        messageLength -= 1
-        
-        if(messageLength == 0) {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.messageLength = self.messageArray.count
-                print("there")
-                print(self.spokenMessages)
-                print(self.messageArray)
-                
-                if(self.messageLength > self.spokenMessages.count) {
-                    print("here")
-                    print(self.spokenMessages)
-                    print(self.messageArray)
+        if(ended || messageLength - 1 == 0) {
+            ended = true
+            print("solve em")
+            
+         //   self.synthesizer.stopSpeaking(at: .immediate)
+            let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
+            print("text \(text)")
+            
+            if(!checkSpokenMessagesSpoken(text: text)) {
+                spokenMessages.append(text)
+            }
+            
+            messageLength -= 1
+            print(spokenMessages)
+            print(messageArray)
+            print(spokenMessages.count)
+            print(messageArray.count)
+            print(messageLength)
+            
+            
+            if(messageArray.count > spokenMessages.count) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
                     
-                    self.readMessages(boundOne: self.spokenMessages.count, boundTwo: self.messageArray.count)
-                    self.readMessages(boundOne: 0, boundTwo: self.spokenMessages.count)
+                    if(ended) {
+                        synthesizer.stopSpeaking(at: .immediate)
+                        ended = false
+                    }
+
+                    for i in spokenMessages.count..<(messageArray.count) {
+                        print(messageArray[i])
+                        speakMessage(messageArray[i])
+                    }
                     
-                } else {
+                    for i in (spokenMessages.count - messageLength)..<(spokenMessages.count) {
+                        print(spokenMessages[i])
+                        speakMessage(spokenMessages[i])
+                    }
+            
+                    messageLength += (messageArray.count - spokenMessages.count)
+                    print("messageLength \(messageLength)")
+                    return
+                }
+            } else if(messageLength == 0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    print("3 second wait")
+                    self.messageLength = self.spokenMessages.count
                     self.readMessages(boundOne: 0,boundTwo: self.messageArray.count)
                 }
             }
+        } else {
+            ended = true
         }
-       /* let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
-        var changeLabel = true
-        
-        for message in spokenMessages {
-            if(text == message) {
-                changeLabel = false
-                break
-            }
-        }
-        
-        observeSynthesizerDelegate?.synthesizerEnded(message: text, changeLabel: changeLabel)
-        spokenMessages.append(text) */
     }
     
     func checkSpokenMessagesSpoken(text: String) -> Bool {
@@ -289,23 +309,55 @@ protocol ObserveSynthesizer {
 }
 
 
-
-
-/*  let cxt = CXTransaction(action: CXStartCallAction(call: call.uuid, handle: CXHandle(type: .phoneNumber, value: "4693555568")))
-  
-  callController.request(cxt) { error in
-      if error == nil {
-          print("completion heandler")
-      } else {
-          
-      }
-  }
-  print("call observered")
-
-  print("UUID \(call.uuid)")
-  print("Outgoing \(call.isOutgoing)")
-  print("hasConnected \(call.hasConnected)")
-  print("hasEnded \(call.hasEnded)")
-  print("isOnHold \(call.isOnHold)")
-  print("called")
-  print(call) */
+/*
+ let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
+ print("text \(text)")
+ if(!checkSpokenMessagesSpoken(text: text)) {
+     spokenMessages.append(text)
+ }
+ 
+ messageLength -= 1
+ print(spokenMessages)
+ print(messageArray)
+ print(messageLength)
+ print(spokenMessages.count)
+ print(messageArray.count)
+ 
+ if(messageArray.count > spokenMessages.count) {
+     print("RRRAWAAWR")
+     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
+         synthesizer.stopSpeaking(at: .immediate)
+         
+         for i in spokenMessages.count..<(messageArray.count) {
+             print(messageArray[i])
+             speakMessage(messageArray[i])
+         }
+         
+         for i in (spokenMessages.count - messageLength)..<(spokenMessages.count) {
+             print(spokenMessages[i])
+             speakMessage(spokenMessages[i])
+         }
+ 
+         messageLength += (messageArray.count - spokenMessages.count)
+         print("messageLength \(messageLength)")
+     }
+     return
+ }
+ 
+ if(messageLength == 0) {
+     DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+         self.messageLength = self.messageArray.count
+         print("there")
+ 
+         if(self.messageLength > self.spokenMessages.count) {
+             print("here")
+             
+             self.readMessages(boundOne: self.spokenMessages.count, boundTwo: self.messageArray.count)
+             self.readMessages(boundOne: 0, boundTwo: self.spokenMessages.count)
+             
+         } else {
+             self.readMessages(boundOne: 0,boundTwo: self.messageArray.count)
+         }
+     }
+ }
+ */

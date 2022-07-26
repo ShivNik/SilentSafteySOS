@@ -41,7 +41,7 @@ class TestViewController: UIViewController {
         ReusableUIElements.sendButtonConstraints(button: button, view: self.view, safeArea: safeArea, textView: textView)
          
         // Title Label
-        stepOneLabel = ReusableUIElements.createLabel(fontSize: 25, text: "1. Tap the SOS Button and Start the Call")
+        stepOneLabel = ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "1. Tap the SOS Button and Start the Call")
         stepOneLabel.numberOfLines = 0
         view.addSubview(stepOneLabel)
         

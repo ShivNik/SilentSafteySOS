@@ -24,7 +24,7 @@ class CompletionViewController: UIViewController {
         // Title Labels
         let labelsTwo = [
             ReusableUIElements.createLabel(fontSize: 50, text: "You're Done!"),
-            ReusableUIElements.createLabel(fontSize: 31, text: "Set up your contacts and custom Messages")
+            ReusableUIElements.createLabel(fontSize: 30, text: "Set up your contacts and custom Messages")
         ]
         
         // Title Labels Stack View
