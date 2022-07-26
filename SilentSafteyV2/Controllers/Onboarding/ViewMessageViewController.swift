@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+/*
 class ViewMessageViewController: UIViewController, ObserveSynthesizer {
 
     let titleLabel: UILabel = {
@@ -66,3 +66,4 @@ class ViewMessageViewController: UIViewController, ObserveSynthesizer {
         self.navigationController?.popToRootViewController(animated: true)
     }
 }
+*/ 

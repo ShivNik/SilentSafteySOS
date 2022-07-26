@@ -10,9 +10,43 @@ import UIKit
 import SkyFloatingLabelTextField
 
 class ReusableUIElements:  NSObject, UITextFieldDelegate {
+
+    static let titleFontSize: Int = {
+        
+        let bounds = UIScreen.main.bounds
+        
+        switch (bounds.size.height) {
+            case 920..<2000:
+                return 25
+            case 820..<920:
+                return 24
+            case 670..<820:
+                return 23
+            case 570..<670:
+                return 22
+            default:
+                return 20
+        }
+    }()
     
-    static let titleFontSize = 25
-    static let descriptionFontSize = 20
+    static let descriptionFontSize: Int = {
+        
+        let bounds = UIScreen.main.bounds
+        
+        switch (bounds.size.height) {
+            case 920..<2000:
+                return 20
+            case 820..<920:
+                return 19
+            case 670..<820:
+                return 18
+            case 570..<670:
+                return 17
+            default:
+                return 15
+        }
+    }()
+    
     
     static func createButton(title: String) -> UIButton {
         let button = UIButton()

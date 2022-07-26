@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
     }()
     
     var textFieldEssential: TextFieldEssential!
-    let viewMessageVC = ViewMessageViewController() // Check This
+  //  let viewMessageVC = ViewMessageViewController() // Check This
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,12 +48,12 @@ class MainViewController: UIViewController {
 
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonPressed))
         
-        let viewSentMessageButton = ReusableUIElements.createButton(title: "  View Sent Messages  ")
-        viewSentMessageButton.addTarget(self, action: #selector(viewSentMessageButtonPressed), for: .touchUpInside)
-        viewSentMessageButton.sizeToFit()
+        let hangUpButton = ReusableUIElements.createButton(title: "  Hang up  ")
+        hangUpButton.addTarget(self, action: #selector(hangUpButtonPressed), for: .touchUpInside)
+        hangUpButton.sizeToFit()
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: viewSentMessageButton)
-        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
+        self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
       //  self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
         
      //   self.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "pencil"), style: .plain, target: self, action: #selector(pencilPressed))
@@ -62,7 +62,8 @@ class MainViewController: UIViewController {
         AppDelegate.location.delegate = self
         AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
         
-        AppDelegate.phoneCall.observeSynthesizerDelegate = viewMessageVC
+        AppDelegate.phoneCall.observeSynthesizerDelegate = self
+    
     }
     
     func createUI() {
@@ -144,8 +145,8 @@ class MainViewController: UIViewController {
         AppDelegate.response.completeResponse()
     }
     
-    @objc func viewSentMessageButtonPressed() {
-        self.navigationController?.pushViewController(viewMessageVC, animated: true)
+    @objc func hangUpButtonPressed() {
+        NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": "No Other Information - Please Hang Up"])
     }
 }
 
@@ -205,5 +206,24 @@ extension MainViewController: LocationProtocol {
         existingTextMutable.append(myMutableString)
         
         directionsLabel.attributedText = existingTextMutable
+    }
+}
+
+extension MainViewController: ObserveSynthesizer {
+    func synthesizerStarted() {
+        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .green
+        print("Synthesizer started")
+    }
+    
+    func synthesizerEnded(message: String, changeLabel: Bool) {
+        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
+        print("Synthesizer ended")
+    }
+    
+    func callStarted() {
+        self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
+    }
+    func callEnded() {
+        self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
     }
 }

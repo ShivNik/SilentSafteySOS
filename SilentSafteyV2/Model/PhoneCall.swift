@@ -19,8 +19,8 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     var firstMessageRecieved = false
     var spokenMessages: [String] = []
     var observeSynthesizerDelegate: ObserveSynthesizer?
-    var messageLength: Int!
-    var ended: Bool = false
+    var index = 0
+    var target: Int!
 
     override init() {
         super.init()
@@ -144,6 +144,7 @@ extension PhoneCall : CXCallObserverDelegate {
             
             messageArray = []
             spokenMessages = []
+            index = 0
             
             firstMessageRecieved = false
             self.synthesizer.stopSpeaking(at: .immediate) // Stop speaking after done
@@ -161,11 +162,10 @@ extension PhoneCall : CXCallObserverDelegate {
             
             let firstMessage = generateFirstMessage()
             messageArray.insert(firstMessage, at: 0)
-          //  messageArray.insert("trying to instigate a conflict", at: 1)
-          //  messageArray.insert("King von", at: 2)
-            readMessages(boundOne: 0,boundTwo: messageArray.count)
+            speakMessage(firstMessage)
+            target = 1
             firstMessageRecieved = true
-            messageLength = messageArray.count
+
             
         } else if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
             print("CXCallState :Incoming")
@@ -232,63 +232,40 @@ extension PhoneCall : CXCallObserverDelegate {
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didStart utterance: AVSpeechUtterance) {
         print("745 YELLOW BEAMER")
-       // synthesizer.stopSpeaking(at: .immediate)
-        
     }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+            
+        print(messageArray)
+        print(spokenMessages)
+        print(index)
         
-        if(ended || messageLength - 1 == 0) {
-            ended = true
-            print("solve em")
+        let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
+        print("text \(text)")
+        
+        if(!checkSpokenMessagesSpoken(text: text)) {
+            spokenMessages.append(text)
+        }
+        
+        if(messageArray.count > spokenMessages.count) {
+            speakMessage(messageArray[spokenMessages.count])
             
-         //   self.synthesizer.stopSpeaking(at: .immediate)
-            let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
-            print("text \(text)")
+        } else if(messageArray.count == spokenMessages.count) {
+            index += 1
             
-            if(!checkSpokenMessagesSpoken(text: text)) {
-                spokenMessages.append(text)
-            }
-            
-            messageLength -= 1
-            print(spokenMessages)
-            print(messageArray)
-            print(spokenMessages.count)
-            print(messageArray.count)
-            print(messageLength)
-            
-            
-            if(messageArray.count > spokenMessages.count) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { [self] in
-                    
-                    if(ended) {
-                        synthesizer.stopSpeaking(at: .immediate)
-                        ended = false
-                    }
-
-                    for i in spokenMessages.count..<(messageArray.count) {
-                        print(messageArray[i])
-                        speakMessage(messageArray[i])
-                    }
-                    
-                    for i in (spokenMessages.count - messageLength)..<(spokenMessages.count) {
-                        print(spokenMessages[i])
-                        speakMessage(spokenMessages[i])
-                    }
-            
-                    messageLength += (messageArray.count - spokenMessages.count)
-                    print("messageLength \(messageLength)")
-                    return
-                }
-            } else if(messageLength == 0) {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            if(index == target) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [self] in
                     print("3 second wait")
-                    self.messageLength = self.spokenMessages.count
-                    self.readMessages(boundOne: 0,boundTwo: self.messageArray.count)
+                    index = 0
+                    target = spokenMessages.count
+                    
+                    if(messageArray.count >= 1) {
+                        speakMessage(messageArray[index])
+                    }
                 }
+            } else {
+                speakMessage(messageArray[index])
             }
-        } else {
-            ended = true
         }
     }
     
@@ -305,6 +282,7 @@ extension PhoneCall : CXCallObserverDelegate {
 protocol ObserveSynthesizer {
     func synthesizerStarted()
     func synthesizerEnded(message: String, changeLabel: Bool)
+    func callStarted() 
     func callEnded()
 }
 
