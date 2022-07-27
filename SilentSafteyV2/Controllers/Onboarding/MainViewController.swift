@@ -11,6 +11,7 @@ import IQKeyboardManagerSwift
 class MainViewController: UIViewController {
     
     let textView: UITextView = {
+        
         let textView = ReusableUIElements.createTextView()
         textView.autocorrectionType = .yes
         return textView
@@ -38,6 +39,7 @@ class MainViewController: UIViewController {
     
     var textFieldEssential: TextFieldEssential!
     var hangUpPressed: Bool = false
+    var textViewDidBeginEditing: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,9 +51,12 @@ class MainViewController: UIViewController {
         AppDelegate.location.checkRequestPermission()
         AppDelegate.location.delegate = self
         AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
-        
-        AppDelegate.phoneCall.observeSynthesizerDelegate = self
     
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("view did appear")
+        AppDelegate.phoneCall.observeSynthesizerDelegate = self
     }
     
     func createUI() {
@@ -155,6 +160,7 @@ class MainViewController: UIViewController {
 extension MainViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
+        textViewDidBeginEditing = true
         if textView.text == "Type Additional Message Here" {
             textView.text = ""
         }
@@ -222,9 +228,21 @@ extension MainViewController: ObserveSynthesizer {
     
     func callStarted() {
         self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
+        textViewDidBeginEditing = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 20) { [self] in
+            
+            
+            if(!textViewDidBeginEditing) {
+                hangUpButtonPressed()
+            }
+        }
+    
     }
     func callEnded() {
         self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+        textViewDidBeginEditing = false
+        hangUpPressed = false
     }
 }
 

@@ -14,8 +14,8 @@ class WidgetDirectionViewController: UIViewController {
     
     let onboardingObjects = [
         OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 1: Hold down the Home Screen", description: "Hold down the homescreen until all the apps begin to wobble and tap the plus button at the top"),
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 2: Search for Silent Saftey", description: "Search for Silent Saftey and select the appropriate widget size"),
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 3: Drag and Drop the Widget onto your Home Screen", description: "Make sure to drag it onto the screen which first appears when you open your phone")
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 2: Search for Silent Saftey", description: "Search for Silent Saftey, Select the appropriate widget size"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Step 3: Drag and Drop the Widget onto your Home Screen", description: "Tap the widget to initiate a phone call")
     ]
     
     var getStartedButton: UIButton = {

@@ -65,7 +65,6 @@ extension PhoneCall : CXCallObserverDelegate {
         
         Response.responseActive = true
         startLocation()
-        observeSynthesizerDelegate?.callStarted()
     }
     
     func callConnected() {
@@ -75,6 +74,7 @@ extension PhoneCall : CXCallObserverDelegate {
         
         target = 1
         firstMessageRecieved = true
+        observeSynthesizerDelegate?.callStarted()
     }
     
     func callEnded() {

@@ -20,11 +20,11 @@ class IntroViewController: UIViewController {
     }
     
     let onboardingObjects = [
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Automated SOS Calling", description: "Automatically call 911 with an automated bot in a situation where you can't talk on the phone with the tap of a button"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Automated SOS Calling", description: "Call 911 with an automated call bot that speaks to the police when you can't speak on the phone"),
         
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Automated Message", description: "The automated message sends police relevant information about yourself such as your name, location, race, age, weight, height, etc."),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Automated Message", description: "Our call bot will give police relevant informaiton about yourself and your lcoation. Type in additional Messages as well "),
         
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Automated SMS For the kids Messaging", description: "Use your voice to send customizable messages to emergency contacts when you can't reach your phone. Very useful!")
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Easy Access", description: "Begin the call using SOS button in app or SOS widget")
     ]
     
     override func viewDidLoad() {

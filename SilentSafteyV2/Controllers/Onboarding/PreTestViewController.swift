@@ -63,8 +63,9 @@ class PreTestViewController: UIViewController {
             skyView,
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "How to use the App"),
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "1. Tap the SOS Button and start the call"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "2. Return back to the app once the phone call begins"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "2. Return back to the app"),
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "3. Type any additional Messages into the Text-Field"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "4. Press the Hang Up Message Button when you have no additional Messages"),
         ]
         
         // Label Stack View
