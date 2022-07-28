@@ -50,12 +50,13 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
             imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: stackView.topAnchor)
+            imageView.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -20)
         ])
     }
     
     func configure(onboardingObject: OnboardingObject) {
         imageView.image = onboardingObject.image
+       // imageView.backgroundColor = .brown
         titleLabel.text = onboardingObject.title
         descriptionLabel.text = onboardingObject.description
     }
