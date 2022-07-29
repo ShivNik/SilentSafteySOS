@@ -174,7 +174,7 @@ extension PhoneCall {
                 index += 1
                 
                 if(index == target) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [self] in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [self] in
                         if(Response.responseActive) {
                             index = 0
                             target = spokenMessages.count

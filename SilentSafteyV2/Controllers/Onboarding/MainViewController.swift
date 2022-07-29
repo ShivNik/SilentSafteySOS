@@ -32,14 +32,14 @@ class MainViewController: UIViewController {
         
         let myMutableString = NSMutableAttributedString(string: "Message Tips", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: CGFloat(ReusableUIElements.titleFontSize))])
         
-        myMutableString.append(NSMutableAttributedString(string: "\n 1. Describe the Situation \n 2. Describe identifier - Tatoos, Scars, Clothes \n 3. Enter Specific Loction (Apartment number etc.)"))
+        myMutableString.append(NSMutableAttributedString(string: "\n 1. Describe the Situation \n 2. Enter Specific Loction (Apartment/Building number etc.)")) // Describe identifier - Tatoos, Scars, Clothes \n 3.
         
         return myMutableString
     }()
     
     var textFieldEssential: TextFieldEssential!
     var hangUpPressed: Bool = false
-    var textViewDidBeginEditing: Bool = false
+    var textViewDidEdit: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -150,7 +150,9 @@ class MainViewController: UIViewController {
     
     @objc func hangUpButtonPressed() {
         if(!hangUpPressed) {
-            NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": "No Other Information - Please Hang Up"])
+            if(Response.responseActive) {
+                NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": "The rest of this call will be repeating messages that have already been spoken, please hang up if all information is understood"])
+            }
             hangUpPressed = true
         }
     }
@@ -160,7 +162,6 @@ class MainViewController: UIViewController {
 extension MainViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        textViewDidBeginEditing = true
         if textView.text == "Type Additional Message Here" {
             textView.text = ""
         }
@@ -173,6 +174,15 @@ extension MainViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        
+        if let text = textView.text {
+            let trimmedString = text.trimmingCharacters(in: .whitespaces)
+            
+            if(trimmedString != "") {
+                textViewDidEdit = true
+            }
+        }
+    
         let newSize = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
         
         let newHeight = newSize.height
@@ -228,12 +238,11 @@ extension MainViewController: ObserveSynthesizer {
     
     func callStarted() {
         self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
-        textViewDidBeginEditing = false
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 20) { [self] in
-            
-            
-            if(!textViewDidBeginEditing) {
+        textViewDidEdit = false
+        hangUpPressed = false
+       
+        DispatchQueue.main.asyncAfter(deadline: .now() + 30) { [self] in
+            if(!textViewDidEdit) {
                 hangUpButtonPressed()
             }
         }
@@ -241,7 +250,7 @@ extension MainViewController: ObserveSynthesizer {
     }
     func callEnded() {
         self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
-        textViewDidBeginEditing = false
+        textViewDidEdit = false
         hangUpPressed = false
     }
 }

@@ -80,7 +80,7 @@
 		4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDirectionViewController.swift; sourceTree = "<group>"; };
 		4833C24B2876576D00A1FE37 /* PreTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreTestViewController.swift; sourceTree = "<group>"; };
 		4833C24D287730FE00A1FE37 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
-		487833A72875E0F100BD7C52 /* SilentSafteyV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SilentSafteyV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		487833A72875E0F100BD7C52 /* Silent Saftey.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Silent Saftey.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		487833AA2875E0F100BD7C52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		487833AC2875E0F100BD7C52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		487833AE2875E0F100BD7C52 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -151,7 +151,7 @@
 		487833A82875E0F100BD7C52 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				487833A72875E0F100BD7C52 /* SilentSafteyV2.app */,
+				487833A72875E0F100BD7C52 /* Silent Saftey.app */,
 				482A4DFB287BCB580015A96A /* SosButtonExtension.appex */,
 			);
 			name = Products;
@@ -270,9 +270,9 @@
 			productReference = 482A4DFB287BCB580015A96A /* SosButtonExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		487833A62875E0F100BD7C52 /* SilentSafteyV2 */ = {
+		487833A62875E0F100BD7C52 /* Silent Saftey */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 487833BB2875E0F800BD7C52 /* Build configuration list for PBXNativeTarget "SilentSafteyV2" */;
+			buildConfigurationList = 487833BB2875E0F800BD7C52 /* Build configuration list for PBXNativeTarget "Silent Saftey" */;
 			buildPhases = (
 				5215D9286EFDB2B4643D503B /* [CP] Check Pods Manifest.lock */,
 				487833A32875E0F100BD7C52 /* Sources */,
@@ -286,9 +286,9 @@
 			dependencies = (
 				482A4E0A287BCB5F0015A96A /* PBXTargetDependency */,
 			);
-			name = SilentSafteyV2;
+			name = "Silent Saftey";
 			productName = SilentSafteyV2;
-			productReference = 487833A72875E0F100BD7C52 /* SilentSafteyV2.app */;
+			productReference = 487833A72875E0F100BD7C52 /* Silent Saftey.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -309,7 +309,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 487833A22875E0F100BD7C52 /* Build configuration list for PBXProject "SilentSafteyV2" */;
+			buildConfigurationList = 487833A22875E0F100BD7C52 /* Build configuration list for PBXProject "Silent Saftey" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -322,7 +322,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				487833A62875E0F100BD7C52 /* SilentSafteyV2 */,
+				487833A62875E0F100BD7C52 /* Silent Saftey */,
 				482A4DFA287BCB580015A96A /* SosButtonExtension */,
 			);
 		};
@@ -705,7 +705,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		487833A22875E0F100BD7C52 /* Build configuration list for PBXProject "SilentSafteyV2" */ = {
+		487833A22875E0F100BD7C52 /* Build configuration list for PBXProject "Silent Saftey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				487833B92875E0F800BD7C52 /* Debug */,
@@ -714,7 +714,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		487833BB2875E0F800BD7C52 /* Build configuration list for PBXNativeTarget "SilentSafteyV2" */ = {
+		487833BB2875E0F800BD7C52 /* Build configuration list for PBXNativeTarget "Silent Saftey" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				487833BC2875E0F800BD7C52 /* Debug */,

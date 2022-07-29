@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: scene)
         
-        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
+        AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
         
         let viewController: UIViewController?
         

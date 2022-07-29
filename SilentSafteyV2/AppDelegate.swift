@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     static let phoneCall = PhoneCall()
     static let response = Response()
     static let navControllerEssentials = NavigationControllerEssentials()
+    static let testVC = TestViewController() 
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         

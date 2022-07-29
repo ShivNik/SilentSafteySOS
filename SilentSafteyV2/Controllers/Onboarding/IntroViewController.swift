@@ -39,7 +39,7 @@ class IntroViewController: UIViewController {
         let safeArea = view.safeAreaLayoutGuide
     
         // Get Started Button
-        let getStartedButton = ReusableUIElements.createButton(title: "Get Started!")
+        let getStartedButton = ReusableUIElements.createButton(title: "Get Started")
         getStartedButton.addTarget(self, action:#selector(getStartedButtonPressed), for: .touchUpInside)
         view.addSubview(getStartedButton)
         ReusableUIElements.buttonConstraints(button: getStartedButton, safeArea: safeArea, bottomAnchorConstant: -40)

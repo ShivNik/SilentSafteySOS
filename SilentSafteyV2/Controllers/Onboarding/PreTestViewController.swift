@@ -32,12 +32,27 @@ class PreTestViewController: UIViewController {
         
         let safeArea = view.safeAreaLayoutGuide
         
-        // Start Test Button
-        let button = ReusableUIElements.createButton(title: "Start the Test")
-        view.addSubview(button)
-        button.addTarget(self, action:#selector(continueToTestButtonPressed), for: .touchUpInside)
-        ReusableUIElements.buttonConstraints(button: button, safeArea: safeArea, bottomAnchorConstant: -40)
+        let buttonUIView = UIView()
+        buttonUIView.translatesAutoresizingMaskIntoConstraints = false
         
+        // Start Test Button
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .systemRed
+        button.setTitle("Start the Test", for: .normal)
+        button.layer.cornerRadius = 10
+        button.addTarget(self, action:#selector(continueToTestButtonPressed), for: .touchUpInside)
+        buttonUIView.addSubview(button)
+        
+        NSLayoutConstraint.activate([
+            button.widthAnchor.constraint(equalToConstant: 150),
+            button.heightAnchor.constraint(equalToConstant: 50),
+            
+            button.centerXAnchor.constraint(equalTo: buttonUIView.centerXAnchor, constant: 0),
+            button.centerYAnchor.constraint(equalTo: buttonUIView.centerYAnchor)
+            
+        ])
+    
         // Phone Number Sky Text Field
         skyTextField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)
         skyTextField.delegate = textFieldEssential
@@ -59,26 +74,27 @@ class PreTestViewController: UIViewController {
         // All Labels
         let labels = [
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "Step 3: Let's try it out"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "Enter a phone number you can test the app with"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "Enter a phone number you can use to test the app (Preferably a second phone nearby so you can hear the audio)"),
             skyView,
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "How to use the App"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "1. Tap the SOS Button and start the call"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "2. Return back to the app"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "3. Type any additional Messages into the Text-Field"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "4. Press the Hang Up Message Button when you have no additional Messages"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "1. Tap the SOS Button and Start the Call"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "2. Go Back to the App"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "3. Type any Additional Messages"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "4. Press the Hang Up Message Button when you're done sending messages"),
+            buttonUIView
         ]
         
         // Label Stack View
-        let directionsStackView = ReusableUIElements.createStackView(stackViewElements: labels, spacing: 0, distributionType: .fillProportionally)
+      //  let directionsStackView = ReusableUIElements.createStackView(stackViewElements: labels, spacing: 0, distributionType: .fillProportionally)
     
         // Super Stack View
-        let superStackView = ReusableUIElements.createStackView(stackViewElements: [  directionsStackView], spacing: 0, distributionType: .fillProportionally)
+        let superStackView = ReusableUIElements.createStackView(stackViewElements: labels, spacing: 0, distributionType: .fillEqually)
         view.addSubview(superStackView)
         
         NSLayoutConstraint.activate([
             superStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
             superStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
-            superStackView.bottomAnchor.constraint(equalTo: button.topAnchor),
+            superStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             superStackView.topAnchor.constraint(equalTo: safeArea.topAnchor)
         ])
     }
@@ -91,11 +107,10 @@ class PreTestViewController: UIViewController {
     
         if(textFieldEssential.validatePhoneNumber(skyTextField: skyTextField)) {
             skyTextField.errorMessage = ""
+            button.setTitle("Start the Test", for: .normal)
+            AppDelegate.testVC.testPhoneNumber = skyTextField.text!
             
-            let vc = TestViewController()
-            vc.testPhoneNumber = skyTextField.text!
-            
-            self.navigationController?.pushViewController(vc, animated: true)
+            self.navigationController?.pushViewController(AppDelegate.testVC, animated: true)
             
         } else {
             button.setTitle("Try Again", for: .normal)

@@ -42,9 +42,7 @@ class InformationViewController: UIViewController {
             
             if(!allValidation(floatingLabelTextField: skyTextField)) {
                 allValid = false
-            }  else if trimmed == "" {
-                continue
-            }  else {
+            } else {
                 AppDelegate.userDefaults.set(trimmed, forKey: skyTextField.accessibilityIdentifier!)
             }
         }
@@ -122,8 +120,8 @@ extension InformationViewController {
         
         // Title Label
         let titleLabels = [
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "Step 1 information"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "Enter your information. This will be sent to the police")
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "Step 1: Create your Profile"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "The information in your profile will be sent to the police.")
         ]
         
         // Label Stack View

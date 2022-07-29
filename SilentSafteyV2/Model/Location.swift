@@ -61,9 +61,14 @@ class Location: NSObject, CLLocationManagerDelegate {
                     
                     if let streetNumber = optimalLocationPlacemark.subThoroughfare, let streetName = optimalLocationPlacemark.thoroughfare, let city = optimalLocationPlacemark.locality {
                         
-                        let address = "My Location is \(streetNumber) \(streetName) \(city) within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
-                        print(address)
+                        var streetNumberSpaced = ""
+                        for number in streetNumber {
+                            streetNumberSpaced += "\(number) "
+                        }
+                        print(streetNumberSpaced)
                         
+                        let address = "My Location is 1 2 3 Main Street within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
+                        print(address)  // "My Location is \(streetNumberSpaced) \(streetName) \(city) within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
                         
                         NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
                     }

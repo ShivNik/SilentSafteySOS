@@ -15,17 +15,37 @@ class TestViewController: UIViewController {
         return textView
     }()
     
-    var stepOneLabel: UILabel = {
-        let stepOneLabel = ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "1. Tap the SOS Button, Start the Call, and Return back to the App")
+    let directionsLabel: UILabel = {
+        let stepOneLabel = ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "1. Tap the SOS Button, Start the Call, and Return back to the app")
         stepOneLabel.numberOfLines = 0
         return stepOneLabel
     }()
     
-    var greenBotLabel: UILabel = {
+    let middleUILabel: UILabel = {
         return ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "")
     }()
     
+    let middleUIView: UIView = {
+        let uiView = UIView()
+        uiView.translatesAutoresizingMaskIntoConstraints = false
+        return uiView
+    }()
     
+    let buttonStackView: UIStackView = {
+        
+        let continueButton = ReusableUIElements.createButton(title: "Continue")
+        let restartTutorial = ReusableUIElements.createButton(title: "Restart Tutorial")
+        
+        let buttonStackView = ReusableUIElements.createStackView(stackViewElements: [restartTutorial,continueButton], spacing: 40, distributionType: .fillEqually)
+        
+        buttonStackView.axis = .horizontal
+        
+        return buttonStackView
+    }()
+    
+    var middleUILabelConstraints: [NSLayoutConstraint] = []
+    var middleStackViewConstraints: [NSLayoutConstraint] = []
+
     var testPhoneNumber: String = ""
     var textFieldEssential: TextFieldEssential!
     
@@ -33,10 +53,36 @@ class TestViewController: UIViewController {
     var sendButtonPressed = false
     var hangupButtonPressed = false
     var phoneCallEnded = false
+    var greenTextShown = false
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        for element in buttonStackView.arrangedSubviews {
+            let button = element as! UIButton
+            
+            if(button.titleLabel?.text == "Continue") {
+                button.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
+            } else {
+                button.addTarget(self, action: #selector(restartTutorialPressed), for: .touchUpInside)
+            }
+        }
+        middleUILabelConstraints = [
+            middleUILabel.topAnchor.constraint(equalTo: middleUIView.topAnchor),
+            middleUILabel.bottomAnchor.constraint(equalTo: middleUIView.bottomAnchor),
+            middleUILabel.leadingAnchor.constraint(equalTo: middleUIView.leadingAnchor),
+            middleUILabel.trailingAnchor.constraint(equalTo: middleUIView.trailingAnchor)
+        ]
+        
+        middleStackViewConstraints = [
+            buttonStackView.heightAnchor.constraint(equalToConstant: 50),
+            buttonStackView.widthAnchor.constraint(equalToConstant: 300),
+            
+            buttonStackView.centerXAnchor.constraint(equalTo: middleUIView.centerXAnchor),
+            buttonStackView.centerYAnchor.constraint(equalTo: middleUIView.centerYAnchor)
+        ]
+        
+        
         textFieldEssential = TextFieldEssential(vcView: view)
         textFieldEssential.setupToHideKeyboardOnTapOnView()
         
@@ -67,12 +113,12 @@ class TestViewController: UIViewController {
         ReusableUIElements.sendButtonConstraints(button: button, view: self.view, safeArea: safeArea, textView: textView)
          
         // Title Label
-        view.addSubview(stepOneLabel)
+        view.addSubview(directionsLabel)
         NSLayoutConstraint.activate([
-            stepOneLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            stepOneLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            stepOneLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            stepOneLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
+            directionsLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            directionsLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            directionsLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            directionsLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
         ])
         
         // Create and Constrain SOS Button
@@ -83,7 +129,7 @@ class TestViewController: UIViewController {
         NSLayoutConstraint.activate([
             sosButton.heightAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 70),
             sosButton.widthAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 70),
-            sosButton.topAnchor.constraint(equalTo: stepOneLabel.bottomAnchor, constant: 16),
+            sosButton.topAnchor.constraint(equalTo: directionsLabel.bottomAnchor, constant: 16),
             sosButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
         ])
         
@@ -94,30 +140,29 @@ class TestViewController: UIViewController {
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
         self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+        self.navigationItem.leftItemsSupplementBackButton = true
         
         // Middle UI View
-        let uiView = UIView()
-        view.addSubview(uiView)
-        uiView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(middleUIView)
         
         NSLayoutConstraint.activate([
-            uiView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            uiView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            uiView.topAnchor.constraint(equalTo: sosButton.bottomAnchor),
-            uiView.bottomAnchor.constraint(equalTo: textView.topAnchor)
+            middleUIView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
+            middleUIView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            middleUIView.topAnchor.constraint(equalTo: sosButton.bottomAnchor),
+            middleUIView.bottomAnchor.constraint(equalTo: textView.topAnchor)
         ])
         
-        // Green Bot Label
-        uiView.addSubview(greenBotLabel)
-        
-        NSLayoutConstraint.activate([
-            greenBotLabel.centerXAnchor.constraint(equalTo: uiView.centerXAnchor),
-            greenBotLabel.centerYAnchor.constraint(equalTo: uiView.centerYAnchor)
-        ])
+        // Middle Label
+        middleUIView.addSubview(middleUILabel)
+        NSLayoutConstraint.activate(middleUILabelConstraints)
     }
     
+    @objc func sosButtonPressed() {
+        AppDelegate.response.completeResponse()
+    }
+    
+    
     @objc func sendPressed() {
-        
         if(mainButtonPressed) {
             if let message = textView.text {
                 
@@ -129,44 +174,114 @@ class TestViewController: UIViewController {
                 
                 if(Response.responseActive) {
                     NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": trimmedString])
+                    
+                    sendButtonPressed = true
+                    directionsLabel.text = "3. Press the Hang Up Button to Notify the police that there are no more Messages"
                 }
-                
-                sendButtonPressed = true
-                stepOneLabel.text = "3. Press the Hang Up Button to Notify the police that there are no more Messages"
             }
             
             textView.text = ""
         }
-        print("send pressed")
-        
-        pushNextVC()
     }
-    
-    @objc func sosButtonPressed() {
-        AppDelegate.response.completeResponse()
-        pushNextVC()
-    }
-    
+
     @objc func hangUpButtonPressed() {
         if(mainButtonPressed && sendButtonPressed && !hangupButtonPressed) {
             
             if(Response.responseActive) {
                 NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": "No Other Information - Please Hang Up"])
+                
+                hangupButtonPressed = true
+                
+                directionsLabel.text = "4. Once you hear the message, hang up the call from the other phone to finish the tutorial"
+                
+                middleUILabel.font = middleUILabel.font.withSize(CGFloat(ReusableUIElements.descriptionFontSize))
+                
+                middleUILabel.text = "In a Real Situation, if you don't edit the message bar 30 seconds after the call connected, the hang up message will be sent automatically"
             }
-            
-            hangupButtonPressed = true
-            
-            stepOneLabel.text = "4. Once you hear the message, hang up the call from the other phone"
-            
         }
-        
-        pushNextVC()
+    }
+}
+
+// MARK: -  Observe Synthesizer Delegate
+extension TestViewController: ObserveSynthesizer {
+    func synthesizerStarted() {
+        if(!greenTextShown) {
+            middleUILabel.text = "The green background indicates that the bot is speaking"
+            greenTextShown = true
+        }
+        self.navigationController?.navigationBar.standardAppearance.backgroundColor = .green
+        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .green
     }
     
-    func pushNextVC() {
-        if(phoneCallEnded) {
+    func synthesizerEnded() {
+        self.navigationController?.navigationBar.standardAppearance.backgroundColor = .black
+        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
+        print("sythesizer ended")
+    }
+    
+    func callStarted() {
+        self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
+        print(self.navigationItem.leftBarButtonItem?.customView)
+        mainButtonPressed = true
+        directionsLabel.text = "2. Type an Additional Message and Tap the Send Button"
+    }
+    
+    func callEnded() {
+        self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+        print(self.navigationItem.leftBarButtonItem?.customView)
+        middleUILabel.text = ""
+        
+        if(mainButtonPressed && sendButtonPressed && hangupButtonPressed) {
+            
+            directionsLabel.text = "Test Run Finished"
+            deactivateLabel()
             self.navigationController?.pushViewController(CompletionViewController(), animated: true)
+            
+        } else {
+            directionsLabel.text = "Don't End the Call Until All Messages have been said - Restarting Tutorial"
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.restartTutorial()
+            }
         }
+    }
+    
+    @objc func continueButtonPressed() {
+        self.navigationController?.pushViewController(CompletionViewController(), animated: true)
+    }
+    
+    @objc func restartTutorialPressed() {
+        restartTutorial()
+        deactivateStackView()
+    }
+    
+    func restartTutorial() {
+        directionsLabel.text = "1. Tap the SOS Button, Start the Call, and Return back to the App"
+        
+        middleUILabel.text = ""
+        middleUILabel.font = middleUILabel.font.withSize(CGFloat(ReusableUIElements.titleFontSize))
+       
+        mainButtonPressed = false
+        sendButtonPressed = false
+        hangupButtonPressed = false
+        phoneCallEnded = false
+        greenTextShown = false
+    }
+    
+    func deactivateLabel() {
+        middleUILabel.removeFromSuperview()
+        NSLayoutConstraint.deactivate(middleUILabel.constraints)
+        
+        middleUIView.addSubview(buttonStackView)
+        NSLayoutConstraint.activate(middleStackViewConstraints)
+    }
+    
+    func deactivateStackView() {
+        buttonStackView.removeFromSuperview()
+        NSLayoutConstraint.deactivate(buttonStackView.constraints)
+        
+        middleUIView.addSubview(middleUILabel)
+        NSLayoutConstraint.activate(middleUILabelConstraints)
     }
 }
 
@@ -175,15 +290,13 @@ extension TestViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "Type Additional Message Here" {
-            textView.text = nil
-            textView.textColor = UIColor.white
+            textView.text = ""
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "Type Additional Message Here"
-            textView.textColor = UIColor.white
         }
     }
     
@@ -211,52 +324,5 @@ extension TestViewController: UITextViewDelegate {
                 }
             }
         }
-    }
-}
-
-extension TestViewController: ObserveSynthesizer {
-    func synthesizerStarted() {
-        greenBotLabel.text = "Green means that the Bot is Talking"
-        self.navigationController?.navigationBar.standardAppearance.backgroundColor = .green
-        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .green
-        print("Synthesizer started")
-    }
-    
-    func synthesizerEnded() {
-        self.navigationController?.navigationBar.standardAppearance.backgroundColor = .black
-        self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
-        print("Synthesizer ended")
-    }
-    
-    func callStarted() {
-        self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
-        mainButtonPressed = true
-        stepOneLabel.text = "2. Type an Additional Message and Tap the Send Button"
-    }
-    
-    func callEnded() {
-        greenBotLabel.text = ""
-        
-        if(mainButtonPressed && sendButtonPressed && hangupButtonPressed) {
-            
-            stepOneLabel.text = "Test Run Finished"
-            phoneCallEnded = true
-            pushNextVC()
-            
-        } else {
-            stepOneLabel.text = "Don't End the Call Until All Messages have been said - Restarting Tutorial"
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                self.restartTutorial()
-            }
-        }
-    }
-    
-    func restartTutorial() {
-        stepOneLabel.text = "1. Tap the SOS Button, Start the Call, and Return back to the App"
-        mainButtonPressed = false
-        sendButtonPressed = false
-        hangupButtonPressed = false
-        phoneCallEnded = false
     }
 }
