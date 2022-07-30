@@ -43,6 +43,10 @@ class TestViewController: UIViewController {
         return buttonStackView
     }()
     
+    let hangUpButton: UIButton = {
+        return ReusableUIElements.createButton(title: "  Hang Up Message  ")
+    }()
+    
     var middleUILabelConstraints: [NSLayoutConstraint] = []
     var middleStackViewConstraints: [NSLayoutConstraint] = []
 
@@ -58,6 +62,8 @@ class TestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("GGGG UUUNNNIITTT")
+        
         for element in buttonStackView.arrangedSubviews {
             let button = element as! UIButton
             
@@ -67,6 +73,7 @@ class TestViewController: UIViewController {
                 button.addTarget(self, action: #selector(restartTutorialPressed), for: .touchUpInside)
             }
         }
+        
         middleUILabelConstraints = [
             middleUILabel.topAnchor.constraint(equalTo: middleUIView.topAnchor),
             middleUILabel.bottomAnchor.constraint(equalTo: middleUIView.bottomAnchor),
@@ -187,12 +194,8 @@ class TestViewController: UIViewController {
         ])
         
         // Hang up Button
-        let hangUpButton = ReusableUIElements.createButton(title: "  Hang Up Message  ")
         hangUpButton.addTarget(self, action: #selector(hangUpButtonPressed), for: .touchUpInside)
         hangUpButton.sizeToFit()
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
-      //  self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
         self.navigationItem.leftItemsSupplementBackButton = true
         
         // Middle UI View
@@ -279,15 +282,13 @@ extension TestViewController: ObserveSynthesizer {
     }
     
     func callStarted() {
-        self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
-        print("Call started \(self.navigationItem.leftBarButtonItem?.customView)")
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
         mainButtonPressed = true
         directionsLabel.text = "2. Type an Additional Message and Tap the Send Button"
     }
     
     func callEnded() {
-        self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
-        print("Call ended \(self.navigationItem.leftBarButtonItem?.customView)")
+        self.navigationItem.leftBarButtonItem = nil
         middleUILabel.text = ""
         
         if(mainButtonPressed && sendButtonPressed && hangupButtonPressed) {

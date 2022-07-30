@@ -37,6 +37,10 @@ class MainViewController: UIViewController {
         return myMutableString
     }()
     
+    var hangUpButton: UIButton = {
+        return ReusableUIElements.createButton(title: "  Hang Up Message  ")
+    }()
+    
     var textFieldEssential: TextFieldEssential!
     var hangUpPressed: Bool = false
     var textViewDidEdit: Bool = false
@@ -117,12 +121,9 @@ class MainViewController: UIViewController {
         // Navigation Bar Buttons
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonPressed))
         
-        let hangUpButton = ReusableUIElements.createButton(title: "  Hang Up Message  ")
         hangUpButton.addTarget(self, action: #selector(hangUpButtonPressed), for: .touchUpInside)
         hangUpButton.sizeToFit()
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
-        self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+        self.navigationItem.leftItemsSupplementBackButton = true
     }
     
     @objc func settingsButtonPressed() {
@@ -237,7 +238,7 @@ extension MainViewController: ObserveSynthesizer {
     }
     
     func callStarted() {
-        self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
         textViewDidEdit = false
         hangUpPressed = false
        
@@ -249,7 +250,7 @@ extension MainViewController: ObserveSynthesizer {
     
     }
     func callEnded() {
-        self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+        self.navigationItem.leftBarButtonItem = nil
         textViewDidEdit = false
         hangUpPressed = false
     }

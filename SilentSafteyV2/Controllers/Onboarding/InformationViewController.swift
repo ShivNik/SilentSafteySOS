@@ -9,7 +9,10 @@ import UIKit
 import SkyFloatingLabelTextField
 
 class InformationViewController: UIViewController {
-
+    
+    var timerForShowScrollIndicator: Timer?
+    var scrollView: UIScrollView! = nil
+    
     let skyTextFields: [SkyFloatingLabelTextField] = [
         ReusableUIElements.createSkyTextField(placeholder: "Enter Name", title: "Enter Name", id: AllStrings.name),
         ReusableUIElements.createSkyTextField(placeholder: "Enter Race", title: "Enter Race", id: AllStrings.race),
@@ -31,8 +34,17 @@ class InformationViewController: UIViewController {
         setKeyBoardType()
         
         textFieldEssential.setupToHideKeyboardOnTapOnView()
+        startTimerForShowScrollIndicator()
     }
     
+       @objc func showScrollIndicatorsInContacts() {
+            self.scrollView.flashScrollIndicators()
+       }
+       
+       func startTimerForShowScrollIndicator() {
+           self.timerForShowScrollIndicator = Timer.scheduledTimer(timeInterval: 0, target: self, selector: #selector(self.showScrollIndicatorsInContacts), userInfo: nil, repeats: false)
+       }
+
     @objc func saveButtonAction(button: UIButton) {
     
         var allValid = true
@@ -81,7 +93,9 @@ extension InformationViewController {
         let safeArea = self.view.safeAreaLayoutGuide
 
         // Scroll View
-        let scrollView = UIScrollView()
+        scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.indicatorStyle = .white
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         

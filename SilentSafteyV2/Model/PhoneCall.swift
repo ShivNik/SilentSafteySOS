@@ -45,7 +45,7 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
 extension PhoneCall : CXCallObserverDelegate {
     
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-
+        print("CALLLL OBSERVER")
         if call.hasEnded == true {
             print("CXCallState :Disconnected")
             callEnded()
@@ -68,13 +68,17 @@ extension PhoneCall : CXCallObserverDelegate {
     }
     
     func callConnected() {
-        let firstMessage = generateFirstMessage()
-        messageArray.insert(firstMessage, at: 0)
-        speakMessage(firstMessage)
-        
+        index = 0
         target = 1
-        firstMessageRecieved = true
         observeSynthesizerDelegate?.callStarted()
+        
+        messageArray.append("Hello. This is a call from the Silent Safety App.")
+        
+        let firstMessage = generateFirstMessage()
+        messageArray.insert(firstMessage, at: 1)
+        speakMessage(messageArray[index])
+        
+        firstMessageRecieved = true
     }
     
     func callEnded() {
@@ -119,9 +123,9 @@ extension PhoneCall {
     
         if let message = notification.userInfo?["placemark"] as? String {
             if(firstMessageRecieved) {
-                messageArray.insert(message, at: 1)
+                messageArray.insert(message, at: 2)
             } else {
-                messageArray.insert(message, at: 0)
+                messageArray.insert(message, at: 1)
             }
         }
         
@@ -195,44 +199,58 @@ extension PhoneCall {
 // MARK: -  Helper Methods
 extension PhoneCall {
     func generateFirstMessage() -> String {
-        var templateString = "Hello. This is a call from the Silent Safety App. "
+        var templateString = ""
         var dynamicMessage = "I'm "
         
         var oneValuePresent = false
         
         if let name = AppDelegate.userDefaults.string(forKey: AllStrings.name) {
-            templateString += "My name is \(name). "
+            if(noValuePresent(text: name)) {
+                templateString += "My name is \(name). "
+            }
         }
         
         if let race = AppDelegate.userDefaults.string(forKey: AllStrings.race) {
-            dynamicMessage += "\(race), "
-            oneValuePresent = true
+            if(noValuePresent(text: race)) {
+                dynamicMessage += "\(race), "
+                oneValuePresent = true
+            }
         }
         
         if let gender = AppDelegate.userDefaults.string(forKey: AllStrings.gender) {
-            dynamicMessage += "\(gender), "
-            oneValuePresent = true
+            if(noValuePresent(text: gender)) {
+                dynamicMessage += "\(gender), "
+                oneValuePresent = true
+            }
         }
         
         if let weight = AppDelegate.userDefaults.string(forKey: AllStrings.weight) {
-            dynamicMessage += "\(weight) pounds, "
-            oneValuePresent = true
+            if(noValuePresent(text: weight)) {
+                dynamicMessage += "\(weight) pounds, "
+                oneValuePresent = true
+            }
         }
         
         if let age = AppDelegate.userDefaults.string(forKey: AllStrings.age) {
-            dynamicMessage += "\(age) years old, "
-            oneValuePresent = true
+            if(noValuePresent(text: age)) {
+                dynamicMessage += "\(age) years old, "
+                oneValuePresent = true
+            }
         }
         
         if let height = AppDelegate.userDefaults.string(forKey: AllStrings.height) {
-            let components = height.components(separatedBy: " ")
-            dynamicMessage += "\(components[0]) feet \(components[1]) inches, "
-            oneValuePresent = true
+            if(noValuePresent(text: height)) {
+                let components = height.components(separatedBy: " ")
+                dynamicMessage += "\(components[0]) feet \(components[1]) inches, "
+                oneValuePresent = true
+            }
         }
         
         if let additionalInfo = AppDelegate.userDefaults.string(forKey: AllStrings.additionalInfo) {
-            dynamicMessage += ". \(additionalInfo). "
-            oneValuePresent = true
+            if(noValuePresent(text: additionalInfo)) {
+                dynamicMessage += ". \(additionalInfo). "
+                oneValuePresent = true
+            }
         }
         
         if(oneValuePresent) {
@@ -240,6 +258,13 @@ extension PhoneCall {
         } else {
             return templateString
         }
+    }
+    
+    func noValuePresent(text: String) -> Bool {
+        if(text == "") {
+            return false
+        }
+        return true
     }
     
     func speakMessage(_ message: String) {

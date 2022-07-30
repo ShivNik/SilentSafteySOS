@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: scene)
         
-        AppDelegate.userDefaults.set(false, forKey: AllStrings.tutorialFinished)
+        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
         
         let viewController: UIViewController?
         
@@ -79,3 +79,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 }
 
+
+/*
+ Optional(<UIButton: 0x155d2e160; frame = (0 5; 166 34); hidden = YES; opaque = NO; layer = <CALayer: 0x281c642e0>>)
+ */
