@@ -76,7 +76,7 @@ class TestViewController: UIViewController {
         
         middleStackViewConstraints = [
             buttonStackView.heightAnchor.constraint(equalToConstant: 50),
-            buttonStackView.widthAnchor.constraint(equalToConstant: 300),
+            buttonStackView.widthAnchor.constraint(equalToConstant: 350),
             
             buttonStackView.centerXAnchor.constraint(equalTo: middleUIView.centerXAnchor),
             buttonStackView.centerYAnchor.constraint(equalTo: middleUIView.centerYAnchor)
@@ -86,7 +86,60 @@ class TestViewController: UIViewController {
         textFieldEssential = TextFieldEssential(vcView: view)
         textFieldEssential.setupToHideKeyboardOnTapOnView()
         
+     /*   let safeArea = view.safeAreaLayoutGuide
+        
+        let uiview = UIView()
+        uiview.translatesAutoresizingMaskIntoConstraints = false
+        uiview.backgroundColor = .red
+        
+        view.addSubview(uiview)
+        
+        NSLayoutConstraint.activate([
+            uiview.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            uiview.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            uiview.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            uiview.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            uiview.removeFromSuperview()
+            
+            let button = UIButton()
+
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.backgroundColor = .systemRed
+            button.setTitle("Totle ", for: .normal)
+            button.layer.cornerRadius = 10
+            self.view.addSubview(button)
+            
+            NSLayoutConstraint.activate([
+                button.topAnchor.constraint(equalTo: safeArea.topAnchor),
+                button.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+                button.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+                button.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            ])
+        } */
+        
         createUI()
+        
+     /*   DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            print("first 5 seconds")
+            self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                print("second 5 ")
+                self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                    print("trhid 5 seconds")
+                    self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                        print("fourth 5 ")
+                        self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
+                        
+                    }
+                }
+            }
+        } */
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -139,7 +192,7 @@ class TestViewController: UIViewController {
         hangUpButton.sizeToFit()
         
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
-        self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+      //  self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
         self.navigationItem.leftItemsSupplementBackButton = true
         
         // Middle UI View
@@ -159,6 +212,12 @@ class TestViewController: UIViewController {
     
     @objc func sosButtonPressed() {
         AppDelegate.response.completeResponse()
+      /*  if(self.navigationItem.leftBarButtonItem?.customView?.isHidden == false) {
+            self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
+        } else {
+            self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
+        } */
+        
     }
     
     
@@ -221,14 +280,14 @@ extension TestViewController: ObserveSynthesizer {
     
     func callStarted() {
         self.navigationItem.leftBarButtonItem?.customView?.isHidden = false
-        print(self.navigationItem.leftBarButtonItem?.customView)
+        print("Call started \(self.navigationItem.leftBarButtonItem?.customView)")
         mainButtonPressed = true
         directionsLabel.text = "2. Type an Additional Message and Tap the Send Button"
     }
     
     func callEnded() {
         self.navigationItem.leftBarButtonItem?.customView?.isHidden = true
-        print(self.navigationItem.leftBarButtonItem?.customView)
+        print("Call ended \(self.navigationItem.leftBarButtonItem?.customView)")
         middleUILabel.text = ""
         
         if(mainButtonPressed && sendButtonPressed && hangupButtonPressed) {
@@ -270,7 +329,6 @@ extension TestViewController: ObserveSynthesizer {
     
     func deactivateLabel() {
         middleUILabel.removeFromSuperview()
-        NSLayoutConstraint.deactivate(middleUILabel.constraints)
         
         middleUIView.addSubview(buttonStackView)
         NSLayoutConstraint.activate(middleStackViewConstraints)
@@ -278,8 +336,6 @@ extension TestViewController: ObserveSynthesizer {
     
     func deactivateStackView() {
         buttonStackView.removeFromSuperview()
-        NSLayoutConstraint.deactivate(buttonStackView.constraints)
-        
         middleUIView.addSubview(middleUILabel)
         NSLayoutConstraint.activate(middleUILabelConstraints)
     }

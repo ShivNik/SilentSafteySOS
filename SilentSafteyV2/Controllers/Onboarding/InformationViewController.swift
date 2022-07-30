@@ -14,10 +14,10 @@ class InformationViewController: UIViewController {
         ReusableUIElements.createSkyTextField(placeholder: "Enter Name", title: "Enter Name", id: AllStrings.name),
         ReusableUIElements.createSkyTextField(placeholder: "Enter Race", title: "Enter Race", id: AllStrings.race),
         ReusableUIElements.createSkyTextField(placeholder: "Enter Gender", title: "Enter Gender", id: AllStrings.gender),
-        ReusableUIElements.createSkyTextField(placeholder: "Enter Weight", title: "Enter Weight", id: AllStrings.weight),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Weight (Lb)", title: "Enter Weight (Lb)", id: AllStrings.weight),
         ReusableUIElements.createSkyTextField(placeholder: "Enter Age", title: "Enter Age", id: AllStrings.age),
-        ReusableUIElements.createSkyTextField(placeholder: "Enter Height", title: "Enter Height", id: AllStrings.height),
-        ReusableUIElements.createSkyTextField(placeholder: "Enter Any Additional Information (Optional)", title: "Any Additional Information", id: AllStrings.additionalInfo),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Height (Feet Inches)", title: "Enter Height (Feet Inches)", id: AllStrings.height),
+        ReusableUIElements.createSkyTextField(placeholder: "Enter Additional Information", title: "Enter Additional Information", id: AllStrings.additionalInfo),
     ]
     
     var textFieldEssential: TextFieldEssential!
@@ -121,7 +121,7 @@ extension InformationViewController {
         // Title Label
         let titleLabels = [
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "Step 1: Create your Profile"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "The information in your profile will be sent to the police.")
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "The information in your profile will be sent to the police. Leave textfields you don't want to include blank")
         ]
         
         // Label Stack View
