@@ -38,9 +38,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window.makeKeyAndVisible()
         
         if let userActivity = connectionOptions.userActivities.first {
-            if(userActivity.activityType == AllStrings.widgetUserActivityName) {
-                AppDelegate.response.completeResponse()
-            }
+           widgetResponse(userActivity: userActivity)
         }
     }
 
@@ -73,13 +71,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-        if(userActivity.activityType == AllStrings.widgetUserActivityName) {
+        widgetResponse(userActivity: userActivity)
+    }
+    
+    func widgetResponse(userActivity: NSUserActivity) {
+        if(userActivity.activityType == AllStrings.widgetUserActivityName && AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
+            
             AppDelegate.response.completeResponse()
+            
+          /*  let navigationController = SceneDelegate.window?.rootViewController as! UINavigationController
+            navigationController.popToRootViewController(animated: true) */
         }
     }
 }
-
-
-/*
- Optional(<UIButton: 0x155d2e160; frame = (0 5; 166 34); hidden = YES; opaque = NO; layer = <CALayer: 0x281c642e0>>)
- */

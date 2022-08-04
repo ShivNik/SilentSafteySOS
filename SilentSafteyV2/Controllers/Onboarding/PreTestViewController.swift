@@ -22,9 +22,6 @@ class PreTestViewController: UIViewController {
         
         createUI()
         textFieldEssential.setupToHideKeyboardOnTapOnView()
-        
-
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipButtonPressed))
     }
     
     func createUI() {
@@ -83,9 +80,6 @@ class PreTestViewController: UIViewController {
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "4. Press the Hang Up Message Button when you're done sending messages"),
             buttonUIView
         ]
-        
-        // Label Stack View
-      //  let directionsStackView = ReusableUIElements.createStackView(stackViewElements: labels, spacing: 0, distributionType: .fillProportionally)
     
         // Super Stack View
         let superStackView = ReusableUIElements.createStackView(stackViewElements: labels, spacing: 0, distributionType: .fillEqually)
@@ -97,8 +91,13 @@ class PreTestViewController: UIViewController {
             superStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             superStackView.topAnchor.constraint(equalTo: safeArea.topAnchor)
         ])
+        
+        // Skip Button
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipButtonPressed))
     }
-    
+}
+// MARK: -  Button Action
+extension PreTestViewController {
     @objc func skipButtonPressed() {
         self.navigationController?.pushViewController(CompletionViewController(), animated: true)
     }

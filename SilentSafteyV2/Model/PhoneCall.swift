@@ -14,7 +14,7 @@ import WidgetKit
 class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     
     // Call Observer, Background Task, Synthesizer
-    let callObserver: CXCallObserver = CXCallObserver()
+    var callObserver: CXCallObserver!
     var backgroundTaskID: UIBackgroundTaskIdentifier?
     var synthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
     
@@ -28,11 +28,12 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
 
     override init() {
         super.init()
-        callObserver.setDelegate(self, queue: nil)
     }
     
     func initiatePhoneCall(phoneNumber: String) {
       //  messageArray = []
+        callObserver = CXCallObserver()
+        callObserver.setDelegate(self, queue: nil)
         firstMessageRecieved = false
         
         if let url = URL(string: ("tel:" + phoneNumber)) {
@@ -45,7 +46,6 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
 extension PhoneCall : CXCallObserverDelegate {
     
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
-        print("CALLLL OBSERVER")
         if call.hasEnded == true {
             print("CXCallState :Disconnected")
             callEnded()
@@ -62,6 +62,7 @@ extension PhoneCall : CXCallObserverDelegate {
     
     func callDialed() {
         startBackGroundTask()
+        observeSynthesizerDelegate?.callDialing()
         
         Response.responseActive = true
         startLocation()
@@ -75,6 +76,7 @@ extension PhoneCall : CXCallObserverDelegate {
         messageArray.append("Hello. This is a call from the Silent Safety App.")
         
         let firstMessage = generateFirstMessage()
+        print(firstMessage)
         messageArray.insert(firstMessage, at: 1)
         speakMessage(messageArray[index])
         
@@ -82,6 +84,8 @@ extension PhoneCall : CXCallObserverDelegate {
     }
     
     func callEnded() {
+        callObserver = nil
+        
         Response.responseActive = false
         firstMessageRecieved = false
         endLocation()
@@ -161,6 +165,7 @@ extension PhoneCall {
     }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
+        print(messageArray)
         observeSynthesizerDelegate?.synthesizerEnded()
     
         if(Response.responseActive) {
@@ -307,5 +312,6 @@ protocol ObserveSynthesizer {
     func synthesizerEnded()
     func callStarted() 
     func callEnded()
+    func callDialing()
 }
 

@@ -9,8 +9,6 @@ import UIKit
 
 class CompletionViewController: UIViewController {
     
-    let navControllerEssentials = NavigationControllerEssentials()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
@@ -46,6 +44,7 @@ class CompletionViewController: UIViewController {
     }
     
     @objc func finishTutorialPressed() {
+        // AppDelegate.phoneCall.clearMessageArray() cuz send message in tutorial 
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
             self.navigationController?.popToRootViewController(animated: true)
             
@@ -57,7 +56,6 @@ class CompletionViewController: UIViewController {
             navigation.delegate = AppDelegate.navControllerEssentials
 
             SceneDelegate.window?.rootViewController = navigation
-            
             // Set default number to 911 - AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber)
         }
     }

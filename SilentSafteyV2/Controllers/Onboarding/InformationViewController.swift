@@ -10,8 +10,13 @@ import SkyFloatingLabelTextField
 
 class InformationViewController: UIViewController {
     
-    var timerForShowScrollIndicator: Timer?
-    var scrollView: UIScrollView! = nil
+    var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = true
+        scrollView.indicatorStyle = .white
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
     
     let skyTextFields: [SkyFloatingLabelTextField] = [
         ReusableUIElements.createSkyTextField(placeholder: "Enter Name", title: "Enter Name", id: AllStrings.name),
@@ -24,6 +29,7 @@ class InformationViewController: UIViewController {
     ]
     
     var textFieldEssential: TextFieldEssential!
+    var timerForShowScrollIndicator: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,15 +42,10 @@ class InformationViewController: UIViewController {
         textFieldEssential.setupToHideKeyboardOnTapOnView()
         startTimerForShowScrollIndicator()
     }
-    
-       @objc func showScrollIndicatorsInContacts() {
-            self.scrollView.flashScrollIndicators()
-       }
-       
-       func startTimerForShowScrollIndicator() {
-           self.timerForShowScrollIndicator = Timer.scheduledTimer(timeInterval: 0, target: self, selector: #selector(self.showScrollIndicatorsInContacts), userInfo: nil, repeats: false)
-       }
+}
 
+// MARK: -  Button Actions
+extension InformationViewController {
     @objc func saveButtonAction(button: UIButton) {
     
         var allValid = true
@@ -79,6 +80,17 @@ class InformationViewController: UIViewController {
     }
 }
 
+// MARK: -  Scroll View Indicator
+extension InformationViewController {
+    @objc func showScrollIndicatorsInContacts() {
+         self.scrollView.flashScrollIndicators()
+    }
+    
+    func startTimerForShowScrollIndicator() {
+        self.timerForShowScrollIndicator = Timer.scheduledTimer(timeInterval: 0, target: self, selector: #selector(self.showScrollIndicatorsInContacts), userInfo: nil, repeats: false)
+    }
+}
+
 // MARK: -  UI Elements
 extension InformationViewController {
     
@@ -93,10 +105,6 @@ extension InformationViewController {
         let safeArea = self.view.safeAreaLayoutGuide
 
         // Scroll View
-        scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = true
-        scrollView.indicatorStyle = .white
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(scrollView)
         
         NSLayoutConstraint.activate([
@@ -201,7 +209,7 @@ extension InformationViewController {
     }
 }
 
-// MARK: -  Text Validation Method
+// MARK: -  Text Field Validation Method
 extension InformationViewController {
     
     func allValidation(floatingLabelTextField: SkyFloatingLabelTextField) -> Bool {

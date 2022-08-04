@@ -30,8 +30,6 @@ class IntroViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
-        
-        
     }
     
     func createUI() {        
@@ -55,7 +53,10 @@ class IntroViewController: UIViewController {
         collectionView.delegate = self
         ReusableUIElements.collectionViewConstraints(collectionView: collectionView, safeArea: safeArea, pageControl: pageControl)
     }
-    
+}
+
+// MARK: -  Button Actions
+extension IntroViewController {
     @objc func getStartedButtonPressed(button: UIButton) {
         self.navigationController?.pushViewController(InformationViewController(), animated: true)
     }

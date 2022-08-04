@@ -56,7 +56,6 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     
     func configure(onboardingObject: OnboardingObject) {
         imageView.image = onboardingObject.image
-       // imageView.backgroundColor = .brown
         titleLabel.text = onboardingObject.title
         descriptionLabel.text = onboardingObject.description
     }
