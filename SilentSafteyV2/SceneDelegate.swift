@@ -19,14 +19,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: scene)
         
-        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished)
+        AppDelegate.userDefaults.set(true, forKey: AllStrings.tutorialFinished) // Get rid of line
         
         let viewController: UIViewController?
         
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
-            viewController = MainViewController()
+            viewController = TermsOfServiceViewController()
         } else {
-            viewController = IntroViewController()
+            viewController = CompletionViewController()
         }
         
         let navController = ReusableUIElements.createNavigationController(root: viewController!)

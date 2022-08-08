@@ -22,13 +22,18 @@ class ContactViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textFieldEssential = TextFieldEssential(vcView: view)
-        textFieldEssential.setupToHideKeyboardOnTapOnView()
-        
+        // Generate UI
         createUI()
         displayExisitingNumber()
+        
+        // Tap outside Keyboard
+        textFieldEssential = TextFieldEssential(vcView: view)
+        textFieldEssential.setupToHideKeyboardOnTapOnView()
     }
-    
+}
+
+// MARK: -  UI Elements
+extension ContactViewController {
     func createUI() {
         view.backgroundColor = .black
         let safeArea = view.safeAreaLayoutGuide
@@ -70,7 +75,10 @@ class ContactViewController: UIViewController {
             textField.text = number
         }
     }
-    
+}
+
+// MARK: - Buttion Action
+extension ContactViewController {
     @objc func saveButtonPressed() {
         if(textFieldEssential.validatePhoneNumber(skyTextField: textField)) {
             textField.errorMessage = ""

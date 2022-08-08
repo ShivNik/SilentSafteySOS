@@ -31,6 +31,7 @@
 		48852E2D2882283D0011628F /* ResponseVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48852E2C2882283D0011628F /* ResponseVariables.swift */; };
 		48ABFA7C2878B0FA00A7FFEC /* AllStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */; };
 		48ABFA7E2879206700A7FFEC /* CompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */; };
+		48B11BC5289F27AF0082647A /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B11BC4289F27AF0082647A /* TermsOfServiceViewController.swift */; };
 		48B65D902879E32C00414BD0 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D8F2879E32C00414BD0 /* MainViewController.swift */; };
 		48B65D92287A111A00414BD0 /* VolumeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D91287A111A00414BD0 /* VolumeExtension.swift */; };
 		48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D93287A113900414BD0 /* NotificationExtension.swift */; };
@@ -95,6 +96,7 @@
 		48852E2C2882283D0011628F /* ResponseVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseVariables.swift; sourceTree = "<group>"; };
 		48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStrings.swift; sourceTree = "<group>"; };
 		48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionViewController.swift; sourceTree = "<group>"; };
+		48B11BC4289F27AF0082647A /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
 		48B65D8F2879E32C00414BD0 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		48B65D91287A111A00414BD0 /* VolumeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeExtension.swift; sourceTree = "<group>"; };
 		48B65D93287A113900414BD0 /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				48C9608328805BE0004A47D8 /* SettingsViewController.swift */,
 				48C6549E28834FB20078C83A /* ContactViewController.swift */,
 				482D15B3288B3DFF00D98A87 /* ViewMessageViewController.swift */,
+				48B11BC4289F27AF0082647A /* TermsOfServiceViewController.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -406,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				487833AF2875E0F100BD7C52 /* ViewController.swift in Sources */,
+				48B11BC5289F27AF0082647A /* TermsOfServiceViewController.swift in Sources */,
 				48ABFA7C2878B0FA00A7FFEC /* AllStrings.swift in Sources */,
 				48ABFA7E2879206700A7FFEC /* CompletionViewController.swift in Sources */,
 				48C9608428805BE0004A47D8 /* SettingsViewController.swift in Sources */,

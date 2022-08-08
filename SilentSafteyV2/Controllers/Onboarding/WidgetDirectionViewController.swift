@@ -15,7 +15,7 @@ class WidgetDirectionViewController: UIViewController {
     
     let onboardingObjects = [
         OnboardingObject(image: UIImage(imageLiteralResourceName: "widgetIntro"), title: "Step 2: Add the SOS Widget", description: "Hold down the homescreen until all the apps wobble, and tap the plus button in the upper left-hand corner"), // Jigglign apps and a line with an arrow
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Search for Silent Saftey", description: "Search for Silent Saftey and select any widget size"), // The widget gallery of App
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Search for Silent Saftey", description: "Search for Silent Saftey and select your desired widget size"), // The widget gallery of App
         OnboardingObject(image: UIImage(imageLiteralResourceName: "twoWidgetSOS"), title: "Drag and Drop the Widget onto your Home Screen", description: "Tap the widget initate a phone call (Equivalent to tapping the SOS Button)") // Picutr eof hte widgets homescreen
     ]
     
@@ -41,9 +41,11 @@ class WidgetDirectionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
-        
     }
-    
+}
+
+// MARK: -  UI Elements
+extension WidgetDirectionViewController {
     func createUI() {
         view.backgroundColor = .black
         
@@ -81,7 +83,7 @@ extension WidgetDirectionViewController {
     }
 }
 
-// MARK: -  Create Cells
+// MARK: - Populate Collection View Cells
 extension WidgetDirectionViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // Number of Cells

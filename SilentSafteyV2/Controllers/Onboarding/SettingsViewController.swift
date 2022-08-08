@@ -8,12 +8,14 @@
 import UIKit
 
 class SettingsViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
     }
-    
+}
+
+// MARK: -  UI Elements
+extension SettingsViewController {
     func createUI() {
         let safeArea = view.safeAreaLayoutGuide
         
@@ -40,7 +42,10 @@ class SettingsViewController: UIViewController {
             stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor)
         ])
     }
-    
+}
+
+// MARK: -  Button Actions
+extension SettingsViewController {
     @objc func tutorialButtonPressed() {
         self.navigationController?.pushViewController(IntroViewController(), animated: true)
     }

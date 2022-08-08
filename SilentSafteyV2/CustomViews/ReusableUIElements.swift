@@ -258,7 +258,6 @@ extension ReusableUIElements {
     }
     
     @objc func exitPressed(navController: UINavigationController ) {
-        print(navController)
         navController.popToRootViewController(animated: true)
     }
     

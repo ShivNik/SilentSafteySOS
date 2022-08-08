@@ -90,7 +90,7 @@ class Location: NSObject, CLLocationManagerDelegate {
             geocoder.reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
                 
                 if error == nil {
-                    
+
                     guard let place = placemarks?.first else {
                         return
                     }

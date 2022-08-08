@@ -18,8 +18,7 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     var backgroundTaskID: UIBackgroundTaskIdentifier?
     var synthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
     
-    // Hold/Repeat
-    var firstMessageRecieved = false
+    // On Hold/Repeat
     var messageArray: [String] = []
     var spokenMessages: [String] = []
     var observeSynthesizerDelegate: ObserveSynthesizer?
@@ -34,7 +33,6 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
       //  messageArray = []
         callObserver = CXCallObserver()
         callObserver.setDelegate(self, queue: nil)
-        firstMessageRecieved = false
         
         if let url = URL(string: ("tel:" + phoneNumber)) {
             UIApplication.shared.open(url)
@@ -63,8 +61,16 @@ extension PhoneCall : CXCallObserverDelegate {
     func callDialed() {
         startBackGroundTask()
         observeSynthesizerDelegate?.callDialing()
-        
         Response.responseActive = true
+        
+        // Adding Base Messages to Message Array
+        messageArray.insert("Hello. This is a call from the Silent Safety App.", at: 0)
+        
+        let firstMessage = generateFirstMessage()
+        print(firstMessage)
+        messageArray.insert(firstMessage, at: 1)
+        
+        // Start Location
         startLocation()
     }
     
@@ -72,22 +78,15 @@ extension PhoneCall : CXCallObserverDelegate {
         index = 0
         target = 1
         observeSynthesizerDelegate?.callStarted()
-        
-        messageArray.append("Hello. This is a call from the Silent Safety App.")
-        
-        let firstMessage = generateFirstMessage()
-        print(firstMessage)
-        messageArray.insert(firstMessage, at: 1)
+
         speakMessage(messageArray[index])
-        
-        firstMessageRecieved = true
+    
     }
     
     func callEnded() {
         callObserver = nil
         
         Response.responseActive = false
-        firstMessageRecieved = false
         endLocation()
         endBackGroundTask()
         
@@ -126,11 +125,7 @@ extension PhoneCall {
         print("Got location notification")
     
         if let message = notification.userInfo?["placemark"] as? String {
-            if(firstMessageRecieved) {
-                messageArray.insert(message, at: 2)
-            } else {
-                messageArray.insert(message, at: 1)
-            }
+            messageArray.insert(message, at: 2)
         }
         
         

@@ -33,14 +33,17 @@ class InformationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textFieldEssential = TextFieldEssential(vcView: view)
-        
+    
+        // Generate UI 
         createUI()
         displayExistingInformation()
         setKeyBoardType()
-        
-        textFieldEssential.setupToHideKeyboardOnTapOnView()
         startTimerForShowScrollIndicator()
+        
+        // Tap outside Keyboard
+        textFieldEssential = TextFieldEssential(vcView: view)
+        textFieldEssential.setupToHideKeyboardOnTapOnView()
+        
     }
 }
 
@@ -143,7 +146,7 @@ extension InformationViewController {
         // Title Label
         let titleLabels = [
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "Step 1: Create your Profile"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "The information in your profile will be sent to the police. Leave textfields you don't want to include blank")
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "Your profile information will be sent to 911 when you initiate an SOS call")
         ]
         
         // Label Stack View

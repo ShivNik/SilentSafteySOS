@@ -27,7 +27,18 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         createUI()
     }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+}
+
+// MARK: -  UI Elements
+extension OnboardingCollectionViewCell {
     func createUI() {
         contentView.backgroundColor = .black
         
@@ -59,16 +70,9 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
         titleLabel.text = onboardingObject.title
         descriptionLabel.text = onboardingObject.description
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
 }
 
+// MARK: -  Onboarding Object Struct
 struct OnboardingObject {
     let image: UIImage
     let title: String

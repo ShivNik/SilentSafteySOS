@@ -8,12 +8,14 @@
 import UIKit
 
 class CompletionViewController: UIViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
     }
-    
+}
+
+// MARK: -  UI Elements
+extension CompletionViewController {
     func createUI() {
         view.backgroundColor = .black
         
@@ -41,10 +43,22 @@ class CompletionViewController: UIViewController {
         button.addTarget(self, action: #selector(finishTutorialPressed), for: .touchUpInside)
         view.addSubview(button)
         ReusableUIElements.buttonConstraints(button: button, safeArea: safeArea, bottomAnchorConstant: -40)
+        
+        // Terms of Serice Label
+        let tosLabel = ReusableUIElements.createLabel(fontSize: 17, text: "By continuing you agree to our terms of service")
+        view.addSubview(tosLabel)
+        
+        NSLayoutConstraint.activate([
+            tosLabel.bottomAnchor.constraint(equalTo: button.topAnchor, constant: -20),
+            tosLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
+        ])
     }
-    
+}
+
+// MARK: - Button Action
+extension CompletionViewController {
     @objc func finishTutorialPressed() {
-        // AppDelegate.phoneCall.clearMessageArray() cuz send message in tutorial 
+        // AppDelegate.phoneCall.clearMessageArray() cuz send message in tutorial
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
             self.navigationController?.popToRootViewController(animated: true)
             

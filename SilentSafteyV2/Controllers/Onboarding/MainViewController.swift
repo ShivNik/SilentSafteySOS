@@ -45,21 +45,24 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Generate UI
+        createUI()
+        
+        // Tap outside Keyboard
         textFieldEssential = TextFieldEssential(vcView: view)
         textFieldEssential.setupToHideKeyboardOnTapOnView()
         
-        createUI()
-    
+        // Location Start-Up
         AppDelegate.location.checkRequestPermission()
         AppDelegate.location.delegate = self
         AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
-    
     }
     
     override func viewDidAppear(_ animated: Bool) {
         AppDelegate.phoneCall.observeSynthesizerDelegate = self
     }
 }
+
 // MARK: -  UI Elements
 extension MainViewController {
     func createUI() {
@@ -163,7 +166,7 @@ extension MainViewController {
 
 }
 
-// MARK: -  Text View Extension
+// MARK: -  Text View Delegate Methods
 extension MainViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -215,7 +218,7 @@ extension MainViewController: UITextViewDelegate {
     }
 }
 
-// MARK: -  Location Extension
+// MARK: -  Location Delegate Methods
 extension MainViewController: LocationProtocol {
     func updateLocationLabel(text: String) {
         let newLineText = "\n" + text
@@ -230,7 +233,7 @@ extension MainViewController: LocationProtocol {
     }
 }
 
-// MARK: -  Phone Extension
+// MARK: -  Observe Synthesizer Delegate Methods
 extension MainViewController: ObserveSynthesizer {
     func synthesizerStarted() {
         self.navigationController?.navigationBar.standardAppearance.backgroundColor = .green

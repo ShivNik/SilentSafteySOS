@@ -8,7 +8,7 @@
 import UIKit
 
 class IntroViewController: UIViewController {
-
+    
     let pageControl: UIPageControl = {
        return ReusableUIElements.createPageControl()
     }()
@@ -20,19 +20,22 @@ class IntroViewController: UIViewController {
     }
     
     let onboardingObjects = [
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "redPhone"), title: "Automated SOS Calling", description: "Call 911 with an automated call bot when you can't speak on the phone"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "redPhone"), title: "Silent SOS Calling", description: "Silent Saftey speaks to 911, on your behalf, when you can't talk"), //    Call 911 with an automated call bo when you can't speak on the phone // Silent Saftey will speak to 911 when you can't talk // Silent Saftey speaks to 911 for you when you can't talk
         
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "locationPin"), title: "Straightfoward Messages", description: "Silent Safty's call bot will deliver your profile, location, and any messages you type, to the police"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "locationPin"), title: "Relay Messages to 911", description: "Silent Safty delivers your profile, location, and typed messages, to 911"),
         
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "SosButton"), title: "Easy Access", description: "Begin the call using the SOS button within the app or the SOS widget")
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "SosButton"), title: "Saftey at Your Fingertips", description: "Initiate a 911 call using the SOS button within the app or the SOS widget")
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
     }
-    
-    func createUI() {        
+}
+
+// MARK: -  UI Elements
+extension IntroViewController {
+    func createUI() {
         view.backgroundColor = .black
         let safeArea = view.safeAreaLayoutGuide
     
@@ -62,7 +65,7 @@ extension IntroViewController {
     }
 }
 
-// MARK: -  Populate Collection View Cells
+// MARK: - Populate Collection View Cells
 extension IntroViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     // Number of Cells

@@ -18,12 +18,17 @@ class PreTestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textFieldEssential = TextFieldEssential(vcView: view)
         
+        // Generate UI
         createUI()
+        
+        // Tap outside Keyboard
+        textFieldEssential = TextFieldEssential(vcView: view)
         textFieldEssential.setupToHideKeyboardOnTapOnView()
     }
-    
+}
+// MARK: -  UI Elements
+extension PreTestViewController {
     func createUI() {
         view.backgroundColor = .black
         
@@ -74,10 +79,10 @@ class PreTestViewController: UIViewController {
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "Enter a phone number you can use to test the app (Preferably a second phone nearby so you can hear the audio)"),
             skyView,
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "How to use the App"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "1. Tap the SOS Button and Start the Call"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "2. Go Back to the App"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "3. Type any Additional Messages"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "4. Press the Hang Up Message Button when you're done sending messages"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "1. Tap the SOS button and confirm the call"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "2. Return back to the app"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "3. Type any additional messages"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "4. Tap the hang up message button when you're done sending messages"),
             buttonUIView
         ]
     
@@ -118,7 +123,7 @@ extension PreTestViewController {
     }
 }
 
-// Custom View with Size
+// MARK: -  Custom View With Size
 class CustomView: UIView {
     var size: CGSize?
 

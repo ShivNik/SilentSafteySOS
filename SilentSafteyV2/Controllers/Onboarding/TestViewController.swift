@@ -57,21 +57,27 @@ class TestViewController: UIViewController {
     var phoneCallEnded = false
     var greenTextShown = false
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Generate UI 
         setUp()
-        
+        createUI()
+    
+        // Tap outside Keyboard
         textFieldEssential = TextFieldEssential(vcView: view)
         textFieldEssential.setupToHideKeyboardOnTapOnView()
 
-        createUI()
+        // Determine if tutorial has already been completed.
         finishTutorial()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        AppDelegate.phoneCall.observeSynthesizerDelegate = self
     }
 }
 
-// MARK: -  Initial Set-Up
+// MARK: -  UI Elements
 extension TestViewController {
     func setUp() {
         // Set up button Targets
@@ -101,10 +107,7 @@ extension TestViewController {
             buttonStackView.centerYAnchor.constraint(equalTo: middleUIView.centerYAnchor)
         ]
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        AppDelegate.phoneCall.observeSynthesizerDelegate = self
-    }
+
     
     func createUI() {
         view.backgroundColor = .black
@@ -159,6 +162,20 @@ extension TestViewController {
         ])
         
         // Middle Label
+        middleUIView.addSubview(middleUILabel)
+        NSLayoutConstraint.activate(middleUILabelConstraints)
+    }
+    
+    func deactivateLabel() {
+        middleUILabel.removeFromSuperview()
+        
+        middleUIView.addSubview(buttonStackView)
+        NSLayoutConstraint.activate(buttonStackViewConstraints)
+    }
+    
+    func deactivateStackView() {
+        buttonStackView.removeFromSuperview()
+        
         middleUIView.addSubview(middleUILabel)
         NSLayoutConstraint.activate(middleUILabelConstraints)
     }
@@ -217,22 +234,6 @@ extension TestViewController {
     }
 }
 
-// MARK: -  Activate/Deactivate UI Elements
-extension TestViewController {
-    func deactivateLabel() {
-        middleUILabel.removeFromSuperview()
-        
-        middleUIView.addSubview(buttonStackView)
-        NSLayoutConstraint.activate(buttonStackViewConstraints)
-    }
-    
-    func deactivateStackView() {
-        buttonStackView.removeFromSuperview()
-        
-        middleUIView.addSubview(middleUILabel)
-        NSLayoutConstraint.activate(middleUILabelConstraints)
-    }
-}
 // MARK: -  State of Tutorial
 extension TestViewController {
     func restartTutorial() {
