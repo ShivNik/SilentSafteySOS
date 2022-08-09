@@ -472,7 +472,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MC7QS8J7R8;
+				DEVELOPMENT_TEAM = 56GDD52UH9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SosButton/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SosButton;
@@ -484,7 +484,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV2P.SosButton;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV2Kapil.SosButton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -500,7 +500,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MC7QS8J7R8;
+				DEVELOPMENT_TEAM = 56GDD52UH9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SosButton/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SosButton;
@@ -512,7 +512,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV2P.SosButton;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV2Kapil.SosButton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -644,7 +644,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MC7QS8J7R8;
+				DEVELOPMENT_TEAM = 56GDD52UH9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SilentSafteyV2/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in use description ";
@@ -658,7 +658,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV2P;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV2Kapil;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -675,7 +675,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MC7QS8J7R8;
+				DEVELOPMENT_TEAM = 56GDD52UH9;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SilentSafteyV2/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location when in use description ";
@@ -689,7 +689,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV2P;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ShivanshNikhra.SilentSafteyV2Kapil;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

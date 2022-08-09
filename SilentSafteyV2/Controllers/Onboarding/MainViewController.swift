@@ -250,12 +250,13 @@ extension MainViewController: ObserveSynthesizer {
         textViewDidEdit = false
         hangUpPressed = false
        
+        print("call started hang up pressed")
         DispatchQueue.main.asyncAfter(deadline: .now() + 30) { [self] in
+            print("hang up pressed")
             if(!textViewDidEdit) {
                 hangUpButtonPressed()
             }
         }
-    
     }
     func callEnded() {
         self.navigationItem.leftBarButtonItem = nil

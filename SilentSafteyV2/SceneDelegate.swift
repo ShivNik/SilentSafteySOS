@@ -24,9 +24,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let viewController: UIViewController?
         
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
-            viewController = TermsOfServiceViewController()
+            viewController = MainViewController()
         } else {
-            viewController = CompletionViewController()
+            viewController = IntroViewController()
         }
         
         let navController = ReusableUIElements.createNavigationController(root: viewController!)

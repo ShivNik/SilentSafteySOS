@@ -268,6 +268,7 @@ extension PhoneCall {
     }
     
     func speakMessage(_ message: String) {
+    
         let myUtterance = AVSpeechUtterance(string: message)
         myUtterance.rate = 0.45
         synthesizer.speak(myUtterance)

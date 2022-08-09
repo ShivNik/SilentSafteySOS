@@ -67,8 +67,8 @@ class Location: NSObject, CLLocationManagerDelegate {
                         }
                         print(streetNumberSpaced)
                         
-                        let address = "My Location is 1 2 3 Main Street within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
-                        print(address)  // "My Location is \(streetNumberSpaced) \(streetName) \(city) within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
+                        let address = "My Location is \(streetNumberSpaced) \(streetName) \(city) within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
+                        print(address)
                         
                         NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
                     }
