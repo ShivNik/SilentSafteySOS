@@ -38,6 +38,7 @@
 		48B65D96287A116700414BD0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B65D95287A116700414BD0 /* Location.swift */; };
 		48BBECDE28899C92000B2BF9 /* TextFieldEssential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BBECDD28899C92000B2BF9 /* TextFieldEssential.swift */; };
 		48BBECE0288A13E5000B2BF9 /* NavigationControllerEssential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BBECDF288A13E5000B2BF9 /* NavigationControllerEssential.swift */; };
+		48C36B4A28A30952008A2342 /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C36B4928A30952008A2342 /* Translation.swift */; };
 		48C6549F28834FB30078C83A /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C6549E28834FB20078C83A /* ContactViewController.swift */; };
 		48C96080287F4E7C004A47D8 /* PhoneCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C9607F287F4E7C004A47D8 /* PhoneCall.swift */; };
 		48C9608428805BE0004A47D8 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C9608328805BE0004A47D8 /* SettingsViewController.swift */; };
@@ -103,6 +104,7 @@
 		48B65D95287A116700414BD0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		48BBECDD28899C92000B2BF9 /* TextFieldEssential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldEssential.swift; sourceTree = "<group>"; };
 		48BBECDF288A13E5000B2BF9 /* NavigationControllerEssential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerEssential.swift; sourceTree = "<group>"; };
+		48C36B4928A30952008A2342 /* Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation.swift; sourceTree = "<group>"; };
 		48C6549E28834FB20078C83A /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		48C9607F287F4E7C004A47D8 /* PhoneCall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneCall.swift; sourceTree = "<group>"; };
 		48C9608328805BE0004A47D8 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -203,6 +205,7 @@
 				48852E2C2882283D0011628F /* ResponseVariables.swift */,
 				48BBECDD28899C92000B2BF9 /* TextFieldEssential.swift */,
 				48BBECDF288A13E5000B2BF9 /* NavigationControllerEssential.swift */,
+				48C36B4928A30952008A2342 /* Translation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */,
 				48B65D96287A116700414BD0 /* Location.swift in Sources */,
 				4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */,
+				48C36B4A28A30952008A2342 /* Translation.swift in Sources */,
 				48B65D92287A111A00414BD0 /* VolumeExtension.swift in Sources */,
 				48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */,
 				487833CA2875E67000BD7C52 /* ReusableUIElements.swift in Sources */,

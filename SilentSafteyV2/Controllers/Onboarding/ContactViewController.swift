@@ -80,7 +80,9 @@ extension ContactViewController {
 // MARK: - Buttion Action
 extension ContactViewController {
     @objc func saveButtonPressed() {
-        if(textFieldEssential.validatePhoneNumber(skyTextField: textField)) {
+        AppDelegate.userDefaults.set(textField.text, forKey: AllStrings.phoneNumber)
+        navigationController?.popToRootViewController(animated: true)
+      /*  if(textFieldEssential.validatePhoneNumber(skyTextField: textField)) {
             textField.errorMessage = ""
             AppDelegate.userDefaults.set(textField.text, forKey: AllStrings.phoneNumber)
             navigationController?.popToRootViewController(animated: true)
@@ -88,6 +90,6 @@ extension ContactViewController {
         } else {
             textField.errorMessage = "Invalid Phone Number"
             button.setTitle("Try Again", for: .normal)
-        }
+        } */
     }
 }

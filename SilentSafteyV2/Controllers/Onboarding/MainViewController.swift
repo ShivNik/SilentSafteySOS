@@ -56,6 +56,10 @@ class MainViewController: UIViewController {
         AppDelegate.location.checkRequestPermission()
         AppDelegate.location.delegate = self
         AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
+        
+        // Translation Testing
+        let t = Translation()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -251,12 +255,12 @@ extension MainViewController: ObserveSynthesizer {
         hangUpPressed = false
        
         print("call started hang up pressed")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 30) { [self] in
+     /*   DispatchQueue.main.asyncAfter(deadline: .now() + 30) { [self] in
             print("hang up pressed")
             if(!textViewDidEdit) {
                 hangUpButtonPressed()
             }
-        }
+        } */ 
     }
     func callEnded() {
         self.navigationItem.leftBarButtonItem = nil

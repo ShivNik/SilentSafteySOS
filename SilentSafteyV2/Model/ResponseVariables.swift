@@ -22,7 +22,7 @@ class Response {
                 NotificationCenter.default.addObserver(self, selector: #selector(initiateDelayedResponse(notification:)), name: .locationAuthorizationDetermined, object: nil)
             }
             else {
-                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
+                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber)!)
             }
         } else {
             print("no executed response")
@@ -30,7 +30,7 @@ class Response {
     }
     
     @objc func initiateDelayedResponse(notification: NSNotification) {
-        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: "4693555568")
+        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber)!)
         NotificationCenter.default.removeObserver(self)
     }
 }
