@@ -19,11 +19,18 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     var synthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
     
     // On Hold/Repeat
-    var messageArray: [String] = []
+    var messageArray: [String] = [] {
+        willSet {
+            if(numRepetitions == 2 && newValue.count - 1 >= 0) {
+                speakMessage(newValue[newValue.count - 1])
+            }
+        }
+    }
     var spokenMessages: [String] = []
     var observeSynthesizerDelegate: ObserveSynthesizer?
     var index = 0
     var target: Int!
+    var numRepetitions = 0
 
     override init() {
         super.init()
@@ -77,9 +84,12 @@ extension PhoneCall : CXCallObserverDelegate {
     func callConnected() {
         index = 0
         target = 1
+        numRepetitions = 0
         observeSynthesizerDelegate?.callStarted()
 
-        speakMessage(messageArray[index])
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [self] in
+            speakMessage(messageArray[index])
+        }
     
     }
     
@@ -94,6 +104,7 @@ extension PhoneCall : CXCallObserverDelegate {
         spokenMessages = []
         index = 0
         target = 1
+        numRepetitions = 0
         
         self.synthesizer.stopSpeaking(at: .immediate) // Stop speaking after done
         observeSynthesizerDelegate?.callEnded()
@@ -164,6 +175,11 @@ extension PhoneCall {
         observeSynthesizerDelegate?.synthesizerEnded()
     
         if(Response.responseActive) {
+            
+            if(numRepetitions == 2) {
+                return
+            }
+            
             let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
             print("text \(text)")
             
@@ -178,11 +194,18 @@ extension PhoneCall {
                 index += 1
                 
                 if(index == target) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) { [self] in
+                    
+                    numRepetitions += 1
+                    if(numRepetitions == 2) {
+                        speakMessage("The User is Now Avaliable to Listen to Questions and Type Messages")
+                        return
+                    }
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [self] in
                         if(Response.responseActive) {
                             index = 0
                             target = spokenMessages.count
-                            
+            
                             if(messageArray.count >= 1) {
                                 speakMessage(messageArray[index])
                             }
@@ -309,3 +332,10 @@ protocol ObserveSynthesizer {
     func callDialing()
 }
 
+/*  numRepetitions += 1
+  if(numRepetitions == 2) {
+      speakMessage("The User is Now Avaliable Listen to Questions and Type Messages")
+      return
+  } else if(numRepetitions > 2) {
+      return
+  } */

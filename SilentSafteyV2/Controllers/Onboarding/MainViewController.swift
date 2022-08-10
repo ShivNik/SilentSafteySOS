@@ -58,8 +58,8 @@ class MainViewController: UIViewController {
         AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
         
         // Translation Testing
-        let t = Translation()
-        
+      /*  let t = Translation()
+        t.identifyLanuageGoogle(for: "I bite my tounge its a bad habit") */ 
     }
     
     override func viewDidAppear(_ animated: Bool) {

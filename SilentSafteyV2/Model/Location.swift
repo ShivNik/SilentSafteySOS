@@ -17,7 +17,7 @@ class Location: NSObject, CLLocationManagerDelegate {
     let locationManager: CLLocationManager = {
         
         let locMan = CLLocationManager()
-        locMan.desiredAccuracy = kCLLocationAccuracyBest // KCLLocationAccuracyNavigationBest
+        locMan.desiredAccuracy = kCLLocationAccuracyBestForNavigation
         locMan.allowsBackgroundLocationUpdates = true
         locMan.showsBackgroundLocationIndicator = true
         
@@ -41,7 +41,7 @@ class Location: NSObject, CLLocationManagerDelegate {
     func retrieveLocation()  {
         self.locationManager.startUpdatingLocation()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 18) { // Change Number as see fit
             print("10 seconds after")
             self.locationManager.stopUpdatingLocation()
 
@@ -51,7 +51,7 @@ class Location: NSObject, CLLocationManagerDelegate {
                     // Determine optimal location
                     var optimalLocationIndex = 0
                     for i in 0..<self.locationsRecieved.count {
-                        if self.locationsRecieved[optimalLocationIndex].horizontalAccuracy > self.locationsRecieved[i].horizontalAccuracy {
+                        if self.locationsRecieved[optimalLocationIndex].horizontalAccuracy >=  self.locationsRecieved[i].horizontalAccuracy {
                             optimalLocationIndex = i
                         }
                     }
@@ -166,3 +166,11 @@ struct LocationObject {
     let placemark: CLPlacemark
 }
 
+
+/*
+7 seconds for 911 to pick up + 3 second pause at beginning + 3 seconds Initial Message + 5 seconds to say everything
+
+ 
+ 5 seconds say half of profile
+ 9 seconds say entire profiel
+ */
