@@ -43,6 +43,8 @@ class MainViewController: UIViewController {
     var hangUpPressed: Bool = false
     var textViewDidEdit: Bool = false
     
+    let translation = Translation()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Generate UI
@@ -58,8 +60,7 @@ class MainViewController: UIViewController {
         AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
         
         // Translation Testing
-      /*  let t = Translation()
-        t.identifyLanuageGoogle(for: "I bite my tounge its a bad habit") */ 
+        translation.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -149,7 +150,7 @@ extension MainViewController {
                 return
             }
             
-            NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": trimmedString])
+            translation.translate(for: trimmedString)
             
             textView.text = "Type Additional Message Here" // Type additional message here
         }
@@ -250,7 +251,7 @@ extension MainViewController: ObserveSynthesizer {
     }
     
     func callStarted() {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
+      //  self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
         textViewDidEdit = false
         hangUpPressed = false
        
@@ -273,5 +274,14 @@ extension MainViewController: ObserveSynthesizer {
     
     func callDialing() { // Figre out what to do here
         print("call dialing")
+    }
+}
+
+// MARK: - Translation Protocol
+extension MainViewController: TranslationProtocol {
+    func recievedTranslation(translation: String) {
+        print(translation)
+        NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": translation])
+        
     }
 }
