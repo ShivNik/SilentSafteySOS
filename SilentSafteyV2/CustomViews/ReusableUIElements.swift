@@ -162,7 +162,7 @@ class ReusableUIElements:  NSObject, UITextFieldDelegate {
         skyTextField.errorColor = .red
         skyTextField.textColor = .white
         
-        skyTextField.selectedTitleColor = .systemTeal
+        skyTextField.selectedTitleColor = .blue
         skyTextField.selectedLineColor = .blue
         
         return skyTextField
@@ -257,7 +257,7 @@ extension ReusableUIElements {
         navController.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Exit", style: .plain, target: self, action: #selector(exitPressed))
     }
     
-    @objc func exitPressed(navController: UINavigationController ) {
+    @objc func exitPressed(navController: UINavigationController) {
         navController.popToRootViewController(animated: true)
     }
     

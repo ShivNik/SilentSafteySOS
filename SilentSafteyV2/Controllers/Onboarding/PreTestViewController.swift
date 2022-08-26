@@ -18,9 +18,9 @@ class PreTestViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Generate UI
         createUI()
+        displayExistingInformation()
         
         // Tap outside Keyboard
         textFieldEssential = TextFieldEssential(vcView: view)
@@ -38,11 +38,7 @@ extension PreTestViewController {
         buttonUIView.translatesAutoresizingMaskIntoConstraints = false
         
         // Start Test Button
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .systemRed
-        button.setTitle("Start the Test", for: .normal)
-        button.layer.cornerRadius = 10
+        let button = ReusableUIElements.createButton(title: "Start the Test")
         button.addTarget(self, action:#selector(continueToTestButtonPressed), for: .touchUpInside)
         buttonUIView.addSubview(button)
         
@@ -56,8 +52,7 @@ extension PreTestViewController {
         ])
     
         // Phone Number Sky Text Field
-        skyTextField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)
-        skyTextField.delegate = textFieldEssential
+        skyTextField.delegate = self
         skyTextField.keyboardType = .asciiCapableNumberPad
         
         // Custom View
@@ -80,9 +75,9 @@ extension PreTestViewController {
             skyView,
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "How to use the App"),
             ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "1. Tap the SOS button and confirm the call"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "2. Return back to the app"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "3. Type any additional messages"),
-            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "4. Tap the hang up message button when you're done sending messages"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "2. (Optional) Return back to the app"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "3. (Optional) Type any additional messages you would like to convey, in any language"),
+            ReusableUIElements.createLabel(fontSize: ReusableUIElements.descriptionFontSize, text: "4. Your profile, location, and messages will be repeated once."),
             buttonUIView
         ]
     
@@ -96,26 +91,30 @@ extension PreTestViewController {
             superStackView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             superStackView.topAnchor.constraint(equalTo: safeArea.topAnchor)
         ])
-        
-        // Skip Button
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Skip", style: .plain, target: self, action: #selector(skipButtonPressed))
+    }
+    
+    func displayExistingInformation() {
+        if let value = AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber) {
+            skyTextField.text = value
+        }
     }
 }
 // MARK: -  Button Action
 extension PreTestViewController {
-    @objc func skipButtonPressed() {
-        self.navigationController?.pushViewController(CompletionViewController(), animated: true)
-    }
-
     @objc func continueToTestButtonPressed(button: UIButton) {
     
         if(textFieldEssential.validatePhoneNumber(skyTextField: skyTextField)) {
-            skyTextField.errorMessage = ""
-            button.setTitle("Start the Test", for: .normal)
-            AppDelegate.testVC.testPhoneNumber = skyTextField.text!
             
-            self.navigationController?.pushViewController(AppDelegate.testVC, animated: true)
-            
+            if var trimmed = skyTextField.text {
+                
+                trimmed = trimmed.trimmingCharacters(in: .whitespaces)
+                skyTextField.errorMessage = ""
+                button.setTitle("Start the Test", for: .normal)
+
+                AppDelegate.userDefaults.set(trimmed, forKey: AllStrings.phoneNumber)
+                self.navigationController?.pushViewController(AppDelegate.testVC, animated: true)
+            }
+        
         } else {
             button.setTitle("Try Again", for: .normal)
             skyTextField.errorMessage = "Invalid Phone Number"
@@ -123,7 +122,7 @@ extension PreTestViewController {
     }
 }
 
-// MARK: -  Custom View With Size
+// MARK: - Custom View With Size
 class CustomView: UIView {
     var size: CGSize?
 
@@ -132,3 +131,10 @@ class CustomView: UIView {
     }
 }
 
+// MARK: - TextField Delegate
+extension PreTestViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
+    }
+}

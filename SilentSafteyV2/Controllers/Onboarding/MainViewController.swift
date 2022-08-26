@@ -15,35 +15,20 @@ class MainViewController: UIViewController {
         return textView
     }()
 
-    let directionsLabel: UILabel = {
-        let oneLabel = UILabel()
-        oneLabel.translatesAutoresizingMaskIntoConstraints = false
-        oneLabel.numberOfLines = 0
-        oneLabel.textColor = .white
-        oneLabel.textAlignment = .center
-        
+    let messageTipsLabel: UILabel = {
+        let oneLabel = ReusableUIElements.createLabel(fontSize: 0, text: "")
         return oneLabel
     }()
     
     let messageTipsLabelText: NSMutableAttributedString = {
-        
         let myMutableString = NSMutableAttributedString(string: "Message Tips", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: CGFloat(ReusableUIElements.titleFontSize))])
         
-        myMutableString.append(NSMutableAttributedString(string: "\n 1. Describe the Situation \n 2. Enter Specific Loction (Apartment/Building number etc.)")) // Describe identifier - Tatoos, Scars, Clothes \n 3.
+        myMutableString.append(NSMutableAttributedString(string: "\n 1. Describe the Situation \n 2. Enter Additional Location Information (Apartment/Building number etc.)"))
         
         return myMutableString
     }()
     
-    var hangUpButton: UIButton = {
-        return ReusableUIElements.createButton(title: "  Hang Up Message  ")
-    }()
-    
     var textFieldEssential: TextFieldEssential!
-    
-    var hangUpPressed: Bool = false
-    var textViewDidEdit: Bool = false
-    
-    let translation = Translation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,9 +43,6 @@ class MainViewController: UIViewController {
         AppDelegate.location.checkRequestPermission()
         AppDelegate.location.delegate = self
         AppDelegate.location.locationManagerDidChangeAuthorization(AppDelegate.location.locationManager)
-        
-        // Translation Testing
-        translation.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -112,25 +94,21 @@ extension MainViewController {
         ])
     
         // Tips Label
-        directionsLabel.attributedText = messageTipsLabelText
-        directionsLabel.font = directionsLabel.font.withSize(CGFloat(ReusableUIElements.descriptionFontSize))
-        directionsLabel.adjustsFontSizeToFitWidth = true
-        directionsLabel.minimumScaleFactor = 0.2
-        uiView.addSubview(directionsLabel)
+        messageTipsLabel.attributedText = messageTipsLabelText
+        messageTipsLabel.font = messageTipsLabel.font.withSize(CGFloat(ReusableUIElements.descriptionFontSize))
+        messageTipsLabel.adjustsFontSizeToFitWidth = true
+        messageTipsLabel.minimumScaleFactor = 0.2
+        uiView.addSubview(messageTipsLabel)
         
         NSLayoutConstraint.activate([
-            directionsLabel.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
-            directionsLabel.topAnchor.constraint(equalTo: uiView.topAnchor),
-            directionsLabel.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
-            directionsLabel.leadingAnchor.constraint(equalTo: uiView.leadingAnchor)
+            messageTipsLabel.bottomAnchor.constraint(equalTo: uiView.bottomAnchor),
+            messageTipsLabel.topAnchor.constraint(equalTo: uiView.topAnchor),
+            messageTipsLabel.trailingAnchor.constraint(equalTo: uiView.trailingAnchor),
+            messageTipsLabel.leadingAnchor.constraint(equalTo: uiView.leadingAnchor)
         ])
         
         // Navigation Bar Buttons
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonPressed))
-        
-        hangUpButton.addTarget(self, action: #selector(hangUpButtonPressed), for: .touchUpInside)
-        hangUpButton.sizeToFit()
-        self.navigationItem.leftItemsSupplementBackButton = true
     }
 }
 
@@ -143,28 +121,40 @@ extension MainViewController {
     
     @objc func sendPressed() {
         if let message = textView.text {
-            
             let trimmedString = message.trimmingCharacters(in: .whitespaces)
             
             if(trimmedString == "Type Additional Message Here" || trimmedString == "") {
                 return
             }
             
-            translation.translate(for: trimmedString)
+            textView.text = "Type Additional Message Here"
             
-            textView.text = "Type Additional Message Here" // Type additional message here
-        }
-    }
-    
-    @objc func hangUpButtonPressed() {
-        if(!hangUpPressed) {
-            if(Response.responseActive) {
-                NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": "The rest of this call will be repeating messages that have already been spoken, please hang up if all information is understood"])
+            TranslationManager.shared.detectLanguage(forText: trimmedString) {[self] (language) in
+                if let language = language {
+                    if language != "en" {
+                        TranslationManager.shared.translate(textToTranslate: trimmedString, sourceLanguageCode: language, targetLanguageCode: "en") { [self] (translation) in
+                            
+                            if let translation = translation {
+                                print(translation)
+                                sendAdditionalMessageNotification(additionalMessage: translation)
+                            } else {
+                                sendAdditionalMessageNotification(additionalMessage: trimmedString)
+                            }
+                        }
+                    } else {
+                        sendAdditionalMessageNotification(additionalMessage: trimmedString)
+                    }
+                } else {
+                    sendAdditionalMessageNotification(additionalMessage: trimmedString)
+                }
             }
-            hangUpPressed = true
         }
     }
     
+    func sendAdditionalMessageNotification(additionalMessage: String) {
+        NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": additionalMessage])
+    }
+
     @objc func settingsButtonPressed() {
         self.navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
@@ -175,29 +165,18 @@ extension MainViewController {
 extension MainViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        print("did begin editing")
         if textView.text == "Type Additional Message Here" {
             textView.text = ""
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        print("did end editing")
         if textView.text.isEmpty {
             textView.text = "Type Additional Message Here"
         }
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        
-        if let text = textView.text {
-            let trimmedString = text.trimmingCharacters(in: .whitespaces)
-            
-            if(trimmedString != "") {
-                textViewDidEdit = true
-            }
-        }
-    
         let newSize = textView.sizeThatFits(CGSize(width: textView.frame.size.width, height: CGFloat.greatestFiniteMagnitude))
         
         let newHeight = newSize.height
@@ -234,7 +213,7 @@ extension MainViewController: LocationProtocol {
         
         existingTextMutable.append(myMutableString)
         
-        directionsLabel.attributedText = existingTextMutable
+        messageTipsLabel.attributedText = existingTextMutable
     }
 }
 
@@ -249,39 +228,13 @@ extension MainViewController: ObserveSynthesizer {
         self.navigationController?.navigationBar.standardAppearance.backgroundColor = .black
         self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
     }
-    
-    func callStarted() {
-      //  self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
-        textViewDidEdit = false
-        hangUpPressed = false
-       
-        print("call started hang up pressed")
-     /*   DispatchQueue.main.asyncAfter(deadline: .now() + 30) { [self] in
-            print("hang up pressed")
-            if(!textViewDidEdit) {
-                hangUpButtonPressed()
-            }
-        } */ 
-    }
+
     func callEnded() {
-        self.navigationItem.leftBarButtonItem = nil
-        textViewDidEdit = false
-        hangUpPressed = false
-        
         self.navigationController?.navigationBar.standardAppearance.backgroundColor = .black
         self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
     }
     
     func callDialing() { // Figre out what to do here
         print("call dialing")
-    }
-}
-
-// MARK: - Translation Protocol
-extension MainViewController: TranslationProtocol {
-    func recievedTranslation(translation: String) {
-        print(translation)
-        NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": translation])
-        
     }
 }

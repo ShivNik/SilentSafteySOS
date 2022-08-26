@@ -41,14 +41,12 @@ class Location: NSObject, CLLocationManagerDelegate {
     func retrieveLocation()  {
         self.locationManager.startUpdatingLocation()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 18) { // Change Number as see fit
-            print("10 seconds after")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 17) {
             self.locationManager.stopUpdatingLocation()
 
             if(Response.responseActive) {
                 if(self.locationsRecieved.count != 0) {
                     
-                    // Determine optimal location
                     var optimalLocationIndex = 0
                     for i in 0..<self.locationsRecieved.count {
                         if self.locationsRecieved[optimalLocationIndex].horizontalAccuracy >=  self.locationsRecieved[i].horizontalAccuracy {
@@ -65,12 +63,14 @@ class Location: NSObject, CLLocationManagerDelegate {
                         for number in streetNumber {
                             streetNumberSpaced += "\(number) "
                         }
-                        print(streetNumberSpaced)
                         
                         let address = "My Location is \(streetNumberSpaced) \(streetName) \(city) within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
                         print(address)
                         
                         NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
+                        
+                    } else {
+                        self.delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
                     }
                 } else {
                     self.delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
@@ -109,34 +109,26 @@ class Location: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Location Manager did fail with error")
         delegate?.updateLocationLabel(text: "Type location in additional message - Location Not Found")
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        print("changeAuthorization called")
-    
         switch locationManager.authorizationStatus {
             case .denied, .restricted:
-                print("denied, restricted")
                 delegate?.updateLocationLabel(text: "Type location in additional message - Permission Not Granted")
                 NotificationCenter.default.post(name: .locationAuthorizationDetermined, object: nil)
             case .authorizedWhenInUse, .authorizedAlways:
-                print("authorized")
                 checkPrecisionAccuracyAuthorization()
                 NotificationCenter.default.post(name: .locationAuthorizationDetermined, object: nil)
             default:
-                print("not determiend")
                 delegate?.updateLocationLabel(text: "Location Services Not Determined")
         }
     }
     
     func checkPrecisionAccuracyAuthorization() {
         if (locationManager.accuracyAuthorization == .fullAccuracy) {
-            print("Full acc")
             delegate?.updateLocationLabel(text: "")
         } else {
-            print("reduced accuracy")
             delegate?.updateLocationLabel(text: "Type location in additional message - Reduced Accuracy Selected")
         }
     }
@@ -168,7 +160,7 @@ struct LocationObject {
 
 
 /*
-7 seconds for 911 to pick up + 3 second pause at beginning + 3 seconds Initial Message + 5 seconds to say everything
+7 seconds for 911 to pick up + 2 second pause at beginning + 3 seconds Initial Message + 5 seconds to say everything
 
  
  5 seconds say half of profile

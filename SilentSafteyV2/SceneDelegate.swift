@@ -79,8 +79,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             
             AppDelegate.response.completeResponse()
             
-          /*  let navigationController = SceneDelegate.window?.rootViewController as! UINavigationController
-            navigationController.popToRootViewController(animated: true) */
+            let navController = SceneDelegate.window?.rootViewController as? UINavigationController
+            navController?.popToRootViewController(animated: true)
         }
     }
 }

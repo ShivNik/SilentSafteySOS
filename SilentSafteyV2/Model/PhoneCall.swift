@@ -14,11 +14,11 @@ import WidgetKit
 class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     
     // Call Observer, Background Task, Synthesizer
-    var callObserver: CXCallObserver!
+    var callObserver: CXCallObserver?
     var backgroundTaskID: UIBackgroundTaskIdentifier?
     var synthesizer: AVSpeechSynthesizer = AVSpeechSynthesizer()
     
-    // On Hold/Repeat
+    // Repetitions
     var messageArray: [String] = [] {
         willSet {
             if(numRepetitions == 2 && newValue.count - 1 >= 0) {
@@ -26,10 +26,11 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
             }
         }
     }
+    
     var spokenMessages: [String] = []
     var observeSynthesizerDelegate: ObserveSynthesizer?
     var index = 0
-    var target: Int!
+    var target = 1
     var numRepetitions = 0
 
     override init() {
@@ -37,9 +38,14 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     }
     
     func initiatePhoneCall(phoneNumber: String) {
-      //  messageArray = []
+      /*  messageArray = []
+        spokenMessages = []
+        index = 0
+        target = 1
+        numRepetitions = 0 */
+
         callObserver = CXCallObserver()
-        callObserver.setDelegate(self, queue: nil)
+        callObserver?.setDelegate(self, queue: nil)
         
         if let url = URL(string: ("tel:" + phoneNumber)) {
             UIApplication.shared.open(url)
@@ -74,7 +80,6 @@ extension PhoneCall : CXCallObserverDelegate {
         messageArray.insert("Hello. This is a call from the Silent Safety App.", at: 0)
         
         let firstMessage = generateFirstMessage()
-        print(firstMessage)
         messageArray.insert(firstMessage, at: 1)
         
         // Start Location
@@ -82,15 +87,11 @@ extension PhoneCall : CXCallObserverDelegate {
     }
     
     func callConnected() {
-        index = 0
-        target = 1
-        numRepetitions = 0
-        observeSynthesizerDelegate?.callStarted()
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [self] in
-            speakMessage(messageArray[index])
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [self] in
+            if(Response.responseActive) {
+                speakMessage(messageArray[index])
+            }
         }
-    
     }
     
     func callEnded() {
@@ -136,10 +137,8 @@ extension PhoneCall {
         print("Got location notification")
     
         if let message = notification.userInfo?["placemark"] as? String {
-            messageArray.insert(message, at: 2)
+            messageArray.append(message) // at 2:
         }
-        
-        
     }
     
     @objc func recievedAdditionalMessageNotification(notification: NSNotification) {
@@ -171,11 +170,9 @@ extension PhoneCall {
     }
     
     func speechSynthesizer(_ synthesizer: AVSpeechSynthesizer, didFinish utterance: AVSpeechUtterance) {
-        print(messageArray)
         observeSynthesizerDelegate?.synthesizerEnded()
     
         if(Response.responseActive) {
-            
             if(numRepetitions == 2) {
                 return
             }
@@ -197,7 +194,7 @@ extension PhoneCall {
                     
                     numRepetitions += 1
                     if(numRepetitions == 2) {
-                        speakMessage("The User is Now Avaliable to Listen to Questions and Type Messages")
+                        speakMessage("The user is now avaliable to listen to questions and type messages")
                         return
                     }
                     
@@ -292,7 +289,7 @@ extension PhoneCall {
     
     func speakMessage(_ message: String) {
         let myUtterance = AVSpeechUtterance(string: message)
-        myUtterance.rate = 0.45
+        myUtterance.rate = 0.5
         self.synthesizer.speak(myUtterance)
     }
 
@@ -327,15 +324,6 @@ extension PhoneCall {
 protocol ObserveSynthesizer {
     func synthesizerStarted()
     func synthesizerEnded()
-    func callStarted() 
-    func callEnded()
     func callDialing()
+    func callEnded()
 }
-
-/*  numRepetitions += 1
-  if(numRepetitions == 2) {
-      speakMessage("The User is Now Avaliable Listen to Questions and Type Messages")
-      return
-  } else if(numRepetitions > 2) {
-      return
-  } */

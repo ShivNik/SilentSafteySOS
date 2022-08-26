@@ -54,16 +54,19 @@ extension InformationViewController {
         var allValid = true
         
         for skyTextField in skyTextFields {
-            let trimmed = skyTextField.text!.trimmingCharacters(in: .whitespaces)
-            
-            if(!allValidation(floatingLabelTextField: skyTextField)) {
-                allValid = false
-            } else {
-                AppDelegate.userDefaults.set(trimmed, forKey: skyTextField.accessibilityIdentifier!)
+            if var trimmed = skyTextField.text {
+                
+                trimmed = trimmed.trimmingCharacters(in: .whitespaces)
+                
+                if(!allValidation(floatingLabelTextField: skyTextField)) {
+                    allValid = false
+                } else {
+                    AppDelegate.userDefaults.set(trimmed, forKey: skyTextField.accessibilityIdentifier!)
+                }
             }
         }
         
-        if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
+        if(allValid && AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
             if let vcLength = navigationController?.viewControllers.count {
                 if vcLength >= 2 {
                     let vc = (navigationController?.viewControllers[vcLength - 2])!
@@ -101,9 +104,9 @@ extension InformationViewController {
         view.backgroundColor = .black
       
         // Inset Value Top and Bottom
-        let window = UIApplication.shared.windows.first
-        let topPadding = window!.safeAreaInsets.top
-        let bottomPadding = window!.safeAreaInsets.bottom
+        let window = UIApplication.shared.windows[0]
+        let topPadding = window.safeAreaInsets.top
+        let bottomPadding = window.safeAreaInsets.bottom
         
         let safeArea = self.view.safeAreaLayoutGuide
 
@@ -165,8 +168,7 @@ extension InformationViewController {
         skyTextFields[0].autocorrectionType = .no
     
         for (_, skyTextField) in skyTextFields.enumerated() {
-            skyTextField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)
-            skyTextField.delegate = textFieldEssential
+            skyTextField.delegate = self
             skyTextField.returnKeyType = .done
         }
     
@@ -217,14 +219,14 @@ extension InformationViewController {
         
         // Attributed String
         let attributedString = NSMutableAttributedString(string: "By continuing, you agree to our Terms and Conditions and Privacy Policy")
-        let urlPrivacy = URL(string: "https://www.apple.com")!
-        let urlTAC = URL(string: "https://www.apple.com")!
+        let urlPrivacy = URL(string: "https://sites.google.com/view/silent-safety-privacy-policy/home")!
+        let urlTAC = URL(string: "https://sites.google.com/view/silentsafetytermsandconditions/home")!
 
-        attributedString.setAttributes([.link: urlPrivacy], range: NSRange(location: 32, length: 20))
-        attributedString.setAttributes([.link: urlTAC], range: NSRange(location: 57, length: 14))
+        attributedString.setAttributes([.link: urlTAC], range: NSRange(location: 32, length: 20))
+        attributedString.setAttributes([.link: urlPrivacy], range: NSRange(location: 57, length: 14))
         
-        attributedString.setAttributes([.foregroundColor: UIColor.white], range: NSRange(location: 0, length: 31))
-        attributedString.setAttributes([.foregroundColor: UIColor.white], range: NSRange(location: 53, length: 3))
+        attributedString.setAttributes([.foregroundColor: UIColor.lightGray], range: NSRange(location: 0, length: 31))
+        attributedString.setAttributes([.foregroundColor: UIColor.lightGray], range: NSRange(location: 53, length: 3))
 
         // Text View Characteristics
         textView.attributedText = attributedString
@@ -232,7 +234,7 @@ extension InformationViewController {
         textView.isEditable = false
         textView.textAlignment = .center
         textView.linkTextAttributes = [
-            .foregroundColor: UIColor.white,
+            .foregroundColor: UIColor.lightGray,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
         textView.font = UIFont.systemFont(ofSize: CGFloat(12))
@@ -303,5 +305,13 @@ extension InformationViewController {
         default:
             return true
         }
+    }
+}
+
+// MARK: - TextField Delegate
+extension InformationViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
     }
 }

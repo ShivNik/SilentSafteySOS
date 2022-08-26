@@ -16,59 +16,47 @@ class TestViewController: UIViewController {
     }()
     
     let directionsLabel: UILabel = {
-        return ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "1. Tap the SOS Button, Start the Call, and Return back to the app")
+        return ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "1. Tap the SOS Button, Start the Call, and Return to the App")
     }()
-    
-    let middleUILabel: UILabel = {
-        return ReusableUIElements.createLabel(fontSize: ReusableUIElements.titleFontSize, text: "")
-    }()
-    
-    let middleUIView: UIView = {
+
+    var middleUIView: UIView = {
         let uiView = UIView()
         uiView.translatesAutoresizingMaskIntoConstraints = false
         return uiView
     }()
     
-    let buttonStackView: UIStackView = {
-        
+    let continueButton: UIButton = {
         let continueButton = ReusableUIElements.createButton(title: "Continue")
-        let restartTutorial = ReusableUIElements.createButton(title: "Restart Tutorial")
-        
-        let buttonStackView = ReusableUIElements.createStackView(stackViewElements: [restartTutorial,continueButton], spacing: 40, distributionType: .fillEqually)
-        
+        return continueButton
+    }()
+    
+    let restartButton: UIButton = {
+        let restartButton = ReusableUIElements.createButton(title: "Restart Tutorial")
+        return restartButton
+    }()
+    
+    let buttonStackView: UIStackView = {
+    
+        let buttonStackView = ReusableUIElements.createStackView(stackViewElements: [], spacing: 20, distributionType: .fillEqually)
         buttonStackView.axis = .horizontal
-        
         return buttonStackView
     }()
-    
-    let hangUpButton: UIButton = {
-        return ReusableUIElements.createButton(title: "  Hang Up Message  ")
-    }()
-    
-    var middleUILabelConstraints: [NSLayoutConstraint] = []
-    var buttonStackViewConstraints: [NSLayoutConstraint] = []
 
-    var testPhoneNumber: String = ""
     var textFieldEssential: TextFieldEssential!
     
     var mainButtonPressed = false
     var sendButtonPressed = false
-    var hangupButtonPressed = false
-    var phoneCallEnded = false
-    var greenTextShown = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Generate UI 
-        setUp()
+        // Generate UI
         createUI()
     
         // Tap outside Keyboard
         textFieldEssential = TextFieldEssential(vcView: view)
         textFieldEssential.setupToHideKeyboardOnTapOnView()
-
-        // Determine if tutorial has already been completed.
+        
         finishTutorial()
     }
     
@@ -79,105 +67,72 @@ class TestViewController: UIViewController {
 
 // MARK: -  UI Elements
 extension TestViewController {
-    func setUp() {
-        // Set up button Targets
-        for element in buttonStackView.arrangedSubviews {
-            let button = element as! UIButton
-            
-            if(button.titleLabel?.text == "Continue") {
-                button.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
-            } else {
-                button.addTarget(self, action: #selector(restartTutorialPressed), for: .touchUpInside)
-            }
-        }
-        
-        // Set up Constraints Array
-        middleUILabelConstraints = [
-            middleUILabel.topAnchor.constraint(equalTo: middleUIView.topAnchor),
-            middleUILabel.bottomAnchor.constraint(equalTo: middleUIView.bottomAnchor),
-            middleUILabel.leadingAnchor.constraint(equalTo: middleUIView.leadingAnchor),
-            middleUILabel.trailingAnchor.constraint(equalTo: middleUIView.trailingAnchor)
-        ]
-        
-        buttonStackViewConstraints = [
-            buttonStackView.heightAnchor.constraint(equalToConstant: 50),
-            buttonStackView.widthAnchor.constraint(equalToConstant: 350),
-            
-            buttonStackView.centerXAnchor.constraint(equalTo: middleUIView.centerXAnchor),
-            buttonStackView.centerYAnchor.constraint(equalTo: middleUIView.centerYAnchor)
-        ]
-    }
-
     
     func createUI() {
         view.backgroundColor = .black
-        
         let safeArea = view.safeAreaLayoutGuide
         
+        view.addSubview(directionsLabel)
+        NSLayoutConstraint.activate([
+            directionsLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            directionsLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
+            directionsLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            directionsLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
+        ])
+    
         // Text View
         textView.delegate = self
         view.addSubview(textView)
         ReusableUIElements.textViewConstraints(textView: textView, safeArea: safeArea)
-
+        
         // Send Button
         let button = ReusableUIElements.createSendButton(textView: textView)
         view.addSubview(button)
         button.addTarget(self, action:#selector(sendPressed), for: .touchUpInside)
-        ReusableUIElements.sendButtonConstraints(button: button, view: self.view, safeArea: safeArea, textView: textView)
-         
-        // Title Label
-        view.addSubview(directionsLabel)
-        NSLayoutConstraint.activate([
-            directionsLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            directionsLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            directionsLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            directionsLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16)
-        ])
         
-        // Create and Constrain SOS Button
+        ReusableUIElements.sendButtonConstraints(button: button, view: self.view, safeArea: safeArea, textView: textView)
+      
+        // SOS Button
         let sosButton = ReusableUIElements.createSosButton()
         sosButton.addTarget(self, action: #selector(sosButtonPressed), for: .touchUpInside)
         view.addSubview(sosButton)
-
+        
         NSLayoutConstraint.activate([
-            sosButton.heightAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 70),
-            sosButton.widthAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 70),
-            sosButton.topAnchor.constraint(equalTo: directionsLabel.bottomAnchor, constant: 16),
+            sosButton.topAnchor.constraint(equalTo: directionsLabel.bottomAnchor, constant: 20),
+            sosButton.widthAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 50),
+            sosButton.heightAnchor.constraint(equalToConstant: safeArea.layoutFrame.size.width - 50),
             sosButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor)
         ])
         
-        // Hang up Button
-        hangUpButton.addTarget(self, action: #selector(hangUpButtonPressed), for: .touchUpInside)
-        hangUpButton.sizeToFit()
-        self.navigationItem.leftItemsSupplementBackButton = true
-        
         // Middle UI View
+        middleUIView = UIView()
         view.addSubview(middleUIView)
-        
+        middleUIView.translatesAutoresizingMaskIntoConstraints = false
+       
         NSLayoutConstraint.activate([
-            middleUIView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -16),
-            middleUIView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
+            middleUIView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            middleUIView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             middleUIView.topAnchor.constraint(equalTo: sosButton.bottomAnchor),
-            middleUIView.bottomAnchor.constraint(equalTo: textView.topAnchor)
+            middleUIView.bottomAnchor.constraint(equalTo:  textView.topAnchor)
         ])
         
-        // Middle Label
-        middleUIView.addSubview(middleUILabel)
-        NSLayoutConstraint.activate(middleUILabelConstraints)
-    }
-    
-    func deactivateLabel() {
-        middleUILabel.removeFromSuperview()
+        // Button Stack View
+        buttonStackView.addArrangedSubview(continueButton)
+        continueButton.addTarget(self, action: #selector(continueButtonPressed), for: .touchUpInside)
+        continueButton.isHidden = true
+        
+        buttonStackView.addArrangedSubview(restartButton)
+        restartButton.addTarget(self, action: #selector(restartTutorialPressed), for: .touchUpInside)
+        restartButton.isHidden = true
         
         middleUIView.addSubview(buttonStackView)
-        NSLayoutConstraint.activate(buttonStackViewConstraints)
-    }
-    
-    func deactivateStackView() {
-        buttonStackView.removeFromSuperview()
-        
-        middleUIView.addSubview(middleUILabel)
-        NSLayoutConstraint.activate(middleUILabelConstraints)
+        NSLayoutConstraint.activate([
+            buttonStackView.heightAnchor.constraint(equalToConstant: 50),
+            buttonStackView.widthAnchor.constraint(equalToConstant: 300),
+            
+            buttonStackView.centerXAnchor.constraint(equalTo: middleUIView.centerXAnchor),
+            buttonStackView.centerYAnchor.constraint(equalTo: middleUIView.centerYAnchor)
+        ])
     }
 }
 
@@ -186,7 +141,7 @@ extension TestViewController {
     @objc func sosButtonPressed() {
         AppDelegate.response.completeResponse()
     }
-
+    
     @objc func sendPressed() {
         if(mainButtonPressed) {
             if let message = textView.text {
@@ -197,31 +152,37 @@ extension TestViewController {
                     return
                 }
                 
-                NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": trimmedString])
+                textView.text = "Type Additional Message Here"
                 
                 sendButtonPressed = true
-                directionsLabel.text = "3. Press the Hang Up Button to Notify the police that there are no more Messages"
+                directionsLabel.text = "3. After the messages are repeated, you can listen to the dispatcher and type responses. Hang up the call to finish the tutorial"
+                directionsLabel.font = directionsLabel.font.withSize(CGFloat(ReusableUIElements.descriptionFontSize))
                 
-                textView.text = "Type Additional Message Here"
+                TranslationManager.shared.detectLanguage(forText: trimmedString) {[self] (language) in
+                    if let language = language {
+                        if language != "en" {
+                            TranslationManager.shared.translate(textToTranslate: trimmedString, sourceLanguageCode: language, targetLanguageCode: "en") { [self] (translation) in
+                                
+                                if let translation = translation {
+                                    print(translation)
+                                    sendAdditionalMessageNotification(additionalMessage: translation)
+                                } else {
+                                    sendAdditionalMessageNotification(additionalMessage: trimmedString)
+                                }
+                            }
+                        } else {
+                            sendAdditionalMessageNotification(additionalMessage: trimmedString)
+                        }
+                    } else {
+                        sendAdditionalMessageNotification(additionalMessage: trimmedString)
+                    }
+                }
             }
         }
     }
-
-    @objc func hangUpButtonPressed() {
-        if(mainButtonPressed && sendButtonPressed && !hangupButtonPressed) {
-            
-            if(Response.responseActive) {
-                hangupButtonPressed = true
-
-                NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": "The rest of this call will be repeating messages that have already been spoken, please hang up if all information is understood"])
-                
-                directionsLabel.text = "4. Once you hear the message, hang up the call from the other phone to finish the tutorial"
-                
-                middleUILabel.font = middleUILabel.font.withSize(CGFloat(ReusableUIElements.descriptionFontSize))
-                
-                middleUILabel.text = "In a Real Situation, if you don't edit the message bar 30 seconds after the call connected, the hang up message will be sent automatically"
-            }
-        }
+    
+    func sendAdditionalMessageNotification(additionalMessage: String) {
+        NotificationCenter.default.post(name: .additionalMessage, object: nil, userInfo: ["additionalMessage": additionalMessage])
     }
     
     @objc func continueButtonPressed() {
@@ -230,35 +191,32 @@ extension TestViewController {
     
     @objc func restartTutorialPressed() {
         restartTutorial()
-        deactivateStackView()
     }
 }
 
 // MARK: -  State of Tutorial
 extension TestViewController {
     func restartTutorial() {
-        directionsLabel.text = "1. Tap the SOS Button, Start the Call, and Return back to the App"
-        
-        middleUILabel.text = ""
-        middleUILabel.font = middleUILabel.font.withSize(CGFloat(ReusableUIElements.titleFontSize))
+        directionsLabel.text = "1. Tap the SOS Button, Start the Call, and Return to the App"
+        directionsLabel.font = directionsLabel.font.withSize(CGFloat(ReusableUIElements.titleFontSize))
        
         mainButtonPressed = false
         sendButtonPressed = false
-        hangupButtonPressed = false
-        phoneCallEnded = false
-        greenTextShown = false
+        
+        continueButton.isHidden = true
+        restartButton.isHidden = true
     }
     
     func finishTutorial() {
         if(AppDelegate.userDefaults.bool(forKey: AllStrings.tutorialFinished)) {
             directionsLabel.text = "Test Run Finished"
-            deactivateLabel()
+            directionsLabel.font = directionsLabel.font.withSize(CGFloat(ReusableUIElements.titleFontSize))
             
             mainButtonPressed = true
             sendButtonPressed = true
-            hangupButtonPressed = true
-            phoneCallEnded = true
-            greenTextShown = true
+            
+            continueButton.isHidden = false
+            restartButton.isHidden = false
         }
     }
 }
@@ -266,10 +224,6 @@ extension TestViewController {
 // MARK: -  Observe Synthesizer Delegate
 extension TestViewController: ObserveSynthesizer {
     func synthesizerStarted() {
-        if(!greenTextShown) {
-            middleUILabel.text = "The green background indicates that the bot is speaking"
-            greenTextShown = true
-        }
         self.navigationController?.navigationBar.standardAppearance.backgroundColor = .green
         self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .green
     }
@@ -280,22 +234,22 @@ extension TestViewController: ObserveSynthesizer {
     }
     
     func callDialing() {
-        directionsLabel.text = "2. Type an Additional Message and Tap the Send Button"
+        directionsLabel.text = "2. Type an Additional Message (In any language) and Tap the Send Button. The green bar indicates that the bot is speaking."
+        directionsLabel.font = directionsLabel.font.withSize(CGFloat(ReusableUIElements.descriptionFontSize))
+        
         mainButtonPressed = true
     }
     
-    func callStarted() {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: hangUpButton)
-    }
-    
     func callEnded() {
-        self.navigationItem.leftBarButtonItem = nil
-        middleUILabel.text = ""
         
-        if(mainButtonPressed && sendButtonPressed && hangupButtonPressed) {
+        if(mainButtonPressed && sendButtonPressed) {
             
             directionsLabel.text = "Test Run Finished"
-            deactivateLabel()
+            directionsLabel.font = directionsLabel.font.withSize(CGFloat(ReusableUIElements.titleFontSize))
+            
+            continueButton.isHidden = false
+            restartButton.isHidden = false
+
             self.navigationController?.pushViewController(CompletionViewController(), animated: true)
             
         } else {

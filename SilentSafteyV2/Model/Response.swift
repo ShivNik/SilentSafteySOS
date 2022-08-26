@@ -7,7 +7,6 @@
 
 import Foundation
 
-// Change number to AppDelegate.userDefaults.string(AllStrings.phoneNumber)
 class Response {
 
     static var responseActive: Bool = false
@@ -17,12 +16,12 @@ class Response {
             AppDelegate.location.checkRequestPermission()
             
             if(AppDelegate.location.retrieveLocationAuthorization() == .notDetermined) {
-                print("set up notification")
-                
                 NotificationCenter.default.addObserver(self, selector: #selector(initiateDelayedResponse(notification:)), name: .locationAuthorizationDetermined, object: nil)
             }
             else {
-                AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber)!)
+                if let phoneNumber = AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber) {
+                    AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: phoneNumber)
+                }
             }
         } else {
             print("no executed response")
@@ -30,7 +29,9 @@ class Response {
     }
     
     @objc func initiateDelayedResponse(notification: NSNotification) {
-        AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber)!)
+        if let phoneNumber = AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber) {
+            AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: phoneNumber)
+        }
         NotificationCenter.default.removeObserver(self)
     }
 }

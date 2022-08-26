@@ -2,6 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>API_KEY</key>
+	<string>$(API_KEY)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Random Text</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>gps</string>
+		<string>telephony</string>
+	</array>
 	<key>NSUserActivityTypes</key>
 	<array/>
 	<key>UIApplicationSceneManifest</key>

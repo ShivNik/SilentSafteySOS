@@ -39,11 +39,10 @@ extension ContactViewController {
         let safeArea = view.safeAreaLayoutGuide
         
         // Title Label
-        let titleLabel = ReusableUIElements.createLabel(fontSize: 30, text: "Custom Contact Number (By default set to 911)")
+        let titleLabel = ReusableUIElements.createLabel(fontSize: 30, text: "Custom Contact Number")
 
         // Phone Number Text Field
-        textField.addTarget(textFieldEssential, action: #selector(textFieldEssential.textFieldDidChange(_:)), for: .editingChanged)
-        textField.delegate = textFieldEssential
+        textField.delegate = self
         
         // Save Button
         button.addTarget(self, action: #selector(saveButtonPressed), for: .touchUpInside)
@@ -54,8 +53,8 @@ extension ContactViewController {
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
@@ -82,14 +81,25 @@ extension ContactViewController {
     @objc func saveButtonPressed() {
         AppDelegate.userDefaults.set(textField.text, forKey: AllStrings.phoneNumber)
         navigationController?.popToRootViewController(animated: true)
-      /*  if(textFieldEssential.validatePhoneNumber(skyTextField: textField)) {
+        
+        if(textFieldEssential.validatePhoneNumber(skyTextField: textField)) {
             textField.errorMessage = ""
+            button.setTitle("Save", for: .normal)
+            
             AppDelegate.userDefaults.set(textField.text, forKey: AllStrings.phoneNumber)
             navigationController?.popToRootViewController(animated: true)
             
         } else {
             textField.errorMessage = "Invalid Phone Number"
             button.setTitle("Try Again", for: .normal)
-        } */
+        }
+    }
+}
+
+// MARK: - TextField Delegate
+extension ContactViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.endEditing(true)
+        return true
     }
 }

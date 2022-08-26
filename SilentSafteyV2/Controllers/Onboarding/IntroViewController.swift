@@ -20,17 +20,19 @@ class IntroViewController: UIViewController {
     }
     
     let onboardingObjects = [
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "redPhone"), title: "Silent SOS Calling", description: "Silent Saftey speaks to 911, on your behalf, when you can't talk"), //    Call 911 with an automated call bo when you can't speak on the phone // Silent Saftey will speak to 911 when you can't talk // Silent Saftey speaks to 911 for you when you can't talk
-        
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "locationPin"), title: "Relay Messages to 911", description: "Silent Safty delivers your profile, location, and typed messages, to 911"),
-        
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "SosButton"), title: "Saftey at Your Fingertips", description: "Initiate a 911 call using the SOS button within the app or the SOS widget")
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "redPhone"), title: "Silent SOS Calling", description: "Silent Safety speaks to 911 on your behalf, when you can't"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "locationPin"), title: "Relay Messages to 911", description: "Silent Safety delivers your profile, live location, and typed messages, to 911"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "SosButton"), title: "Safety at Your Fingertips", description: "Initiate a 911 call using the SOS button within the app or the SOS widget")
     ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         createUI()
     }
+    
+   /* override func viewWillAppear(_ animated: Bool) {
+        AppDelegate.AppUtility.lockOrientation(UIInterfaceOrientationMask.portrait, andRotateTo: UIInterfaceOrientation.portrait)
+    } */ 
 }
 
 // MARK: -  UI Elements

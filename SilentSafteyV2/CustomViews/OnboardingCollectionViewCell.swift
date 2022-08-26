@@ -12,7 +12,7 @@ class OnboardingCollectionViewCell: UICollectionViewCell {
     static let identifier = "OnboardingCollectionViewCell"
     
     private let imageView: UIImageView = {
-        return ReusableUIElements.createImageView(resourceName: "greenPhone")
+        return ReusableUIElements.createImageView(resourceName: "redPhone")
     }()
     
     private let titleLabel: UILabel = {
@@ -72,7 +72,7 @@ extension OnboardingCollectionViewCell {
     }
 }
 
-// MARK: -  Onboarding Object Struct
+// MARK: - Onboarding Object Struct
 struct OnboardingObject {
     let image: UIImage
     let title: String
