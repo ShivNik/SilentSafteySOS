@@ -213,7 +213,7 @@ extension MainViewController: LocationProtocol {
         
         existingTextMutable.append(myMutableString)
         
-        messageTipsLabel.attributedText = existingTextMutable
+        messageTipsLabel.attributedText = existingTextMutable 
     }
 }
 

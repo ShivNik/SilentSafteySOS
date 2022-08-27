@@ -1,11 +1,1 @@
-//
-//  Config.xcconfig
-//  Silent Saftey
-//
-//  Created by Shivansh Nikhra on 8/24/22.
-//
-
-// Configuration settings file format documentation can be found at:
-// https://help.apple.com/xcode/#/dev745c5c974
-
 API_KEY = AIzaSyAkUpw7U2SGzD2iBy2i1x7kQ6OZzjv8w7A

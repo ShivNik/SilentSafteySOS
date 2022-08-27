@@ -13,7 +13,6 @@
 		482A4E05287BCB5E0015A96A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 482A4E04287BCB5E0015A96A /* Assets.xcassets */; };
 		482A4E0B287BCB5F0015A96A /* SosButtonExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 482A4DFB287BCB580015A96A /* SosButtonExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		482A4E10287BCD670015A96A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487833B32875E0F700BD7C52 /* Assets.xcassets */; };
-		482DA66B28B860C500AF472F /* CheckNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482DA66A28B860C500AF472F /* CheckNetwork.swift */; };
 		4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */; };
 		4833C24C2876576D00A1FE37 /* PreTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C24B2876576D00A1FE37 /* PreTestViewController.swift */; };
 		4833C24E287730FE00A1FE37 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4833C24D287730FE00A1FE37 /* TestViewController.swift */; };
@@ -73,7 +72,6 @@
 		482A4E01287BCB590015A96A /* SosButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SosButton.swift; sourceTree = "<group>"; };
 		482A4E04287BCB5E0015A96A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		482A4E06287BCB5E0015A96A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		482DA66A28B860C500AF472F /* CheckNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckNetwork.swift; sourceTree = "<group>"; };
 		4833C2472876496000A1FE37 /* WidgetDirectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDirectionViewController.swift; sourceTree = "<group>"; };
 		4833C24B2876576D00A1FE37 /* PreTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreTestViewController.swift; sourceTree = "<group>"; };
 		4833C24D287730FE00A1FE37 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
@@ -168,7 +166,6 @@
 				487833B32875E0F700BD7C52 /* Assets.xcassets */,
 				487833B52875E0F800BD7C52 /* LaunchScreen.storyboard */,
 				487833B82875E0F800BD7C52 /* Info.plist */,
-				48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */,
 				48FF7BDB28B6F65700E70AF9 /* Config.xcconfig */,
 			);
 			path = SilentSafteyV2;
@@ -186,6 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				487833C22875E22500BD7C52 /* Onboarding */,
+				48CC769528BAB5C900391609 /* Common */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -199,7 +197,7 @@
 				48BBECDD28899C92000B2BF9 /* TextFieldEssential.swift */,
 				48BBECDF288A13E5000B2BF9 /* NavigationControllerEssential.swift */,
 				4882D0C928A8C6ED0072CF2E /* Translation.swift */,
-				482DA66A28B860C500AF472F /* CheckNetwork.swift */,
+				48ABFA7B2878B0FA00A7FFEC /* AllStrings.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -222,11 +220,18 @@
 				4833C24B2876576D00A1FE37 /* PreTestViewController.swift */,
 				4833C24D287730FE00A1FE37 /* TestViewController.swift */,
 				48ABFA7D2879206700A7FFEC /* CompletionViewController.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		48CC769528BAB5C900391609 /* Common */ = {
+			isa = PBXGroup;
+			children = (
 				48B65D8F2879E32C00414BD0 /* MainViewController.swift */,
 				48C9608328805BE0004A47D8 /* SettingsViewController.swift */,
 				48C6549E28834FB20078C83A /* ContactViewController.swift */,
 			);
-			path = Onboarding;
+			path = Common;
 			sourceTree = "<group>";
 		};
 		B8BB58489A44D91A7BEBC79F /* Pods */ = {
@@ -409,7 +414,6 @@
 				48C9608428805BE0004A47D8 /* SettingsViewController.swift in Sources */,
 				4882D0CA28A8C6ED0072CF2E /* Translation.swift in Sources */,
 				487833AB2875E0F100BD7C52 /* AppDelegate.swift in Sources */,
-				482DA66B28B860C500AF472F /* CheckNetwork.swift in Sources */,
 				48B65D96287A116700414BD0 /* Location.swift in Sources */,
 				4833C2482876496000A1FE37 /* WidgetDirectionViewController.swift in Sources */,
 				48B65D94287A113900414BD0 /* NotificationExtension.swift in Sources */,

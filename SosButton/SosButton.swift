@@ -59,7 +59,7 @@ struct WidgetStaticTest: Widget {
             WidgetStaticTestEntryView(entry: entry)
         }
         .configurationDisplayName(kind)
-        .description("Tap the widget to easily activate the app and initate a phone call")
+        .description("Tap the widget to easily activate the app and initate an SOS phone call")
         .supportedFamilies([.systemSmall, .systemMedium, .systemLarge])
     }
 }

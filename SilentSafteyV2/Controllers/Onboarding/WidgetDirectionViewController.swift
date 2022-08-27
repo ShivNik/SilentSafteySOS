@@ -15,7 +15,7 @@ class WidgetDirectionViewController: UIViewController {
     
     let onboardingObjects = [
         OnboardingObject(image: UIImage(imageLiteralResourceName: "widgetIntro"), title: "Step 2: Add the SOS Widget", description: "Hold down the homescreen until all the apps wobble, and tap the plus button in the upper left-hand corner"),
-        OnboardingObject(image: UIImage(imageLiteralResourceName: "greenPhone"), title: "Search for Silent Saftey", description: "Search for Silent Safety and select your desired widget size"),
+        OnboardingObject(image: UIImage(imageLiteralResourceName: "widgetGallery"), title: "Search for Silent Saftey", description: "Search for Silent Safety and select your desired widget size"),
         OnboardingObject(image: UIImage(imageLiteralResourceName: "twoWidgetSOS"), title: "Drag and Drop the Widget onto your Home Screen", description: "Tap the widget initate a phone call (Equivalent to tapping the SOS Button)") 
     ]
     
