@@ -23,8 +23,6 @@ class Response {
                     AppDelegate.phoneCall.initiatePhoneCall(phoneNumber: phoneNumber)
                 }
             }
-        } else {
-            print("no executed response")
         }
     }
     

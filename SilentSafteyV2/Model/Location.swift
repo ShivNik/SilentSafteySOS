@@ -41,7 +41,7 @@ class Location: NSObject, CLLocationManagerDelegate {
     func retrieveLocation()  {
         self.locationManager.startUpdatingLocation()
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 17) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 15) {
             self.locationManager.stopUpdatingLocation()
 
             if(Response.responseActive) {
@@ -65,7 +65,6 @@ class Location: NSObject, CLLocationManagerDelegate {
                         }
                         
                         let address = "My Location is \(streetNumberSpaced) \(streetName) \(city) within \(Int(optimalLocation.horizontalAccuracy)) meters of Accuracy"
-                        print(address)
                         
                         NotificationCenter.default.post(name: .locationFound, object: nil, userInfo: ["placemark": address])
                         
@@ -95,11 +94,8 @@ class Location: NSObject, CLLocationManagerDelegate {
                         return
                     }
 
-                    if let streetNumber = place.subThoroughfare, let streetName = place.thoroughfare, let city = place.locality {
-                        
-                        let address = "My Location is \(streetNumber) \(streetName) \(city) within \(Int(location.horizontalAccuracy)) meters of Accuracy"
-                        print(address)
-                        
+                    if let _ = place.subThoroughfare, let _ = place.thoroughfare, let _ = place.locality {
+                    
                         let locObj = LocationObject(horizontalAccuracy: location.horizontalAccuracy, placemark: place)
                         self.locationsRecieved.append(locObj)
                     }
@@ -157,12 +153,3 @@ struct LocationObject {
     let horizontalAccuracy: Double
     let placemark: CLPlacemark
 }
-
-
-/*
-7 seconds for 911 to pick up + 2 second pause at beginning + 3 seconds Initial Message + 5 seconds to say everything
-
- 
- 5 seconds say half of profile
- 9 seconds say entire profiel
- */

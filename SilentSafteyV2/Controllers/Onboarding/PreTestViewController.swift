@@ -11,7 +11,7 @@ import SkyFloatingLabelTextField
 class PreTestViewController: UIViewController {
 
     var skyTextField: SkyFloatingLabelTextField = {
-        return ReusableUIElements.createSkyTextField(placeholder: "Enter phone number", title: "Enter Phone Number", id: "phoneNumber")
+        return ReusableUIElements.createSkyTextField(placeholder: "Enter Phone Number", title: "Enter Phone Number", id: "phoneNumber")
     }()
     
     var textFieldEssential: TextFieldEssential!

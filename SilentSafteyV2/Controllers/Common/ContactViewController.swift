@@ -11,7 +11,7 @@ import SkyFloatingLabelTextField
 class ContactViewController: UIViewController {
     
     var textField: SkyFloatingLabelTextField = {
-        return ReusableUIElements.createSkyTextField(placeholder: "Enter ", title: "Enter Phone Number ", id: "CustomContactField")
+        return ReusableUIElements.createSkyTextField(placeholder: "Enter", title: "Enter Phone Number ", id: "CustomContactField")
     }()
     
     var button: UIButton = {
@@ -80,8 +80,6 @@ extension ContactViewController {
 extension ContactViewController {
     @objc func saveButtonPressed() {
         AppDelegate.userDefaults.set(textField.text, forKey: AllStrings.phoneNumber)
-        navigationController?.popToRootViewController(animated: true)
-        
         if(textFieldEssential.validatePhoneNumber(skyTextField: textField)) {
             textField.errorMessage = ""
             button.setTitle("Save", for: .normal)

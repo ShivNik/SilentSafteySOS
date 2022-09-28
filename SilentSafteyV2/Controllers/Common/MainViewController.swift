@@ -135,7 +135,6 @@ extension MainViewController {
                         TranslationManager.shared.translate(textToTranslate: trimmedString, sourceLanguageCode: language, targetLanguageCode: "en") { [self] (translation) in
                             
                             if let translation = translation {
-                                print(translation)
                                 sendAdditionalMessageNotification(additionalMessage: translation)
                             } else {
                                 sendAdditionalMessageNotification(additionalMessage: trimmedString)
@@ -213,7 +212,7 @@ extension MainViewController: LocationProtocol {
         
         existingTextMutable.append(myMutableString)
         
-        messageTipsLabel.attributedText = existingTextMutable 
+        messageTipsLabel.attributedText = existingTextMutable
     }
 }
 
@@ -234,7 +233,7 @@ extension MainViewController: ObserveSynthesizer {
         self.navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
     }
     
-    func callDialing() { // Figre out what to do here
+    func callDialing() {
         print("call dialing")
     }
 }

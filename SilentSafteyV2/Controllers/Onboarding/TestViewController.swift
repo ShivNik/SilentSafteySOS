@@ -36,7 +36,6 @@ class TestViewController: UIViewController {
     }()
     
     let buttonStackView: UIStackView = {
-    
         let buttonStackView = ReusableUIElements.createStackView(stackViewElements: [], spacing: 20, distributionType: .fillEqually)
         buttonStackView.axis = .horizontal
         return buttonStackView
@@ -164,7 +163,6 @@ extension TestViewController {
                             TranslationManager.shared.translate(textToTranslate: trimmedString, sourceLanguageCode: language, targetLanguageCode: "en") { [self] (translation) in
                                 
                                 if let translation = translation {
-                                    print(translation)
                                     sendAdditionalMessageNotification(additionalMessage: translation)
                                 } else {
                                     sendAdditionalMessageNotification(additionalMessage: trimmedString)
@@ -236,7 +234,6 @@ extension TestViewController: ObserveSynthesizer {
     func callDialing() {
         directionsLabel.text = "2. Type an Additional Message (In any language) and Tap the Send Button. The green bar indicates that the bot is speaking."
         directionsLabel.font = directionsLabel.font.withSize(CGFloat(ReusableUIElements.descriptionFontSize))
-        
         mainButtonPressed = true
     }
     

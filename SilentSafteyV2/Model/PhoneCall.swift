@@ -38,12 +38,6 @@ class PhoneCall: NSObject, AVSpeechSynthesizerDelegate {
     }
     
     func initiatePhoneCall(phoneNumber: String) {
-      /*  messageArray = []
-        spokenMessages = []
-        index = 0
-        target = 1
-        numRepetitions = 0 */
-
         callObserver = CXCallObserver()
         callObserver?.setDelegate(self, queue: nil)
         
@@ -58,15 +52,12 @@ extension PhoneCall : CXCallObserverDelegate {
     
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
         if call.hasEnded == true {
-            print("CXCallState :Disconnected")
             callEnded()
             
         } else if call.isOutgoing == true && call.hasConnected == false {
-            print("CXCallState :Dialing")
             callDialed()
             
         } else if call.hasConnected == true && call.hasEnded == false {
-            print("CXCallState :Connected")
             callConnected()
         }
     }
@@ -120,7 +111,7 @@ extension PhoneCall {
         do {
             try AVAudioSession.sharedInstance().setActive(true)
         } catch let error as NSError {
-            print("Unable to activate audio session:  \(error.localizedDescription)")
+            print("Unable to activate audio session: \(error.localizedDescription)")
         }
         
         synthesizer.mixToTelephonyUplink = true
@@ -134,16 +125,12 @@ extension PhoneCall {
     }
     
     @objc func recievedLocationNotification(notification: NSNotification) {
-        print("Got location notification")
-    
         if let message = notification.userInfo?["placemark"] as? String {
-            messageArray.append(message) // at 2:
+            messageArray.append(message)
         }
     }
     
     @objc func recievedAdditionalMessageNotification(notification: NSNotification) {
-        print("Got additional message notification notification")
-        
         if let message = notification.userInfo?["additionalMessage"] as? String {
             messageArray.append(message)
         }
@@ -178,7 +165,6 @@ extension PhoneCall {
             }
             
             let text = utterance.speechString.trimmingCharacters(in: .whitespaces)
-            print("text \(text)")
             
             if(!checkSpokenMessagesSpoken(text: text)) {
                 spokenMessages.append(text)
@@ -307,11 +293,7 @@ extension PhoneCall {
 extension PhoneCall {
     func startLocation() {
         if(AppDelegate.location.checkAuthorization()) {
-            print("authorizaed")
             AppDelegate.location.retrieveLocation()
-        }
-        else {
-            print("denied/restricted")
         }
     }
     

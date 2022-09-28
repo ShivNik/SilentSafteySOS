@@ -8,7 +8,6 @@
 import Foundation
 
 struct AllStrings {
-    // User-Default Keys
     static let name = "name"
     static let race = "race"
     static let gender = "gender"

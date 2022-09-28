@@ -21,10 +21,12 @@ extension CompletionViewController {
         
         let safeArea = self.view.safeAreaLayoutGuide
     
+        let currentNumber = AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber) ?? "Error"
+        
         // Title Labels
         let labelsTwo = [
             ReusableUIElements.createLabel(fontSize: 40, text: "You're Done!"),
-            ReusableUIElements.createLabel(fontSize: 25, text: "Set up your custom contact in the settings menu (Current contact set to \(AppDelegate.userDefaults.string(forKey: AllStrings.phoneNumber)!))")
+            ReusableUIElements.createLabel(fontSize: 25, text: "Set up your custom contact in the settings menu (Current contact set to \(currentNumber)) \n \n Remember: The translation and location feature will only work when you have Wifi or Cellular Data")
         ]
         
         // Title Labels Stack View

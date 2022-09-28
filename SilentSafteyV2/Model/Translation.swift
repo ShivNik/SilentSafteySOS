@@ -40,7 +40,6 @@ class TranslationManager: NSObject {
         super.init()
         if let key = Bundle.main.infoDictionary?["API_KEY"] as? String {
             apiKey = key
-            print(apiKey)
         }
     }
     
@@ -128,10 +127,7 @@ class TranslationManager: NSObject {
                 
                 let task = session.dataTask(with: request) { (results, response, error) in
                     
-                    if let error = error {
-                        print(error)
-                        boolCompleted = false
-                    } else {
+                    if error == nil {
                         if let response = response as? HTTPURLResponse, let results = results {
                             if response.statusCode == 200 || response.statusCode == 201 {
                                 do {
@@ -153,6 +149,8 @@ class TranslationManager: NSObject {
                         } else {
                             boolCompleted = false
                         }
+                    } else {
+                        boolCompleted = false
                     }
                     
                     if(boolCompleted == false) {
@@ -175,85 +173,11 @@ class TranslationManager: NSObject {
                         return
                     }
                 }
+            } else {
+                completion(nil)
             }
         } else {
             completion(nil)
         }
     }
 }
-
-
-
-/*
- func makeRequest(usingTranslationAPI api: TranslationAPI, urlParams: [String: String], completion: @escaping (_ results: [String: Any]?) -> Void) {
-     
-     var boolCompleted: Bool? = nil
-
-     if var components = URLComponents(string: api.getURL()) {
-         components.queryItems = [URLQueryItem]()
-  
-         for (key, value) in urlParams {
-             components.queryItems?.append(URLQueryItem(name: key, value: value))
-         }
-  
-         if let url = components.url {
-             var request = URLRequest(url: url)
-             request.httpMethod = api.getHTTPMethod()
-  
-             let session = URLSession(configuration: .default)
-             let task = session.dataTask(with: request) { (results, response, error) in
-                 
-                 if let error = error {
-                     print(error)
-                     boolCompleted = false
-                 } else {
-                     if let response = response as? HTTPURLResponse, let results = results {
-                         if response.statusCode == 200 || response.statusCode == 201 {
-                             do {
-                                 if let resultsDict = try JSONSerialization.jsonObject(with: results, options: JSONSerialization.ReadingOptions.mutableLeaves) as? [String: Any] {
-                                     
-                                     boolCompleted = true
-                                     completion(resultsDict)
-                                     return
-                                     
-                                 } else {
-                                     boolCompleted = false
-                                 }
-                             } catch {
-                                 boolCompleted = false
-                             }
-                         } else {
-                             boolCompleted = false
-                         }
-                     } else {
-                         boolCompleted = false
-                     }
-                     
-                     if(boolCompleted == false) {
-                         completion(nil)
-                         return
-                     }
-                 }
-             }
-             
-             task.resume()
-             
-             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                 if(boolCompleted == nil) {
-                     switch task.state {
-                         case .canceling,.running,.suspended:
-                             task.cancel()
-                             completion(nil)
-                         default:
-                             print("default")
-                     }
-                     return
-                 }
-             }
-         }
-     } else {
-         completion(nil)
-     }
- }
- 
- */
